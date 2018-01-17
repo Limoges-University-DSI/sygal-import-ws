@@ -18,10 +18,10 @@
 #
 # OR use plain old docker 
 #
-#   docker build -f Dockerfile-dev -t apigility .
-#   docker run -it -p "8080:80" -v $PWD:/var/www apigility
+#   docker build -f Dockerfile -t apigility .
+#   docker run -d -p "8080:8080" -v $PWD:/var/www apigility
 #
-FROM php:7.0-apache
+FROM adrianharabula/php7-with-oci8
 
 ENV http_proxy=http://10.14.128.99:3128
 ENV https_proxy=http://10.14.128.99:3128
@@ -38,3 +38,6 @@ RUN apt-get update \
  && echo "AllowEncodedSlashes On" >> /etc/apache2/apache2.conf
 
 WORKDIR /var/www
+
+EXPOSE 8080
+CMD ["php", "-S",  "0.0.0.0:8080",  "-ddisplay_errors=0", "-t", "/var/www/public", "/var/www/public/index.php"]
