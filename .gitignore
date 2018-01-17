@@ -1,0 +1,26 @@
+# Composer files
+vendor/
+
+# Local configs
+config/development.config.php
+config/autoload/*.local.php
+
+# Binary gettext files
+*.mo
+
+# Data
+data/logs/
+data/cache/
+data/sessions/
+data/tmp/
+temp/
+!data/cache/.gitkeep
+
+#Doctrine 2
+data/DoctrineORMModule/Proxy/
+data/DoctrineORMModule/cache/
+
+phpunit.xml
+
+# Metadata PhpStorm
+.idea/

@@ -1,0 +1,13 @@
+version: "2"
+services:
+  apigility:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - "8080:80"
+    extra_hosts:
+      - "svn.unicaen.fr:10.14.129.44"
+      - "proxy.unicaen.fr:10.14.128.99"
+    volumes:
+     - .:/var/www
