@@ -1,5 +1,22 @@
 <?php
 return [
+    'doctrine' => [
+        'driver'     => [
+            'orm_default_xml_driver' => [
+                'class' => 'Doctrine\ORM\Mapping\Driver\XmlDriver',
+                'cache' => 'array',
+                'paths' => [
+                    __DIR__ . '/../src/V1/Entity/Db/Mapping',
+                ],
+            ],
+            'orm_default' => [
+                'class'   => 'Doctrine\ORM\Mapping\Driver\DriverChain',
+                'drivers' => [
+                    'FirstRest\V1\Entity\Db' => 'orm_default_xml_driver',
+                ],
+            ],
+        ],
+    ],
     'service_manager' => [
         'factories' => [
             \FirstRest\V1\Rest\Ping\PingResource::class => \FirstRest\V1\Rest\Ping\PingResourceFactory::class,
