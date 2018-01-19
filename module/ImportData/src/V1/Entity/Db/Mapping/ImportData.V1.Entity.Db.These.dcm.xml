@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="ImportData\V1\Entity\Db\These" table="APOGEE.OBJECTH_THESE">
+        <id name="id" type="integer" column="ID"/>
+        <field name="individuId"              type="integer"  column="INDIVIDU_ID"                          nullable="true"/>
+        <field name="title"                   type="string"   column="LIB_THS"              length="800"    nullable="true"/>
+        <field name="etatThese"               type="string"   column="ETA_THS"              length="1"      nullable="true"/>
+        <field name="uniteRechId"             type="string"   column="COD_EQR"              length="10"     nullable="true"/>
+        <field name="ecoleDoctId"             type="string"   column="COD_NAT_EDO"          length="4"      nullable="true"/>
+        <field name="libDiscipline"           type="integer"  column="COD_DIS"                              nullable="true"/>
+        <field name="libEtabCotut"            type="string"   column="LIB_ETB_COT"          length="120"    nullable="true"/>
+        <field name="libPaysCotut"            type="string"   column="LIB_PAY"              length="40"     nullable="true"/>
+        <field name="datePremiereInsc"        type="datetime" column="DAT_DEB_THS"                          nullable="true"/>
+        <field name="dateSoutenanceAutorisee" type="datetime" column="DAT_AUT_SOU_THS"                      nullable="true"/>
+        <field name="dateSoutenancePrev"      type="datetime" column="DAT_PREV_SOU"                         nullable="true"/>
+        <field name="dateSoutenance"          type="datetime" column="DAT_SOU_THS"                          nullable="true"/>
+        <field name="dateConfidFin"           type="datetime" column="DAT_FIN_CFD_THS"                      nullable="true"/>
+        <field name="resultat"                type="string"   column="COD_NEG_TRE"          length="1"      nullable="true"/>
+        <field name="correctionAutorisee"     type="string"   column="CORRECTION_POSSIBLE"  length="1"      nullable="true"/>
+        <!--<field name="source_code"               type="integer"  column="ID"                             nullable="true"/>&ndash;&gt;-->
+
+</entity>
+</doctrine-mapping>

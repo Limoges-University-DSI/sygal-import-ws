@@ -49,7 +49,7 @@
     "autoload": {
         "psr-4": {
             "Application\\": "module/Application/src/",
-            "FirstRest\\": "module/FirstRest/src/"
+            "ImportData\\": "module/ImportData/src/"
         }
     },
     "autoload-dev": {
