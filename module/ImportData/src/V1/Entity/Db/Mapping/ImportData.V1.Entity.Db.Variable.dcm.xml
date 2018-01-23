@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="ImportData\V1\Entity\Db\Variable" table="APOGEE.OBJECTH_VARIABLE">
+        <id     name="id"                   type="integer"                      column="ID" />
+        <field  name="sourceId"             type="string"       length="6"      column="SOURCE_ID"      nullable="true"/>
+        <field  name="libEtablissement"     type="string"       length="20"     column="COD_VAP"        nullable="true"/>
+        <field  name="libResponsable"       type="string"       length="40"     column="LIB_VAP"        nullable="true"/>
+        <field  name="libTitre"             type="string"       length="100"    column="PAR_VAP"        nullable="true"/>
+
+    </entity>
+</doctrine-mapping>
