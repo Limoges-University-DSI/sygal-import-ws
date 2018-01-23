@@ -13,6 +13,7 @@ class Source
      * @var integer
      */
     protected $id;
+    protected $code;
     protected $libelle;
     protected $importable;
 
@@ -62,6 +63,22 @@ class Source
     public function setImportable($importable)
     {
         $this->importable = $importable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
     }
 
 
