@@ -43,7 +43,6 @@ Deux fichiers locaux ont besoins d'être complétés :
     ***Clefs manquantes :*** 
     * <tt>*host*</tt>, <tt>*dbname*</tt> et <tt>*port*</tt> les infos d'accés au BDD.
     * <tt>*user*</tt> et <tt>*password*</tt> les infos de l'utilisateur accédant au BDD.
-    * <tt>*charset*</tt> des infos sur l'encodage des caractères. 
  
 NB: ces deux fichiers sont présents sur le dépôt avec l'extension <tt>*.dist*</tt>. 
 
