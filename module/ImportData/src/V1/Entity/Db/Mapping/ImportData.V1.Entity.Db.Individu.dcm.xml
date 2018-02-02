@@ -3,7 +3,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="ImportData\V1\Entity\Db\Individu" table="APOGEE.OBJECTH_INDIVIDU">
-        <id name="id"                   type="integer"                      column="ID" />
+        <id name="id"                   type="string"                      column="ID" />
         <field name="sourceId"          type="string"       length="6"      column="SOURCE_ID"                  nullable="true"/>
         <field name="type"              type="string"       length="9"      column="TYPE"                       nullable="true"/>
         <field name="civilite"          type="string"       length="5"      column="CIV"                        nullable="true"/>

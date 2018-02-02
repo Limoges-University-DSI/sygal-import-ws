@@ -1,4 +1,4 @@
-#
+
 # Use this dockerfile to run apigility.
 #
 # Start the server using docker-compose:
