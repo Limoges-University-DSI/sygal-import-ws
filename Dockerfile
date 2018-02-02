@@ -23,10 +23,6 @@
 #
 FROM adrianharabula/php7-with-oci8
 
-ENV http_proxy=http://10.14.128.99:3128
-ENV https_proxy=http://10.14.128.99:3128
-ENV no_proxy=localhost,127.0.0.1,.unicaen.fr
-
 RUN apt-get update \
  && apt-get install -y git zlib1g-dev \
  && docker-php-ext-install zip \
