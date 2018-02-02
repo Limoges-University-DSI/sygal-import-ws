@@ -5,7 +5,7 @@
     <entity name="ImportData\V1\Entity\Db\Doctorant" table="APOGEE.OBJECTH_DOCTORANT">
         <id name="id"               type="string"                      column="ID" />
         <field name="sourceId"      type="string"       length="6"      column="SOURCE_ID"      nullable="true"/>
-        <field name="individuId"    type="integer"                      column="INDIVIDU_ID"    nullable="true"/>
+        <field name="individuId"    type="string"                      column="INDIVIDU_ID"    nullable="true"/>
 
     </entity>
 </doctrine-mapping>

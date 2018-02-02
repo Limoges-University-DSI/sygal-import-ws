@@ -6,7 +6,7 @@
         <id    name="id"                      type="string"  column="ID"/>
         <field name="sourceId"                type="string"   column="SOURCE_ID"            length="6"      nullable="true"/>
         <field name="etatThese"               type="string"   column="ETA_THS"              length="1"      nullable="true"/>
-        <field name="doctorantId"             type="integer"  column="DOCTORANT_ID"                         nullable="true"/>
+        <field name="doctorantId"             type="string"  column="DOCTORANT_ID"                         nullable="true"/>
         <field name="codeDiscipline"          type="integer"  column="COD_DIS"                              nullable="true"/>
         <field name="libDiscipline"           type="string"   column="LIB_INT1_DIS"         length="200"    nullable="true"/>
         <field name="title"                   type="string"   column="LIB_THS"              length="800"    nullable="true"/>

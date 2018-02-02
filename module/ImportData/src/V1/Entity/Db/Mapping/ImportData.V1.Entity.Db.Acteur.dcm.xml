@@ -9,7 +9,7 @@
         <field name="roleId"                  type="string"   column="ROLE_ID"              length="1"      nullable="true"/>
         <field name="codeRoleJury"            type="string"   column="COD_ROJ_COMPL"        length="1"      nullable="true"/>
         <field name="libRoleJury"             type="string"   column="LIB_ROJ_COMPL"        length="40"     nullable="true"/>
-        <field name="individuId"              type="integer"  column="INDIVIDU_ID"                          nullable="true"/>
+        <field name="individuId"              type="string"  column="INDIVIDU_ID"                          nullable="true"/>
         <field name="codeEtablissement"       type="string"   column="COD_ETB"              length="8"      nullable="true"/>
         <field name="libEtablissement"        type="string"   column="LIB_ETB"              length="40"     nullable="true"/>
         <field name="codeQualite"             type="string"   column="COD_CPS"              length="10"     nullable="true"/>
