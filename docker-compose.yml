@@ -1,13 +1,17 @@
 version: "2"
 services:
-  apigility:
+  sygal-import-ws:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        http_proxy: http://10.14.128.99:3128
+        https_proxy: http://10.14.128.99:3128
+        no_proxy: localhost,127.0.0.1,.unicaen.fr
     ports:
-     - "8080:80"
-    extra_hosts:
-      - "svn.unicaen.fr:10.14.129.44"
-      - "proxy.unicaen.fr:10.14.128.99"
+     - "8080:8080"
     volumes:
      - .:/var/www
+    network_mode: bridge
+    dns: 10.14.128.125
+    dns_search: unicaen.fr
