@@ -1,19 +1,21 @@
-SygalImportWS
-=============
+# SygalImportWS
 
-# Que fait SygalImportWS
+
+## Que fait SygalImportWS
 
 SygalImportWS est un Web Service qui interroge les données présentent dans un SI et les mets à disposition pour leur lecture via des requêtes GET.
 
-# Technologies employées
+
+## Technologies employées
 
 SygalImportWS repose sur l'utilisation de :
 * Apigility (https://apigility.org/) pour la mise en place du web service ;
 * Doctrine (http://www.doctrine-project.org/) pour la gestion de la partie BDD (notamment des schémas des tables).
 
-# Installation du Web Service
 
-**1 - Récupération du dépôt**
+## Installation du Web Service
+
+### Récupération du dépôt
 
 La récupération se fait directement via le clone du dépôt git. 
 
@@ -21,7 +23,7 @@ La récupération se fait directement via le clone du dépôt git.
 $ git clone git@git.unicaen.fr:dsi/sygal-import-ws.git
 ```
 
-**2 - Installation des vendors**
+### Installation des vendors
 
 Cette installation passe directement via l'utilisation de *composer*.
 
@@ -29,44 +31,52 @@ Cette installation passe directement via l'utilisation de *composer*.
 $ composer install
 ```
 
-**3 - Complétion des fichiers locaux**
+### Création du fichier "users.htpasswd"
+
+Ce fichier contient les utilisateurs/mot de passe autorisés à appeler le web service.
+
+Se placer dans le répertoire "config" du projet et lancer la commande suivante 
+en remplaçant `gauthierb` par l'utilisateur voulu :
+
+```bash
+$ htpasswd -cb users.htpasswd gauthierb
+```
+
+### Complétion des fichiers locaux
 
 Deux fichiers locaux ont besoins d'être complétés :
-* <tt>*local.php*</tt> : qui notamment utilisé pour l'authentification.
 
-    ***Clefs manquantes :*** 
-    * <tt>*htpasswd*</tt> qui désigne le chemin du fichier contenant le mot de passe htaccess 
-
-
-* <tt>*database.local.php* : qui est utilisé pour la connection au BDD</tt>.
-
-    ***Clefs manquantes :*** 
-    * <tt>*host*</tt>, <tt>*dbname*</tt> et <tt>*port*</tt> les infos d'accés au BDD.
-    * <tt>*user*</tt> et <tt>*password*</tt> les infos de l'utilisateur accédant au BDD.
+  * local.php : qui est notamment utilisé pour l'authentification.
+    * `htpasswd` qui désigne le chemin du fichier "users.htpasswd" contenant le mot de passe htaccess 
+  * database.local.php : qui est utilisé pour la connection au BDD</tt>.
+    * `host`, `dbname` et `port` : les infos d'accés à la BDD.
+    * `user` et `password` : les infos de l'utilisateur accédant à la BDD.
  
 NB: ces deux fichiers sont présents sur le dépôt avec l'extension <tt>*.dist*</tt>. 
 
-**4 - Activé le mode développement (Facultatif)**
+### Activer le mode développement (Facultatif)
 
 L'interface admin permettant de modifier les services n'est accéssible seulement en mode développement.
 ```bash
 $ composer development-enable
 ``` 
 
-# Lancement du WebService
 
-**1 - Built-in serveur**
+## Lancement du WebService
+
+### Soit avec le built-in serveur PHP
  
  La façon la plus simple consiste en l'utilisation du serveur interne de php grâce à la commande suivante :
  ```bash
   php -S 0.0.0.0:8080 -ddisplay_errors=0 -t public public/index.php
  ```
 
-**1 - Docker**
+### Soit avec Docker
 
 <span style='color:red;'>**TODO**</span> après la création de la bonne image 
 
-# Les services fournies
+
+## Les services fournis
  
 Les sept vues de SyGAL peuvent être atteintes via des services spécifiques.
 Ainsi, on retrouve les adresses suivantes :
@@ -87,7 +97,7 @@ Par exemple, dans le cas de la thèse identifiée 12047 :
 localhost:8080/these/12047
 ```
 
-# Remarques complémentaires
+## Remarques complémentaires
 
 * Le web service ne répond qu'aux requêtes de type GET.
 * Le web service retourne du json seulement, le header de la requête doit en tenir compte 
