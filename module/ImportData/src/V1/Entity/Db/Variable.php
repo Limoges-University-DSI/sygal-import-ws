@@ -17,6 +17,8 @@ class Variable
     protected $libEtablissement;
     protected $libResponsable;
     protected $libTitre;
+    protected $dateDebValidite;
+    protected $dateFinValidite;
 
     /**
      * @return int
@@ -80,6 +82,38 @@ class Variable
     public function setLibTitre($libTitre)
     {
         $this->libTitre = $libTitre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateDebValidite()
+    {
+        return $this->dateDebValidite;
+    }
+
+    /**
+     * @param mixed $dateDebValidite
+     */
+    public function setDateDebValidite($dateDebValidite)
+    {
+        $this->dateDebValidite = $dateDebValidite;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateFinValidite()
+    {
+        return $this->dateFinValidite;
+    }
+
+    /**
+     * @param mixed $dateFinValidite
+     */
+    public function setDateFinValidite($dateFinValidite)
+    {
+        $this->dateFinValidite = $dateFinValidite;
     }
 
     /**

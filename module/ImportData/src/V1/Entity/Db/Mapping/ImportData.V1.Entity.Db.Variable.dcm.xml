@@ -8,6 +8,8 @@
         <field  name="libEtablissement"     type="string"       length="20"     column="COD_VAP"        nullable="true"/>
         <field  name="libResponsable"       type="string"       length="40"     column="LIB_VAP"        nullable="true"/>
         <field  name="libTitre"             type="string"       length="100"    column="PAR_VAP"        nullable="true"/>
+        <field name="dateDebValidite"       type="date"                         column="DATE_DEB_VALIDITE" nullable="true"/>
+        <field name="dateFinValidite"       type="date"                         column="DATE_FIN_VALIDITE" nullable="true"/>
 
     </entity>
 </doctrine-mapping>
