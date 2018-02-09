@@ -1,0 +1,8 @@
+auth.json
+/docs/*
+/logs/*
+/tests
+/tmp/*
+.svn/
+.git/
+*~
