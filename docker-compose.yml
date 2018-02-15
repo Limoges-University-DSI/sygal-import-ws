@@ -8,7 +8,8 @@ services:
       dockerfile: Dockerfile.php7.dev
     ports:
      - "8080:8080"
+     - "8443:8443"
     volumes:
-     - .:/sygal-import-ws
-    working_dir: /sygal-import-ws
+     - .:/var/www/html/sygal-import-ws
+    working_dir: /var/www/html/sygal-import-ws
     network_mode: bridge

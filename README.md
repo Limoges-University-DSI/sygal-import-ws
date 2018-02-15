@@ -63,9 +63,9 @@ $ composer development-disable
 ``` 
 
 
-## Lancement du web service
+## Lancement du web service *pour le dévelopement*
 
-### Soit avec le built-in serveur PHP
+### Solution 1 : le serveur interne PHP
  
 En phase de développement, la façon la plus simple consiste en l'utilisation 
 du serveur interne de php :
@@ -74,7 +74,7 @@ du serveur interne de php :
 $ php -S 0.0.0.0:8080 -ddisplay_errors=0 -t public public/index.php
  ```
 
-### Soit avec Docker
+### Solution 2 : Docker
 
 Se placer à la racine des sources du ws pour lancer la commande suivante :
 
