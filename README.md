@@ -1,31 +1,26 @@
-# SygalImportWS
+# sygal-import-ws
 
 
-## Que fait SygalImportWS
+## Que fait *sygal-import-ws* ?
 
-SygalImportWS est un Web Service qui interroge les données présentent dans un SI et les mets à disposition pour leur lecture via des requêtes GET.
+*sygal-import-ws* est un web service (ws) qui interroge les données présentes dans un SI (via des vues en base de données) 
+et les met à disposition pour leur lecture via des requêtes GET.
 
 
 ## Technologies employées
 
-SygalImportWS repose sur l'utilisation de :
-* Apigility (https://apigility.org/) pour la mise en place du web service ;
-* Doctrine (http://www.doctrine-project.org/) pour la gestion de la partie BDD (notamment des schémas des tables).
+*sygal-import-ws* repose sur l'utilisation de :
+- Apigility (https://apigility.org/) pour la fourniture du ws ;
+- Doctrine (http://www.doctrine-project.org/) pour la gestion de la partie BDD (notamment des schémas des tables).
 
 
-## Installation du Web Service
+## Installation
 
-### Récupération du dépôt
+### Installation des dépendances
 
-La récupération se fait directement via le clone du dépôt git. 
+Une fois les sources obtenues, il faut installer les packages requis par le ws.
 
-```bash
-$ git clone git@git.unicaen.fr:dsi/sygal-import-ws.git
-```
-
-### Installation des vendors
-
-Cette installation passe directement via l'utilisation de *composer*.
+Cette installation se fait via *composer* (https://getcomposer.org/) :
 
 ```bash
 $ composer install
@@ -33,77 +28,101 @@ $ composer install
 
 ### Création du fichier "users.htpasswd"
 
-Ce fichier contient les utilisateurs/mot de passe autorisés à appeler le web service.
+Ce fichier contient les utilisateurs/mot de passe autorisés à appeler le ws.
 
-Se placer dans le répertoire "config" du projet et lancer la commande suivante 
-en remplaçant `gauthierb` par l'utilisateur voulu :
+Se placer dans le répertoire **config** des sources et lancer la commande suivante pour créer le fichier "users.htpasswd" 
+contenant un utilisateur `sygal-app` dont le mot de passe va vous être demandé :
 
 ```bash
-$ htpasswd -cb users.htpasswd gauthierb
+$ htpasswd -c users.htpasswd sygal-app
 ```
 
-### Complétion des fichiers locaux
+### Complétion des fichiers de config
 
-Deux fichiers locaux ont besoins d'être complétés :
+Deux fichiers situés dans le répertoire **config** ont besoin d'être complétés puis renommés :
 
-  * local.php : qui est notamment utilisé pour l'authentification.
-    * `htpasswd` qui désigne le chemin du fichier "users.htpasswd" contenant le mot de passe htaccess 
-  * database.local.php : qui est utilisé pour la connection au BDD</tt>.
-    * `host`, `dbname` et `port` : les infos d'accés à la BDD.
-    * `user` et `password` : les infos de l'utilisateur accédant à la BDD.
+  - **local.php.dist** : qui est notamment utilisé pour l'authentification.
+    - clé `htpasswd` qui désigne le chemin du fichier "users.htpasswd" évoqué plus haut
+  - **database.local.php.dist** : qui est utilisé pour la connection à la BDD.
+    - clés `host`, `dbname`, `port`, `user`, `password` : les infos d'accès à la BDD.
  
-NB: ces deux fichiers sont présents sur le dépôt avec l'extension <tt>*.dist*</tt>. 
+Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
 
-### Activer le mode développement (Facultatif)
+### Activer/désactiver le mode développement
 
-L'interface admin permettant de modifier les services n'est accéssible seulement en mode développement.
+Passer en mode développement ouvre l'accès à l'interface de modification du ws.
+Cette fonctionnalité est réservée aux développeurs du ws.
+ 
+Attention: Le mode développement est **INTERDIT EN PRODUCTION**.
+
+Pour activer/désactiver le mode développement :
+
 ```bash
 $ composer development-enable
+$ composer development-disable
 ``` 
 
 
-## Lancement du WebService
+## Lancement du web service
 
 ### Soit avec le built-in serveur PHP
  
- La façon la plus simple consiste en l'utilisation du serveur interne de php grâce à la commande suivante :
+En phase de développement, la façon la plus simple consiste en l'utilisation 
+du serveur interne de php :
+
  ```bash
-  php -S 0.0.0.0:8080 -ddisplay_errors=0 -t public public/index.php
+$ php -S 0.0.0.0:8080 -ddisplay_errors=0 -t public public/index.php
  ```
 
 ### Soit avec Docker
 
-<span style='color:red;'>**TODO**</span> après la création de la bonne image 
+Se placer à la racine des sources du ws pour lancer la commande suivante :
+
+```bash
+$ docker-compose up -d --build
+```
+
+Vérifier que le container `sygal-import-ws-container` figure bien dans la liste des containers
+lancés listés par la commande suivante (cf. colonne `NAMES`) :
+
+```bash
+$ docker ps
+```
+
+Le port sur lequel écoute le ws est indiqué dans la colonne `PORTS`. 
+Par exemple, `0.0.0.0:8080->8080/tcp` indique que le ws est accessible sur la machine hôte 
+à l'adresse `localhost:8080`.
 
 
 ## Les services fournis
  
 Les sept vues de SyGAL peuvent être atteintes via des services spécifiques.
 Ainsi, on retrouve les adresses suivantes :
-* Acteur : localhost:8080/acteur
-* Doctorant : localhost:8080/doctorant
-* Individu : localhost:8080/individu
-* Role : localhost:8080/role
-* Source : localhost:8080/source
-* These : localhost:8080/these
-* Variable : localhost:8080/variable
+* Acteur :      localhost:8080/acteur
+* Doctorant :   localhost:8080/doctorant
+* Individu :    localhost:8080/individu
+* Role :        localhost:8080/role
+* Source :      localhost:8080/source
+* These :       localhost:8080/these
+* Variable :    localhost:8080/variable
+
+Exemple :
+
+```bash
+$ curl --header "Accept: application/json" --header "Authorization: Basic Xxxxxxxxxxxx" localhost:8080/variable
+```
 
 L'interrogation directe de ces adresses va retourner l'intégralité des données du BDD.
-Afin d'obtenir de les informations spécifiques à une donnée, il est nécessaire d'ajouter le *source_code* de celle-ci.
+Afin d'obtenir les informations spécifiques à une donnée, il est nécessaire d'ajouter le `source_code` de celle-ci.
 
 Par exemple, dans le cas de la thèse identifiée 12047 :
 
 ```bash
-localhost:8080/these/12047
+$ curl --header "Accept: application/json" --header "Authorization: Basic Xxxxxxxxxxxx" localhost:8080/variable/ETB_LIB_NOM_RESP
 ```
+
 
 ## Remarques complémentaires
 
 * Le web service ne répond qu'aux requêtes de type GET.
-* Le web service retourne du json seulement, le header de la requête doit en tenir compte 
-
-```bash
-Accept: application/json
-```
-
-* Le Web service nécessite un authentification (basique). 
+* Le web service retourne du json seulement.
