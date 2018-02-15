@@ -8,6 +8,7 @@
 create or replace view APOGEE.OBJECTH_SOURCE as
   select
     'apogee' as id,
+    'apogee' as code,
     'Apogée' as libelle,
     1        as importable
   from dual
@@ -18,16 +19,50 @@ create or replace view APOGEE.OBJECTH_SOURCE as
 
 create or replace view APOGEE.OBJECTH_VARIABLE AS
   select
+    'apogee'            as source_id,       -- Id de la source
+    cod_vap             as id,
     cod_vap,
     lib_vap,
-    par_vap
+    par_vap,
+    to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
+    to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
   from variable_appli
   where cod_vap in (
     'ETB_LIB',
     'ETB_ART_ETB_LIB',
     'ETB_LIB_TIT_RESP',
     'ETB_LIB_NOM_RESP'
-  );
+  )
+  union all
+  select
+    'apogee' as source_id,
+    'EMAIL_ASSISTANCE' as id,
+    'EMAIL_ASSISTANCE' as cod_vap,
+    'Adresse mail de l''assistance utilisateur' as lib_vap,
+    'assistance-sygal@unicaen.fr' as par_vap,
+    to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
+    to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
+  from dual
+  union all
+  select
+    'apogee' as source_id,
+    'EMAIL_BU' as id,
+    'EMAIL_BU' as cod_vap,
+    'Adresse mail de contact de la BU' as lib_vap,
+    'scd.theses@unicaen.fr' as par_vap,
+    to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
+    to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
+  from dual
+  union all
+  select
+    'apogee' as source_id,
+    'EMAIL_BDD' as id,
+    'EMAIL_BDD' as cod_vap,
+    'Adresse mail de contact du bureau des doctorats' as lib_vap,
+    'recherche.doctorat@unicaen.fr' as par_vap,
+    to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
+    to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
+  from dual;
 
 
 ----------------------------- INDIVIDU ------------------------------
@@ -37,14 +72,14 @@ create or replace view APOGEE.OBJECTH_INDIVIDU as
   select distinct
     'apogee'                                            as source_id,       -- Id de la source
     'doctorant'                                         as type,
-    ind.cod_etu                                         as id,              -- Numero etudiant
+    to_char(ind.cod_etu)                                as id,              -- Numero etudiant
     decode(ind.cod_civ, 1, 'M.', 'Mme')                 as civ,             -- Civilite etudiant
     ind.lib_nom_pat_ind                                 as lib_nom_pat_ind, -- Nom de famille etudiant
     coalesce(ind.lib_nom_usu_ind, ind.lib_nom_pat_ind)  as lib_nom_usu_ind, -- Nom usage etudiant
-    initcap(ind.lib_pr1_ind)                            as lib_pr1_ind,     -- Prenom 1 etudiant
+    initcap(coalesce(ind.lib_pr1_ind,'Aucun'))          as lib_pr1_ind,     -- Prenom 1 etudiant
     initcap(ind.lib_pr2_ind)                            as lib_pr2_ind,     -- Prenom 2 etudiant
     initcap(ind.lib_pr3_ind)                            as lib_pr3_ind,     -- Prenom 3 etudiant
-    ucbn_ldap.etu2mail ( ind.cod_etu )                  as email,           -- Mail etudiant
+    null as email,--ucbn_ldap.etu2mail ( ind.cod_etu )                  as email,           -- Mail etudiant
     --null                                                as num_tel_ind,     -- Téléphone
     ind.date_nai_ind                                    as date_nai_ind,    -- Date naissance etudiant
     ind.cod_pay_nat                                     as cod_pay_nat,     -- Code nationalite
@@ -58,9 +93,10 @@ create or replace view APOGEE.OBJECTH_INDIVIDU as
         and dip.cod_tpd_etb     in ( '39', '40' )
         and tpd.eta_ths_hdr_drt =  'T'  -- Inscription en these
         and tpd.tem_sante       =  'N'  -- Exclusion des theses d exercice
+        and ind.cod_etu is not null         -- oui, oui, ça arrive
   union
   -- acteurs
-  select * from (
+  select "SOURCE_ID","TYPE","ID","CIV","LIB_NOM_USU_IND","LIB_NOM_PAT_IND","LIB_PR1_IND","LIB_PR2_IND","LIB_PR3_IND","EMAIL","DATE_NAI_IND","COD_PAY_NAT","LIB_NAT" from (
     with acteur as (
       select
         ths.cod_ths,
@@ -118,8 +154,8 @@ create or replace view APOGEE.OBJECTH_INDIVIDU as
     select distinct
       'apogee'                                                                                                as source_id,
       'acteur'                                                                                                as type,
-      --coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per)                      as id,     -- Code Harpege ou Apogee de l acteur
-      act.cod_per                                                                                             as id,     -- Code Apogee de l acteur
+      coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per)                      as id,     -- Code Harpege ou Apogee de l acteur
+      --act.cod_per                                                                                             as id,     -- Code Apogee de l acteur
       initcap(per.cod_civ_per)                                                                                as civ,             -- Civilite acteur
       --regexp_replace ( per.num_dos_har_per, '[^0-9]', '' )                                                    as uid_per,         -- uid de l acteur
       per.lib_nom_usu_per                                                                                     as lib_nom_usu_ind, -- Nom d'usage acteur
@@ -127,7 +163,7 @@ create or replace view APOGEE.OBJECTH_INDIVIDU as
       per.lib_pr1_per                                                                                         as lib_pr1_ind,     -- Prenom 1 acteur
       null                                                                                                    as lib_pr2_ind,     -- Prenom 2 acteur
       null                                                                                                    as lib_pr3_ind,     -- Prenom 3 acteur
-      case when per.num_dos_har_per is null then null else ucbn_ldap.uid2mail ('p'||per.num_dos_har_per) end  as email,           -- Mail acteur
+      null as email,--case when per.num_dos_har_per is null then null else ucbn_ldap.uid2mail ('p'||per.num_dos_har_per) end  as email,           -- Mail acteur
       --regexp_replace ( per.num_tel_per, '[^0-9]', '' )                                                        as num_tel_ind,      -- Telephone acteur
       per.dat_nai_per                                                                                         as date_nai_ind,    -- Date naissance acteur
       null                                                                                                    as cod_pay_nat,     -- Code nationalite
@@ -158,7 +194,8 @@ create or replace view APOGEE.OBJECTH_ROLE as
 create or replace view APOGEE.OBJECTH_DOCTORANT as
   select distinct
     'apogee' as source_id, -- Id de la source
-    ind.cod_etu                                         as id              -- Numero etudiant
+    ind.cod_etu                                         as id,            -- Identifiant du doctorant
+    ind.cod_etu                                         as individu_id    -- Identifiant de l'individu
   /*  decode(ind.cod_civ, 1, 'M.', 'Mme')                as civ_etu,         -- Civilite etudiant
     ind.lib_nom_pat_ind,                                                   -- Nom de famille etudiant
     coalesce(ind.lib_nom_usu_ind, ind.lib_nom_pat_ind) as lib_nom_usu_ind, -- Nom usage etudiant
@@ -178,6 +215,7 @@ create or replace view APOGEE.OBJECTH_DOCTORANT as
         and dip.cod_tpd_etb     in ( '39', '40' )
         and tpd.eta_ths_hdr_drt =  'T'  -- Inscription en these
         and tpd.tem_sante       =  'N'  -- Exclusion des theses d exercice
+        and cod_etu is not null         -- oui, oui, ça arrive
 ;
 
 
@@ -221,7 +259,7 @@ create or replace view APOGEE.OBJECTH_THESE as
     ths.cod_ths as id,                       -- Identifiant de la these
     case when ths.eta_ths = 'S' and nvl ( ths.dat_sou_ths, sysdate + 1 ) > sysdate
       then 'E' else ths.eta_ths end eta_ths,          -- Etat de la these ( E=En cours / A=Abandonnee / S=Soutenue / U=Transferee )
-    ind.cod_etu as individu_id,              -- Numero etudiant
+    ind.cod_etu                     doctorant_id,     -- Identifiant du doctorant
     --iae.cod_dip,                                      -- Code diplome
     --iae.cod_vrs_vdi,                                  -- Version de diplome
     --nvl ( vdi.lib_web_vdi, iae.lib_dip ) lib_web_vdi, -- Libelle version de diplome
@@ -394,13 +432,13 @@ create or replace view APOGEE.OBJECTH_ACTEUR as
     from ths_jur_per tjp
   )
   select distinct
+    rownum                                                                        as id,
     'apogee'                                                                      as source_id,     -- Id de la source
     act.cod_ths                                                                   as these_id,      -- Identifiant de la these
-    roj.cod_roj                                                                   as role_id,       -- Code du role de l acteur
+    roj.cod_roj                                                                   as role_id,       -- Identifiant du rôle
     cast(act.cod_roj_compl as varchar2(1 char))                                   as cod_roj_compl, -- Code du complement sur le role dans le jury
     rjc.lib_roj                                                                   as lib_roj_compl, -- Libelle du complement sur le role dans le jury
-    act.cod_per                                                                   as individu_id,   -- Code Apogee de l acteur
-    --regexp_replace ( per.num_dos_har_per, '[^0-9]', '' )                          as uid_per,       -- uid de l acteur
+    coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per) as individu_id, -- Code Harpege ou Apogee de l acteur
     act.cod_etb,                                                                                    -- Code etablissement
     etb.lib_etb,                                                                                    -- Libelle etablissement
     cps.cod_cps,                                                                                    -- Code du corps d'appartenance
