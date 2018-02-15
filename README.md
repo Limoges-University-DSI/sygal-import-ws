@@ -96,8 +96,7 @@ Par exemple, `0.0.0.0:8080->8080/tcp` indique que le ws est accessible sur la ma
 
 ## Les services fournis
  
-Les sept vues de SyGAL peuvent être atteintes via des services spécifiques.
-Ainsi, on retrouve les adresses suivantes :
+Chaque vue en base de données peut être interrogée via un service dédié :
 * Acteur :      localhost:8080/acteur
 * Doctorant :   localhost:8080/doctorant
 * Individu :    localhost:8080/individu
@@ -113,9 +112,7 @@ $ curl --header "Accept: application/json" --header "Authorization: Basic Xxxxxx
 ```
 
 L'interrogation directe de ces adresses va retourner l'intégralité des données du BDD.
-Afin d'obtenir les informations spécifiques à une donnée, il est nécessaire d'ajouter le `source_code` de celle-ci.
-
-Par exemple, dans le cas de la thèse identifiée 12047 :
+Afin d'obtenir les informations spécifiques à une donnée, il est possible d'ajouter son identifiant, exemple :
 
 ```bash
 $ curl --header "Accept: application/json" --header "Authorization: Basic Xxxxxxxxxxxx" localhost:8080/variable/ETB_LIB_NOM_RESP
