@@ -106,16 +106,19 @@ Chaque vue en base de données peut être interrogée via un service dédié :
 * Variable :    localhost:8080/variable
 
 Exemple :
-
 ```bash
-$ curl --header "Accept: application/json" --header "Authorization: Basic Xxxxxxxxxxxx" localhost:8080/variable
+$ curl --header "Accept: application/json" --header "Authorization: Basic xxxxxxxxxxxxx" localhost:8080/variable
+```
+
+Ou en https :
+```bash
+curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxxxxxxxxxxx==" https://localhost:8443/variable
 ```
 
 L'interrogation directe de ces adresses va retourner l'intégralité des données du BDD.
 Afin d'obtenir les informations spécifiques à une donnée, il est possible d'ajouter son identifiant, exemple :
-
 ```bash
-$ curl --header "Accept: application/json" --header "Authorization: Basic Xxxxxxxxxxxx" localhost:8080/variable/ETB_LIB_NOM_RESP
+$ curl --header "Accept: application/json" --header "Authorization: Basic xxxxxxxxxxxxx" localhost:8080/variable/ETB_LIB_NOM_RESP
 ```
 
 
