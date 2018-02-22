@@ -107,18 +107,24 @@ Chaque vue en base de données peut être interrogée via un service dédié :
 
 Exemple :
 ```bash
-$ curl --header "Accept: application/json" --header "Authorization: Basic xxxxxxxxxxxxx" localhost:8080/variable
+$ curl --header "Accept: application/json" --header "Authorization: Basic xxxx" localhost:8080/variable
 ```
 
 Ou en https :
 ```bash
-curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxxxxxxxxxxx==" https://localhost:8443/variable
+$ curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable
+```
+
+Remplacer `xxxx` par le token généré grâce à la commande suivante 
+(le mot de passe est celui choisi lors de la commande `htpasswd -c users.htpasswd sygal-app`) :
+```bash
+$ echo -n 'sygal-app:motdepasse' | base64
 ```
 
 L'interrogation directe de ces adresses va retourner l'intégralité des données du BDD.
 Afin d'obtenir les informations spécifiques à une donnée, il est possible d'ajouter son identifiant, exemple :
 ```bash
-$ curl --header "Accept: application/json" --header "Authorization: Basic xxxxxxxxxxxxx" localhost:8080/variable/ETB_LIB_NOM_RESP
+$ curl --header "Accept: application/json" --header "Authorization: Basic xxxx" localhost:8080/variable/ETB_LIB_NOM_RESP
 ```
 
 
