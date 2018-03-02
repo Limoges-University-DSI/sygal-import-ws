@@ -10,7 +10,7 @@ return [
                             0 => 'basic',
                         ],
                         'realm' => 'api',
-                        'htpasswd' => 'XXXXX',
+                        'htpasswd' => __DIR__ . '/../users.htpasswd',
                     ],
                 ],
             ],
