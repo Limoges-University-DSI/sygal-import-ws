@@ -1,4 +1,5 @@
 <?php
+
 return [
     'doctrine' => [
         'driver' => [
@@ -10,7 +11,7 @@ return [
                 ],
             ],
             'orm_default' => [
-                'class' => \Doctrine\ORM\Mapping\Driver\DriverChain::class,
+                'class' => \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain::class,
                 'drivers' => [
                     'ImportData\\V1\\Entity\\Db' => 'orm_default_xml_driver',
                 ],

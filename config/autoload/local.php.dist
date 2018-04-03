@@ -1,5 +1,20 @@
 <?php
 return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => 'Doctrine\DBAL\Driver\OCI8\Driver',
+                'params' => [
+                    'host'     => 'XXXXX',
+                    'dbname'   => 'XXXXX',
+                    'port'     => 'XXXXX',
+                    'user'     => 'XXXXX',
+                    'password' => 'XXXXX',
+                    'charset'  => 'AL32UTF8',
+                ],
+            ],
+        ],
+    ],
     'zf-mvc-auth' => [
         'authentication' => [
             'adapters' => [
