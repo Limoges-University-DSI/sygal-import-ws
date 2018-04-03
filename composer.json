@@ -37,6 +37,11 @@
         ]
     },
     "scripts": {
+        "post-install-cmd": [
+            "mkdir -p data/cache                   && chmod -R 777 data/cache",
+            "mkdir -p data/DoctrineModule/cache    && chmod -R 777 data/DoctrineModule/cache",
+            "mkdir -p data/DoctrineORMModule/Proxy && chmod -R 777 data/DoctrineORMModule/Proxy"
+        ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "development-disable": "zf-development-mode disable",
