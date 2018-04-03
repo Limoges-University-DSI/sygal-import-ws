@@ -5,7 +5,7 @@ return [
     ],
     'db' => [
         'adapters' => [
-//            'dummy' => [],
+            'dummy' => [],
         ],
     ],
 ];
