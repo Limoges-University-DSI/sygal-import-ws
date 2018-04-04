@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-set -x # expands variables and prints a little + sign before the line
-
 appname="sygal-import-ws"
 
+set -x # expands variables and prints a little + sign before the line
+
 # preprod
-scp ./config/autoload/local.php      root@sygal-pp:/root/.ssh/${appname}/local.php
-scp ./config/users.sygal-pp.htpasswd root@sygal-pp:/root/.ssh/${appname}/users.htpasswd
+ssh root@sygal-pp mkdir -p /root/.ssh/${appname}
+scp -p -r ./data/config/preprod/* root@sygal-pp:/root/.ssh/${appname}/
+
+# prod
+# ...
