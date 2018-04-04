@@ -37,6 +37,12 @@ contenant un utilisateur `sygal-app` dont le mot de passe va vous être demandé
 $ htpasswd -c users.htpasswd sygal-app
 ```
 
+Si vous manquez d'idée pour le mot de passe, utilsez la commande suivante :
+
+```bash
+$ pwgen 16 1 --symbols --secure
+```
+
 ### Complétion des fichiers de config
 
 Deux fichiers situés dans le répertoire **config** ont besoin d'être complétés puis renommés :
