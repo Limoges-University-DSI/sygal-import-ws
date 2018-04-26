@@ -2,7 +2,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="ImportData\V1\Entity\Db\Doctorant" table="APOGEE.OBJECTH_DOCTORANT">
+    <entity name="ImportData\V1\Entity\Db\Doctorant" table="OBJECTH_DOCTORANT">
         <id name="id"               type="string"                      column="ID" />
         <field name="sourceId"      type="string"       length="6"      column="SOURCE_ID"      nullable="true"/>
         <field name="individuId"    type="string"                      column="INDIVIDU_ID"    nullable="true"/>

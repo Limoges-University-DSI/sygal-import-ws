@@ -1,5 +1,4 @@
 <?php
-
 return [
     'doctrine' => [
         'driver' => [
@@ -90,6 +89,42 @@ return [
                     ],
                 ],
             ],
+            'import-data.rest.doctrine.structure' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/structure[/:structure_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\Structure\\Controller',
+                    ],
+                ],
+            ],
+            'import-data.rest.doctrine.ecole-doctorale' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/ecole-doctorale[/:ecole_doctorale_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller',
+                    ],
+                ],
+            ],
+            'import-data.rest.doctrine.etablissement' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/etablissement[/:etablissement_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\Etablissement\\Controller',
+                    ],
+                ],
+            ],
+            'import-data.rest.doctrine.unite-recherche' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/unite-recherche[/:unite_recherche_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\UniteRecherche\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -101,6 +136,10 @@ return [
             4 => 'import-data.rest.doctrine.role',
             5 => 'import-data.rest.doctrine.source',
             6 => 'import-data.rest.doctrine.variable',
+            7 => 'import-data.rest.doctrine.structure',
+            8 => 'import-data.rest.doctrine.ecole-doctorale',
+            9 => 'import-data.rest.doctrine.etablissement',
+            10 => 'import-data.rest.doctrine.unite-recherche',
         ],
     ],
     'zf-rest' => [
@@ -237,6 +276,82 @@ return [
             'collection_class' => \ImportData\V1\Rest\Variable\VariableCollection::class,
             'service_name' => 'Variable',
         ],
+        'ImportData\\V1\\Rest\\Structure\\Controller' => [
+            'listener' => \ImportData\V1\Rest\Structure\StructureResource::class,
+            'route_name' => 'import-data.rest.doctrine.structure',
+            'route_identifier_name' => 'structure_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'structure',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => '250000000000000000000',
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\Structure::class,
+            'collection_class' => \ImportData\V1\Rest\Structure\StructureCollection::class,
+            'service_name' => 'Structure',
+        ],
+        'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller' => [
+            'listener' => \ImportData\V1\Rest\EcoleDoctorale\EcoleDoctoraleResource::class,
+            'route_name' => 'import-data.rest.doctrine.ecole-doctorale',
+            'route_identifier_name' => 'ecole_doctorale_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'ecole_doctorale',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => '250000000000000000000',
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\EcoleDoctorale::class,
+            'collection_class' => \ImportData\V1\Rest\EcoleDoctorale\EcoleDoctoraleCollection::class,
+            'service_name' => 'EcoleDoctorale',
+        ],
+        'ImportData\\V1\\Rest\\Etablissement\\Controller' => [
+            'listener' => \ImportData\V1\Rest\Etablissement\EtablissementResource::class,
+            'route_name' => 'import-data.rest.doctrine.etablissement',
+            'route_identifier_name' => 'etablissement_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'etablissement',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => '250000000000000000000',
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\Etablissement::class,
+            'collection_class' => \ImportData\V1\Rest\Etablissement\EtablissementCollection::class,
+            'service_name' => 'Etablissement',
+        ],
+        'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => [
+            'listener' => \ImportData\V1\Rest\UniteRecherche\UniteRechercheResource::class,
+            'route_name' => 'import-data.rest.doctrine.unite-recherche',
+            'route_identifier_name' => 'unite_recherche_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'unite_recherche',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => '250000000000000000000',
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\UniteRecherche::class,
+            'collection_class' => \ImportData\V1\Rest\UniteRecherche\UniteRechercheCollection::class,
+            'service_name' => 'UniteRecherche',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
@@ -247,6 +362,10 @@ return [
             'ImportData\\V1\\Rest\\Role\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\Source\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\Variable\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\Structure\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\Etablissement\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => 'HalJson',
         ],
         'accept-whitelist' => [
             'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -305,6 +424,38 @@ return [
                 0 => 'application/json',
             ],
             'ImportData\\V1\\Rest\\Variable\\Controller' => [
+                0 => 'application/json',
+            ],
+        ],
+        'accept_whitelist' => [
+            'ImportData\\V1\\Rest\\Structure\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\Etablissement\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+        ],
+        'content_type_whitelist' => [
+            'ImportData\\V1\\Rest\\Structure\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Etablissement\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => [
                 0 => 'application/json',
             ],
         ],
@@ -388,6 +539,50 @@ return [
                 'route_name' => 'import-data.rest.doctrine.variable',
                 'is_collection' => true,
             ],
+            \ImportData\V1\Entity\Db\Structure::class => [
+                'route_identifier_name' => 'structure_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.structure',
+                'hydrator' => 'ImportData\\V1\\Rest\\Structure\\StructureHydrator',
+            ],
+            \ImportData\V1\Rest\Structure\StructureCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.structure',
+                'is_collection' => true,
+            ],
+            \ImportData\V1\Entity\Db\EcoleDoctorale::class => [
+                'route_identifier_name' => 'ecole_doctorale_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.ecole-doctorale',
+                'hydrator' => 'ImportData\\V1\\Rest\\EcoleDoctorale\\EcoleDoctoraleHydrator',
+            ],
+            \ImportData\V1\Rest\EcoleDoctorale\EcoleDoctoraleCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.ecole-doctorale',
+                'is_collection' => true,
+            ],
+            \ImportData\V1\Entity\Db\Etablissement::class => [
+                'route_identifier_name' => 'etablissement_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.etablissement',
+                'hydrator' => 'ImportData\\V1\\Rest\\Etablissement\\EtablissementHydrator',
+            ],
+            \ImportData\V1\Rest\Etablissement\EtablissementCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.etablissement',
+                'is_collection' => true,
+            ],
+            \ImportData\V1\Entity\Db\UniteRecherche::class => [
+                'route_identifier_name' => 'unite_recherche_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.unite-recherche',
+                'hydrator' => 'ImportData\\V1\\Rest\\UniteRecherche\\UniteRechercheHydrator',
+            ],
+            \ImportData\V1\Rest\UniteRecherche\UniteRechercheCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.unite-recherche',
+                'is_collection' => true,
+            ],
         ],
     ],
     'zf-apigility' => [
@@ -419,6 +614,22 @@ return [
             \ImportData\V1\Rest\Variable\VariableResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'ImportData\\V1\\Rest\\Variable\\VariableHydrator',
+            ],
+            \ImportData\V1\Rest\Structure\StructureResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\Structure\\StructureHydrator',
+            ],
+            \ImportData\V1\Rest\EcoleDoctorale\EcoleDoctoraleResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\EcoleDoctorale\\EcoleDoctoraleHydrator',
+            ],
+            \ImportData\V1\Rest\Etablissement\EtablissementResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\Etablissement\\EtablissementHydrator',
+            ],
+            \ImportData\V1\Rest\UniteRecherche\UniteRechercheResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\UniteRecherche\\UniteRechercheHydrator',
             ],
         ],
     ],
@@ -472,6 +683,34 @@ return [
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
+        'ImportData\\V1\\Rest\\Structure\\StructureHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\Structure::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'ImportData\\V1\\Rest\\EcoleDoctorale\\EcoleDoctoraleHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\EcoleDoctorale::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'ImportData\\V1\\Rest\\Etablissement\\EtablissementHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\Etablissement::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'ImportData\\V1\\Rest\\UniteRecherche\\UniteRechercheHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\UniteRecherche::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
     ],
     'zf-content-validation' => [
         'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -494,6 +733,18 @@ return [
         ],
         'ImportData\\V1\\Rest\\Variable\\Controller' => [
             'input_filter' => 'ImportData\\V1\\Rest\\Variable\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\Structure\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\Structure\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\EcoleDoctorale\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\Etablissement\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\Etablissement\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\UniteRecherche\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -1186,6 +1437,287 @@ return [
                 ],
             ],
         ],
+        'ImportData\\V1\\Rest\\Structure\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            1 => [
+                'name' => 'typeStructureId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            2 => [
+                'name' => 'code',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            3 => [
+                'name' => 'sigle',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            4 => [
+                'name' => 'libelle',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 200,
+                        ],
+                    ],
+                ],
+            ],
+            5 => [
+                'name' => 'codePays',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            6 => [
+                'name' => 'libellePays',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 200,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'ImportData\\V1\\Rest\\EcoleDoctorale\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            1 => [
+                'name' => 'structureId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'ImportData\\V1\\Rest\\Etablissement\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            1 => [
+                'name' => 'structureId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'ImportData\\V1\\Rest\\UniteRecherche\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+            1 => [
+                'name' => 'structureId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 64,
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ],
     'zf-mvc-auth' => [
         'authorization' => [
@@ -1286,6 +1818,70 @@ return [
                 ],
             ],
             'ImportData\\V1\\Rest\\Variable\\Controller' => [
+                'collection' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
+            'ImportData\\V1\\Rest\\Structure\\Controller' => [
+                'collection' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
+            'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller' => [
+                'collection' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
+            'ImportData\\V1\\Rest\\Etablissement\\Controller' => [
+                'collection' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
+            'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => [
                 'collection' => [
                     'GET' => true,
                     'POST' => false,
