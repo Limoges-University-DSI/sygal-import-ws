@@ -1,8 +1,13 @@
 {
     "name": "unicaen/sygal-import-ws",
-    "description": "Web service d'accès aux données des établissements",
+    "description": "Web service d'accès aux données des établissements pour nourrir SyGAL",
     "type": "project",
-    "homepage": "http://apigility.org/",
+    "repositories": [
+        {
+            "type": "composer",
+            "url":  "https://gest.unicaen.fr/packagist"
+        }
+    ],
     "config": {
         "process-timeout": 5000
     },
@@ -14,7 +19,8 @@
         "zfcampus/zf-development-mode": "^3.0",
         "zfcampus/zf-apigility-doctrine": "^2.1",
         "doctrine/doctrine-orm-module": "^1.1",
-        "zendframework/zend-console": "^2.7"
+        "zendframework/zend-console": "^2.7",
+        "unicaen/oracle": "^1.2"
     },
     "require-dev": {
         "zendframework/zend-developer-tools": "^1.1",
@@ -38,11 +44,6 @@
         ]
     },
     "scripts": {
-        "post-install-cmd": [
-            "mkdir -p data/cache                   && chmod -R 777 data/cache",
-            "mkdir -p data/DoctrineModule/cache    && chmod -R 777 data/DoctrineModule/cache",
-            "mkdir -p data/DoctrineORMModule/Proxy && chmod -R 777 data/DoctrineORMModule/Proxy"
-        ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "development-disable": "zf-development-mode disable",

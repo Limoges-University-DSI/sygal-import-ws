@@ -1,4 +1,5 @@
 <?php
+
 return [
     'doctrine' => [
         'driver' => [
@@ -13,13 +14,6 @@ return [
                 'class' => \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain::class,
                 'drivers' => [
                     'ImportData\\V1\\Entity\\Db' => 'orm_default_xml_driver',
-                ],
-            ],
-        ],
-        'eventmanager' => [
-            'orm_default' => [
-                'subscribers' => [
-                    0 => \Doctrine\DBAL\Event\Listeners\OracleSessionInit::class,
                 ],
             ],
         ],

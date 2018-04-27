@@ -30,6 +30,7 @@ return [
     'DoctrineORMModule',
     'Phpro\\DoctrineHydrationModule',
     'ZF\\Apigility\\Doctrine\\Server',
+    'UnicaenOracle',
     'Application',
     'ImportData',
 ];
