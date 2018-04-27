@@ -23,6 +23,11 @@ class Etablissement
     private $structureId;
 
     /**
+     * @var string
+     */
+    private $code;
+
+    /**
      * @return string
      */
     public function getId(): string
@@ -68,5 +73,21 @@ class Etablissement
     public function setStructureId(string $structureId)
     {
         $this->structureId = $structureId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     */
+    public function setCode(string $code)
+    {
+        $this->code = $code;
     }
 }

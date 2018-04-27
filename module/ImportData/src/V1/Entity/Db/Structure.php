@@ -15,11 +15,6 @@ class Structure
     /**
      * @var string
      */
-    private $code;
-
-    /**
-     * @var string
-     */
     private $sourceId;
 
     /**
@@ -70,31 +65,6 @@ class Structure
     public function getId()
     {
         return $this->id;
-    }
-
-
-    /**
-     * Set code
-     *
-     * @param string $code
-     *
-     * @return Structure
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->code;
     }
 
     /**

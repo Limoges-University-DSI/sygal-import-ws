@@ -6,7 +6,6 @@
         <id name="id"                   type="string"                       column="ID" />
         <field name="sourceId"          type="string"       length="64"     column="SOURCE_ID"                  nullable="true"/>
         <field name="typeStructureId"   type="string"       length="64"     column="TYPE_STRUCTURE_ID"          nullable="true"/>
-        <field name="code"              type="string"       length="64"     column="CODE"                       nullable="true"/>
         <field name="sigle"             type="string"       length="64"     column="SIGLE"                      nullable="true"/>
         <field name="libelle"           type="string"       length="200"    column="LIBELLE"                    nullable="true"/>
         <field name="codePays"          type="string"       length="64"     column="CODE_PAYS"                  nullable="true"/>
