@@ -2,7 +2,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="ImportData\V1\Entity\Db\Structure" table="OBJECTH_STRUCTURE">
+    <entity name="ImportData\V1\Entity\Db\Structure" table="SYGAL_STRUCTURE">
         <id name="id"                   type="string"                       column="ID" />
         <field name="sourceId"          type="string"       length="64"     column="SOURCE_ID"                  nullable="true"/>
         <field name="typeStructureId"   type="string"       length="64"     column="TYPE_STRUCTURE_ID"          nullable="true"/>
