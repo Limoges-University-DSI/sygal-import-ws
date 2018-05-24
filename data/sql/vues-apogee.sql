@@ -1,11 +1,18 @@
 --
--- Données APOGEE attendues.
+--
+-- SyGAL
+-- =====
+--
+-- Web Service d'import de données
+-- -------------------------------
+--
+-- Vues APOGEE.
 --
 
 
 ----------------------------- SOURCE ------------------------------
 
-create or replace view APOGEE.OBJECTH_SOURCE as
+create view APOGEE.SYGAL_SOURCE as
   select
     'apogee' as id,
     'apogee' as code,
@@ -15,9 +22,13 @@ create or replace view APOGEE.OBJECTH_SOURCE as
 ;
 
 
------------------------------ VARIABLE ------------------------------
+----------------------------- VARIABLES ------------------------------
 
-create or replace view APOGEE.OBJECTH_VARIABLE AS
+-- VARIABLES définies manuellement : cf. script "vues-apogee-{etab}.sql".
+
+-- VARIABLES isssues d'Apogée :
+
+create view APOGEE.SYGAL_VARIABLE AS
   select
     'apogee'            as source_id,       -- Id de la source
     cod_vap             as id,
@@ -33,41 +44,24 @@ create or replace view APOGEE.OBJECTH_VARIABLE AS
     'ETB_LIB_TIT_RESP',
     'ETB_LIB_NOM_RESP'
   )
+  -- + variables définies manuellement :
   union all
   select
-    'apogee' as source_id,
-    'EMAIL_ASSISTANCE' as id,
-    'EMAIL_ASSISTANCE' as cod_vap,
-    'Adresse mail de l''assistance utilisateur' as lib_vap,
-    'assistance-sygal@unicaen.fr' as par_vap,
-    to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
-    to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
-  from dual
-  union all
-  select
-    'apogee' as source_id,
-    'EMAIL_BU' as id,
-    'EMAIL_BU' as cod_vap,
-    'Adresse mail de contact de la BU' as lib_vap,
-    'scd.theses@unicaen.fr' as par_vap,
-    to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
-    to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
-  from dual
-  union all
-  select
-    'apogee' as source_id,
-    'EMAIL_BDD' as id,
-    'EMAIL_BDD' as cod_vap,
-    'Adresse mail de contact du bureau des doctorats' as lib_vap,
-    'recherche.doctorat@unicaen.fr' as par_vap,
-    to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
-    to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
-  from dual;
+    source_id,
+    id,
+    cod_vap,
+    lib_vap,
+    par_vap,
+    DATE_DEB_VALIDITE,
+    DATE_FIN_VALIDITE
+  from
+    APOGEE.SYGAL_VARIABLE_MANU
+;
 
 
 ----------------------------- INDIVIDU ------------------------------
 
-create or replace view APOGEE.OBJECTH_INDIVIDU as
+create view APOGEE.SYGAL_INDIVIDU as
   -- doctorants
   select distinct
     'apogee'                                            as source_id,       -- Id de la source
@@ -79,7 +73,7 @@ create or replace view APOGEE.OBJECTH_INDIVIDU as
     initcap(coalesce(ind.lib_pr1_ind,'Aucun'))          as lib_pr1_ind,     -- Prenom 1 etudiant
     initcap(ind.lib_pr2_ind)                            as lib_pr2_ind,     -- Prenom 2 etudiant
     initcap(ind.lib_pr3_ind)                            as lib_pr3_ind,     -- Prenom 3 etudiant
-    null as email,--ucbn_ldap.etu2mail ( ind.cod_etu )                  as email,           -- Mail etudiant
+    ucbn_ldap.etu2mail ( ind.cod_etu )                  as email,           -- Mail etudiant
     --null                                                as num_tel_ind,     -- Téléphone
     ind.date_nai_ind                                    as date_nai_ind,    -- Date naissance etudiant
     ind.cod_pay_nat                                     as cod_pay_nat,     -- Code nationalite
@@ -163,7 +157,7 @@ create or replace view APOGEE.OBJECTH_INDIVIDU as
       per.lib_pr1_per                                                                                         as lib_pr1_ind,     -- Prenom 1 acteur
       null                                                                                                    as lib_pr2_ind,     -- Prenom 2 acteur
       null                                                                                                    as lib_pr3_ind,     -- Prenom 3 acteur
-      null as email,--case when per.num_dos_har_per is null then null else ucbn_ldap.uid2mail ('p'||per.num_dos_har_per) end  as email,           -- Mail acteur
+      case when per.num_dos_har_per is null then null else ucbn_ldap.uid2mail ('p'||per.num_dos_har_per) end  as email,           -- Mail acteur
       --regexp_replace ( per.num_tel_per, '[^0-9]', '' )                                                        as num_tel_ind,      -- Telephone acteur
       per.dat_nai_per                                                                                         as date_nai_ind,    -- Date naissance acteur
       null                                                                                                    as cod_pay_nat,     -- Code nationalite
@@ -180,7 +174,7 @@ create or replace view APOGEE.OBJECTH_INDIVIDU as
 
 ----------------------------- ROLE ------------------------------
 
-create or replace view APOGEE.OBJECTH_ROLE as
+create view APOGEE.SYGAL_ROLE as
   select
     'apogee' as source_id, -- Id de la source
     COD_ROJ as id,
@@ -191,7 +185,7 @@ create or replace view APOGEE.OBJECTH_ROLE as
 
 ----------------------------- DOCTORANT ------------------------------
 
-create or replace view APOGEE.OBJECTH_DOCTORANT as
+create view APOGEE.SYGAL_DOCTORANT as
   select distinct
     'apogee' as source_id, -- Id de la source
     ind.cod_etu                                         as id,            -- Identifiant du doctorant
@@ -221,7 +215,7 @@ create or replace view APOGEE.OBJECTH_DOCTORANT as
 
 ----------------------------- THESE ------------------------------
 
-create or replace view APOGEE.OBJECTH_THESE as
+create view APOGEE.SYGAL_THESE as
   with inscription_administrative as (
       select
         iae.cod_ind,
@@ -250,6 +244,16 @@ create or replace view APOGEE.OBJECTH_THESE as
         from cmp_cmp
         where connect_by_isleaf = 1
         connect by prior cod_cmp_sup = cod_cmp_inf
+    ),
+      ancienne_these as (
+        select distinct
+          cod_ind,
+          cod_dip_anc,
+          cod_vrs_vdi_anc,
+          'A' eta_ths
+        from these_hdr_sout
+        where cod_ths_trv = '1'
+              and cod_dip_anc is not null
     )
   select
     'apogee' as source_id, -- Id de la source
@@ -354,6 +358,7 @@ create or replace view APOGEE.OBJECTH_THESE as
     join individu                   ind on ind.cod_ind = iae.cod_ind
     join version_diplome            vdi on vdi.cod_dip = iae.cod_dip and vdi.cod_vrs_vdi = iae.cod_vrs_vdi
     join these_hdr_sout             ths on ths.cod_ind = iae.cod_ind and ths.cod_dip = iae.cod_dip and ths.cod_vrs_vdi = iae.cod_vrs_vdi
+    left join ancienne_these        anc on anc.cod_ind = ths.cod_ind and anc.cod_dip_anc = ths.cod_dip and anc.cod_vrs_vdi_anc = ths.cod_vrs_vdi and anc.eta_ths = ths.eta_ths
     left join annee_uni             ans on ans.cod_anu = ths.daa_fin_ths
     left join ecole_doctorale       edo on edo.cod_edo = ths.cod_edo
     left join secteur_rch           ser on ser.cod_ser = ths.cod_ser
@@ -371,12 +376,13 @@ create or replace view APOGEE.OBJECTH_THESE as
     left join etablissement         ori on ori.cod_etb = ths.cod_etb_origine
     left join langue                lng on lng.cod_lng = ths.cod_lng
   where ths.cod_ths_trv = '1'     --  Exclusion des travaux
+        and anc.cod_dip_anc is null
 ;
 
 
 ----------------------------- ACTEUR ------------------------------
 
-create or replace view APOGEE.OBJECTH_ACTEUR as
+create view APOGEE.SYGAL_ACTEUR as
   with acteur as (
     select
       ths.cod_ths,
@@ -391,7 +397,7 @@ create or replace view APOGEE.OBJECTH_ACTEUR as
     union
     select
       ths.cod_ths,
-      'D'              as cod_roj,
+      'K'              as cod_roj,
       ths.cod_per_cdr  as cod_per,
       ths.cod_etb_cdr  as cod_etb,
       ths.cod_cps_cdr  as cod_cps,
@@ -402,7 +408,7 @@ create or replace view APOGEE.OBJECTH_ACTEUR as
     union
     select
       ths.cod_ths,
-      'D'              as cod_roj,
+      'K'              as cod_roj,
       ths.cod_per_cdr2 as cod_per,
       ths.cod_etb_cdr2 as cod_etb,
       ths.cod_cps_cdr2 as cod_cps,
@@ -441,6 +447,8 @@ create or replace view APOGEE.OBJECTH_ACTEUR as
     coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per) as individu_id, -- Code Harpege ou Apogee de l acteur
     act.cod_etb,                                                                                    -- Code etablissement
     etb.lib_etb,                                                                                    -- Libelle etablissement
+    case when etb.cod_dep = '099' then etb.cod_pay_adr_etb else null end          as cod_pay_etb,   -- Code pays etablissement
+    case when etb.cod_dep = '099' then pay.lib_pay         else null end          as lib_pay_etb,   -- Libelle pays etablissement
     cps.cod_cps,                                                                                    -- Code du corps d'appartenance
     cps.lib_cps,                                                                                    -- Libelle du corps d'appartenance
     per.tem_hab_rch_per,                                                                            -- HDR (O/N)
@@ -450,5 +458,95 @@ create or replace view APOGEE.OBJECTH_ACTEUR as
     join personnel            per on per.cod_per = act.cod_per
     left join corps_per       cps on cps.cod_cps = nvl ( act.cod_cps, per.cod_cps )
     left join etablissement   etb on etb.cod_etb = nvl ( act.cod_etb, per.cod_etb )
+    left join pays            pay on pay.cod_pay = etb.cod_pay_adr_etb
     left join role_jury       rjc on rjc.cod_roj = act.cod_roj_compl
 ;
+
+
+----------------------------- STRUCTURE ------------------------------
+
+create view APOGEE.SYGAL_STRUCTURE as
+  select
+    'apogee' as source_id,                  -- Id de la source
+    'ecole-doctorale' as TYPE_STRUCTURE_ID, -- Type de structure
+    edo.cod_nat_edo as id,                  -- Id unique : Identifiant national
+    edo.lic_edo as sigle,                   -- Libellé court
+    edo.lib_edo as libelle,                 -- Denomination
+    null as code_pays,                        --
+    null as libelle_pays                         --
+  from ecole_doctorale edo
+  union
+  -- UR
+  select
+    'apogee' as source_id,                  -- Id de la source
+    'unite-recherche' as TYPE_STRUCTURE_ID, -- Type de structure
+    eqr.cod_eqr as id,                      -- Id unique
+    eqr.lic_eqr as sigle,                   -- Libellé court
+    eqr.lib_eqr as libelle,                 -- Denomination
+    null as code_pays,                        --
+    null as libelle_pays                         --
+  from equipe_rch  eqr
+  union
+  -- Etablissements
+  select
+    'apogee' as source_id,                -- Id de la source
+    'etablissement' as TYPE_STRUCTURE_ID, -- Type de structure
+    etb.cod_etb as id,                    -- Id unique
+    null as sigle,                        --
+    etb.lib_etb as libelle,               -- Libelle
+    pay.cod_pay as code_pays,             -- Code pays
+    pay.lib_pay as libelle_pays           -- Libelle pays
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb = etb.cod_etb and -- établissements de cotutelle
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+;
+
+
+----------------------------- ECOLE_DOCT ------------------------------
+
+create view APOGEE.SYGAL_ECOLE_DOCT as
+  select distinct
+    'apogee' as source_id,            -- Id de la source
+    edo.cod_nat_edo as structure_id,  -- Id de la structure
+    edo.cod_nat_edo as id             -- Id ecole doctorale
+  from ecole_doctorale edo
+;
+
+
+----------------------------- UNITE_RECH ------------------------------
+
+create view APOGEE.SYGAL_UNITE_RECH as
+  select distinct
+    'apogee' as source_id,        -- Id de la source
+    eqr.cod_eqr as structure_id,  -- Id de la structure
+    eqr.cod_eqr as id             -- Id unite de recherche
+  from equipe_rch eqr
+;
+
+
+----------------------------- ETABLISSEMENT ------------------------------
+
+create view APOGEE.SYGAL_ETABLISSEMENT as
+  select distinct
+    'apogee' as source_id,        -- Id de la source
+    etb.cod_etb as structure_id,  -- Id de la structure
+    etb.cod_etb as id,            -- Identifiant unique établissement
+    etb.cod_etb as code           -- Code unique établissement
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb = etb.cod_etb and -- établissements de cotutelle
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+;
+
+
+
+---- Supression des vues mal nommées !
+
+drop view APOGEE.OBJECTH_SOURCE    ;
+drop view APOGEE.OBJECTH_VARIABLE  ;
+drop view APOGEE.OBJECTH_INDIVIDU  ;
+drop view APOGEE.OBJECTH_ROLE      ;
+drop view APOGEE.OBJECTH_DOCTORANT ;
+drop view APOGEE.OBJECTH_THESE     ;
+drop view APOGEE.OBJECTH_ACTEUR    ;
