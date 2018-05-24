@@ -16,6 +16,12 @@ et les met à disposition pour leur lecture via des requêtes GET.
 
 ## Installation
 
+### Obtention des sources
+
+```bash
+$ git clone git@git.unicaen.fr:dsi/sygal-import-ws.git
+```
+
 ### Installation des dépendances
 
 Une fois les sources obtenues, il faut installer les packages requis par le ws.
