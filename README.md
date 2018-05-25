@@ -10,34 +10,36 @@ et les met à disposition pour leur lecture via des requêtes GET.
 ## Technologies employées
 
 *sygal-import-ws* repose sur l'utilisation de :
-- Apigility (https://apigility.org/) pour la fourniture du ws ;
-- Doctrine (http://www.doctrine-project.org/) pour la gestion de la partie BDD (notamment des schémas des tables).
+- [Apigility](https://apigility.org/) pour la fourniture du ws ;
+- [Doctrine](http://www.doctrine-project.org/) pour la gestion de la partie BDD (notamment des schémas des tables).
 
 
 ## Installation
 
 ### Obtention des sources
 
-La première fois que vous installez le ws, vous devez lancer la commande suivante :
+S'il s'agit de la première installation du ws, vous devez lancer la commande suivante pour obtenir les sources :
 
 ```bash
 $ git clone git@git.unicaen.fr:dsi/sygal-import-ws.git
 $ cd sygal-import-ws
 ```
 
+### Installation d'une version précise
+
 Lancer la commande suivante pour obtenir la liste des versions disponibles du ws.
 ```bash
 $ git fetch && git fetch --tags && git tag
 ```
 
-Et si la version la plus récente est par exemple la `1.0`, utilisez la commande suivante pour "basculer" sur cette version :
+Et si la version la plus récente est par exemple la `1.0.0`, utilisez la commande suivante pour "installer" sur cette version :
 ```bash
-$ git checkout 1.0
+$ git checkout 1.0.0
 ```
 
 ### Installation des dépendances
 
-Installez les packages requis par le ws via *composer* (https://getcomposer.org/) comme ceci :
+Installez les packages requis par le ws via [Composer](https://getcomposer.org/) comme ceci :
 ```bash
 $ composer install
 ```
@@ -48,7 +50,7 @@ Ce fichier contient les utilisateurs/mot de passe autorisés à appeler le ws.
 
 S'il s'agit d'une mise à jour du ws, vous avez déjà fait la manip, inutile de lire ce paragraphe.
 
-S'il s'agit de la première installation du ws, placez-vous dans le répertoire `config` des sources et lancer la 
+S'il s'agit de la première installation du ws, placez-vous dans le répertoire [`config`](config) des sources et lancer la 
 commande suivante pour créer le fichier "users.htpasswd" contenant un utilisateur `sygal-app` dont le mot de passe 
 va vous être demandé :
 ```bash
@@ -63,6 +65,7 @@ $ pwgen 16 1 --symbols --secure
 ### Fichiers de config
 
 S'il s'agit d'une mise à jour du ws, vous avez déjà fait la manip, inutile de lire ce paragraphe.
+Reportez-vous au "release notes" de la version choisie (ex: [1.0.0](https://git.unicaen.fr/dsi/sygal-import-ws/tags/1.0.0)).
 
 S'il s'agit de la première installation du ws, 2 fichiers situés dans le répertoire `config/autoload` ont besoin d'être 
 complétés puis renommés :
@@ -79,7 +82,7 @@ Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
 Passer en mode développement ouvre l'accès à l'interface Apigility de modification du ws.
 Cette fonctionnalité est réservée aux développeurs du ws et est **INTERDIT EN PRODUCTION**.
 
-Désactivez le mode développement ainsi :
+Assurez-vous de bien désactiver le mode développement :
 ```bash
 $ composer development-disable
 ``` 
