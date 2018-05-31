@@ -41,7 +41,7 @@ $ git checkout 1.0.0
 
 Installez les packages requis par le ws via [Composer](https://getcomposer.org/) comme ceci :
 ```bash
-$ composer install
+$ composer install --no-suggest --optimize-autoloader
 ```
 
 ### Fichier "users.htpasswd"

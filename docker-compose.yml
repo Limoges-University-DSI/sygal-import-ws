@@ -5,7 +5,6 @@ services:
     container_name: sygal-import-ws-container
     build:
       context: .
-      dockerfile: Dockerfile.php7.dev
     ports:
      - "8080:8080"
      - "8443:8443"
