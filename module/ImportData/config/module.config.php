@@ -1,5 +1,7 @@
 <?php
 
+use ImportData\V1\Rest\Acteur\ActeurFetchAll;
+
 return [
     'doctrine' => [
         'driver' => [
@@ -16,6 +18,14 @@ return [
                     'ImportData\\V1\\Entity\\Db' => 'orm_default_xml_driver',
                 ],
             ],
+        ],
+    ],
+    'zf-apigility-doctrine-query-provider' => [
+        'aliases' => [
+            'acteur_fetch_all' => ActeurFetchAll::class,
+        ],
+        'factories' => [
+            ActeurFetchAll::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
     ],
     'router' => [
@@ -206,7 +216,9 @@ return [
             'collection_http_methods' => [
                 0 => 'GET',
             ],
-            'collection_query_whitelist' => [],
+            'collection_query_whitelist' => [
+                0 => 'these_id',
+            ],
             'page_size' => '250000000000000000000',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Acteur::class,
@@ -438,6 +450,10 @@ return [
                 0 => 'application/json',
                 1 => 'application/*+json',
             ],
+            'ImportData\\V1\\Rest\\Acteur\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
         ],
         'content_type_whitelist' => [
             'ImportData\\V1\\Rest\\Structure\\Controller' => [
@@ -450,6 +466,9 @@ return [
                 0 => 'application/json',
             ],
             'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Acteur\\Controller' => [
                 0 => 'application/json',
             ],
         ],
@@ -596,6 +615,10 @@ return [
             \ImportData\V1\Rest\Acteur\ActeurResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'ImportData\\V1\\Rest\\Acteur\\ActeurHydrator',
+                'query_providers' => [
+                    'default' => 'default_orm',
+                    'fetch_all' => 'acteur_fetch_all',
+                ],
             ],
             \ImportData\V1\Rest\Role\RoleResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
