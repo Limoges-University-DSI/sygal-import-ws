@@ -116,31 +116,26 @@ $ docker ps
 ```
 
 Le port sur lequel écoute le ws est indiqué dans la colonne `PORTS`. 
-Par exemple, `0.0.0.0:8080->8080/tcp` indique que le ws est accessible sur la machine hôte 
-à l'adresse `localhost:8080`.
+Par exemple, `0.0.0.0:8443->8443/tcp` indique que le ws est accessible sur la machine hôte 
+à l'adresse `https://localhost:8443`.
 
 
 ## Les services fournis
  
 Chaque vue en base de données peut être interrogée via un service dédié :
-* Acteur :              localhost:8080/acteur
-* Doctorant :           localhost:8080/doctorant
-* Individu :            localhost:8080/individu
-* Role :                localhost:8080/role
-* Source :              localhost:8080/source
-* These :               localhost:8080/these
-* Variable :            localhost:8080/variable
-* Structure :           localhost:8080/structure
-* Etablissement :       localhost:8080/etablissement
-* Ecole doctorale :     localhost:8080/ecole-doctorale
-* Unite de recherche :  localhost:8080/unite-recherche
+* Acteur :              https://localhost:8443/acteur
+* Doctorant :           https://localhost:8443/doctorant
+* Individu :            https://localhost:8443/individu
+* Role :                https://localhost:8443/role
+* Source :              https://localhost:8443/source
+* These :               https://localhost:8443/these
+* Variable :            https://localhost:8443/variable
+* Structure :           https://localhost:8443/structure
+* Etablissement :       https://localhost:8443/etablissement
+* Ecole doctorale :     https://localhost:8443/ecole-doctorale
+* Unite de recherche :  https://localhost:8443/unite-recherche
 
 Exemple :
-```bash
-$ curl --header "Accept: application/json" --header "Authorization: Basic xxxx" localhost:8080/variable
-```
-
-Ou en https :
 ```bash
 $ curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable
 ```
@@ -154,7 +149,7 @@ $ echo -n 'sygal-app:motdepasse' | base64
 L'interrogation directe de ces adresses va retourner l'intégralité des données du BDD.
 Afin d'obtenir les informations spécifiques à une donnée, il est possible d'ajouter son identifiant, exemple :
 ```bash
-$ curl --header "Accept: application/json" --header "Authorization: Basic xxxx" localhost:8080/variable/ETB_LIB_NOM_RESP
+$ curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable/ETB_LIB_NOM_RESP
 ```
 
 
