@@ -79,9 +79,12 @@ Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
 
 ### Interface d'admin Apigility
 
-Passer en mode développement ouvre l'accès à l'interface Apigility de modification du ws.
-Cette fonctionnalité est réservée aux développeurs du ws et est **INTERDIT EN PRODUCTION**.
+Passez en mode développement pour ouvrir l'accès à l'interface Apigility de modification du WS :
+```bash
+$ composer development-enable
+``` 
 
+Cette fonctionnalité est réservée aux développeurs du WS et est **INTERDIT EN PRODUCTION**.
 Assurez-vous de bien désactiver le mode développement :
 ```bash
 $ composer development-disable
@@ -116,7 +119,7 @@ $ docker ps
 ```
 
 Le port sur lequel écoute le ws est indiqué dans la colonne `PORTS`. 
-Par exemple, `0.0.0.0:8443->8443/tcp` indique que le ws est accessible sur la machine hôte 
+Par exemple, `0.0.0.0:443->8443/tcp` indique que le ws est accessible sur la machine hôte 
 à l'adresse `https://localhost:8443`.
 
 
@@ -146,7 +149,13 @@ Remplacer `xxxx` par le token généré grâce à la commande suivante
 $ echo -n 'sygal-app:motdepasse' | base64
 ```
 
-L'interrogation directe de ces adresses va retourner l'intégralité des données du BDD.
+Il se peut que vous soyez obligé de contourner le proxy en faisant ceci :
+```bash
+$ export no_proxy=localhost
+```
+
+L'interrogation d'un service sans paramètre va retourner l'intégralité des données concernées.
+
 Afin d'obtenir les informations spécifiques à une donnée, il est possible d'ajouter son identifiant, exemple :
 ```bash
 $ curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable/ETB_LIB_NOM_RESP
