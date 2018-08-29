@@ -2,7 +2,6 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * Acteur
  */
@@ -13,10 +12,9 @@ class Acteur
     protected $theseId;
     protected $roleId;
     protected $individuId;
+    protected $acteurEtablissementId;
     protected $codeRoleJury;
     protected $libRoleJury;
-    protected $codeEtablissement;
-    protected $libEtablissement;
     protected $codeQualite;
     protected $libQualite;
     protected $temoinHDR;
@@ -105,6 +103,25 @@ class Acteur
     /**
      * @return mixed
      */
+    public function getActeurEtablissementId()
+    {
+        return $this->acteurEtablissementId;
+    }
+
+    /**
+     * @param mixed $acteurEtablissementId
+     * @return Acteur
+     */
+    public function setActeurEtablissementId($acteurEtablissementId)
+    {
+        $this->acteurEtablissementId = $acteurEtablissementId;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCodeRoleJury()
     {
         return $this->codeRoleJury;
@@ -132,38 +149,6 @@ class Acteur
     public function setLibRoleJury($libRoleJury)
     {
         $this->libRoleJury = $libRoleJury;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodeEtablissement()
-    {
-        return $this->codeEtablissement;
-    }
-
-    /**
-     * @param mixed $codeEtablissement
-     */
-    public function setCodeEtablissement($codeEtablissement)
-    {
-        $this->codeEtablissement = $codeEtablissement;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLibEtablissement()
-    {
-        return $this->libEtablissement;
-    }
-
-    /**
-     * @param mixed $libEtablissement
-     */
-    public function setLibEtablissement($libEtablissement)
-    {
-        $this->libEtablissement = $libEtablissement;
     }
 
     /**
@@ -229,6 +214,4 @@ class Acteur
     {
         $this->temoinRapport = $temoinRapport;
     }
-
-
 }

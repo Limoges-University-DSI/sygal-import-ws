@@ -21,27 +21,27 @@ et les met à disposition pour leur lecture via des requêtes GET.
 S'il s'agit de la première installation du ws, vous devez lancer la commande suivante pour obtenir les sources :
 
 ```bash
-$ git clone git@git.unicaen.fr:dsi/sygal-import-ws.git
-$ cd sygal-import-ws
+git clone git@git.unicaen.fr:dsi/sygal-import-ws.git
+cd sygal-import-ws
 ```
 
 ### Installation d'une version précise
 
 Lancer la commande suivante pour obtenir la liste des versions disponibles du ws.
 ```bash
-$ git fetch && git fetch --tags && git tag
+git fetch && git fetch --tags && git tag
 ```
 
 Et si la version la plus récente est par exemple la `1.0.0`, utilisez la commande suivante pour "installer" sur cette version :
 ```bash
-$ git checkout 1.0.0
+git checkout 1.0.0
 ```
 
 ### Installation des dépendances
 
 Installez les packages requis par le ws via [Composer](https://getcomposer.org/) comme ceci :
 ```bash
-$ composer install --no-suggest --optimize-autoloader
+composer install --no-suggest --optimize-autoloader
 ```
 
 ### Fichier "users.htpasswd"
@@ -54,12 +54,12 @@ S'il s'agit de la première installation du ws, placez-vous dans le répertoire 
 commande suivante pour créer le fichier "users.htpasswd" contenant un utilisateur `sygal-app` dont le mot de passe 
 va vous être demandé :
 ```bash
-$ htpasswd -c users.htpasswd sygal-app
+htpasswd -c users.htpasswd sygal-app
 ```
 
 Si vous manquez d'idée pour le mot de passe, utilsez la commande suivante :
 ```bash
-$ pwgen 16 1 --symbols --secure
+pwgen 16 1 --symbols --secure
 ```
 
 ### Fichiers de config
@@ -81,13 +81,13 @@ Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
 
 Passez en mode développement pour ouvrir l'accès à l'interface Apigility de modification du WS :
 ```bash
-$ composer development-enable
+composer development-enable
 ``` 
 
 Cette fonctionnalité est réservée aux développeurs du WS et est **INTERDIT EN PRODUCTION**.
 Assurez-vous de bien désactiver le mode développement :
 ```bash
-$ composer development-disable
+composer development-disable
 ``` 
 
 
@@ -100,7 +100,7 @@ En phase de développement, la façon la plus simple consiste en l'utilisation
 du serveur interne de php :
 
  ```bash
-$ php -S 0.0.0.0:8080 -ddisplay_errors=0 -t public public/index.php
+php -S 0.0.0.0:8080 -ddisplay_errors=0 -t public public/index.php
  ```
 
 ### Solution 2 : Docker
@@ -108,14 +108,14 @@ $ php -S 0.0.0.0:8080 -ddisplay_errors=0 -t public public/index.php
 Se placer à la racine des sources du ws pour lancer la commande suivante :
 
 ```bash
-$ docker-compose up -d --build
+docker-compose up -d --build
 ```
 
 Vérifier que le container `sygal-import-ws-container` figure bien dans la liste des containers
 lancés listés par la commande suivante (cf. colonne `NAMES`) :
 
 ```bash
-$ docker ps
+docker ps
 ```
 
 Le port sur lequel écoute le ws est indiqué dans la colonne `PORTS`. 
@@ -140,25 +140,30 @@ Chaque vue en base de données peut être interrogée via un service dédié :
 
 Exemple :
 ```bash
-$ curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable
+curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable
 ```
 
 Remplacer `xxxx` par le token généré grâce à la commande suivante 
 (le mot de passe est celui choisi lors de la commande `htpasswd -c users.htpasswd sygal-app`) :
 ```bash
-$ echo -n 'sygal-app:motdepasse' | base64
+echo -n 'sygal-app:motdepasse' | base64
 ```
 
 Il se peut que vous soyez obligé de contourner le proxy en faisant ceci :
 ```bash
-$ export no_proxy=localhost
+export no_proxy=localhost
 ```
 
 L'interrogation d'un service sans paramètre va retourner l'intégralité des données concernées.
 
 Afin d'obtenir les informations spécifiques à une donnée, il est possible d'ajouter son identifiant, exemple :
 ```bash
-$ curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable/ETB_LIB_NOM_RESP
+curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable/ETB_LIB_NOM_RESP
+```
+
+Pour mettre en forme le JSON retourné et faciliter la lecture, une solution est d'utiliser `python -m json.tool`:
+```bash
+curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxx" https://localhost:8443/variable | python -m json.tool
 ```
 
 
@@ -166,3 +171,13 @@ $ curl --insecure --header "Accept: application/json" --header "Authorization: B
 
 * Le web service ne répond qu'aux requêtes de type GET.
 * Le web service retourne du json seulement.
+
+
+## Service Acteur
+
+Ce service accepte un paramètre supplémentaire : un identifiant de thèse (source code) peut être spécifié pour obtenir 
+les acteurs de cette seule thèse. 
+Exemple :
+```bash
+curl --insecure --header "Accept: application/json" --header "Authorization: Basic xxxxx" https://localhost:8443/acteur?these_id=13111
+```
