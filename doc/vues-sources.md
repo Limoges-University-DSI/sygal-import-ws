@@ -9,17 +9,17 @@ Elle interroge soit la base de données Apogée (Caen, Le Havre, Rouen), soit Ph
 
 Il existe une vue par "service" :
 
-    Service "acteur"     : vue SYGAL_ACTEUR
-    Service "doctorant"  : vue SYGAL_DOCTORANT
-    Service "ecole_doct" : vue SYGAL_ECOLE_DOCT
-    Service "etab"       : vue SYGAL_ETAB
-    Service "individu"   : vue SYGAL_INDIVIDU
-    Service "role"       : vue SYGAL_ROLE
-    Service "source"     : vue SYGAL_SOURCE
-    Service "structure"  : vue SYGAL_STRUCTURE
-    Service "these"      : vue SYGAL_THESE
-    Service "unite_rech" : vue SYGAL_UNITE_RECH
-    Service "variable"   : vue SYGAL_VARIABLE
+    Service "acteur"            : vue SYGAL_ACTEUR
+    Service "doctorant"         : vue SYGAL_DOCTORANT
+    Service "ecole-doctorale"   : vue SYGAL_ECOLE_DOCT
+    Service "etablissement"     : vue SYGAL_ETAB
+    Service "individu"          : vue SYGAL_INDIVIDU
+    Service "role"              : vue SYGAL_ROLE
+    Service "source"            : vue SYGAL_SOURCE
+    Service "structure"         : vue SYGAL_STRUCTURE
+    Service "these"             : vue SYGAL_THESE
+    Service "unite-recherche"   : vue SYGAL_UNITE_RECH
+    Service "variable"          : vue SYGAL_VARIABLE
   
 ## Colonnes
 

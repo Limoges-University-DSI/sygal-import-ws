@@ -6,15 +6,10 @@
 -- Web Service d'import de données
 -- -------------------------------
 --
--- Vues APOGEE : Caen
+-- Vues APOGEE spécifiques à Caen.
 --
 
-
------------------------------ VARIABLES ------------------------------
-
--- VARIABLES définies manuellement :
-
-create view APOGEE.SYGAL_VARIABLE_MANU AS
+create or replace view SYGAL_VARIABLE_MANU as
   select
     'apogee' as source_id,
     'EMAIL_ASSISTANCE' as id,
@@ -44,4 +39,4 @@ create view APOGEE.SYGAL_VARIABLE_MANU AS
     to_date('2017-01-01', 'YYYY-MM-DD') as DATE_DEB_VALIDITE,
     to_date('9999-12-31', 'YYYY-MM-DD') as DATE_FIN_VALIDITE
   from dual
-;
+/

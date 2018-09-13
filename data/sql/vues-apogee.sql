@@ -6,29 +6,10 @@
 -- Web Service d'import de données
 -- -------------------------------
 --
--- Vues APOGEE.
+-- Vues
 --
 
-
------------------------------ SOURCE ------------------------------
-
-create view APOGEE.SYGAL_SOURCE as
-  select
-    'apogee' as id,
-    'apogee' as code,
-    'Apogée' as libelle,
-    1        as importable
-  from dual
-;
-
-
------------------------------ VARIABLES ------------------------------
-
--- VARIABLES définies manuellement : cf. script "vues-apogee-{etab}.sql".
-
--- VARIABLES isssues d'Apogée :
-
-create view APOGEE.SYGAL_VARIABLE AS
+create or replace view SYGAL_VARIABLE as
   select
     'apogee'            as source_id,       -- Id de la source
     cod_vap             as id,
@@ -55,14 +36,19 @@ create view APOGEE.SYGAL_VARIABLE AS
     DATE_DEB_VALIDITE,
     DATE_FIN_VALIDITE
   from
-    APOGEE.SYGAL_VARIABLE_MANU
-;
+    SYGAL_VARIABLE_MANU
+/
 
+create or replace view SYGAL_SOURCE as
+  select
+    'apogee' as id,
+    'apogee' as code,
+    'Apogée' as libelle,
+    1        as importable
+  from dual
+/
 
------------------------------ INDIVIDU ------------------------------
-
-create view APOGEE.SYGAL_INDIVIDU as
-  -- doctorants
+create or replace view SYGAL_INDIVIDU as
   select distinct
     'apogee'                                            as source_id,       -- Id de la source
     'doctorant'                                         as type,
@@ -169,23 +155,18 @@ create view APOGEE.SYGAL_INDIVIDU as
     --left join etablissement   etb on etb.cod_etb = nvl ( act.cod_etb, per.cod_etb )
     --left join role_jury       rjc on rjc.cod_roj = act.cod_roj_compl
   )
-;
+/
 
-
------------------------------ ROLE ------------------------------
-
-create view APOGEE.SYGAL_ROLE as
+create or replace view SYGAL_ROLE as
   select
     'apogee' as source_id, -- Id de la source
     COD_ROJ as id,
     LIB_ROJ,
     LIC_ROJ
-  from role_jury;
+  from role_jury
+/
 
-
------------------------------ DOCTORANT ------------------------------
-
-create view APOGEE.SYGAL_DOCTORANT as
+create or replace view SYGAL_DOCTORANT as
   select distinct
     'apogee' as source_id, -- Id de la source
     ind.cod_etu                                         as id,            -- Identifiant du doctorant
@@ -209,13 +190,10 @@ create view APOGEE.SYGAL_DOCTORANT as
         and dip.cod_tpd_etb     in ( '39', '40' )
         and tpd.eta_ths_hdr_drt =  'T'  -- Inscription en these
         and tpd.tem_sante       =  'N'  -- Exclusion des theses d exercice
-        and cod_etu is not null         -- oui, oui, ça arrive
-;
+        and cod_etu is not null
+/
 
-
------------------------------ THESE ------------------------------
-
-create view APOGEE.SYGAL_THESE as
+create or replace view SYGAL_THESE as
   with inscription_administrative as (
       select
         iae.cod_ind,
@@ -377,12 +355,9 @@ create view APOGEE.SYGAL_THESE as
     left join langue                lng on lng.cod_lng = ths.cod_lng
   where ths.cod_ths_trv = '1'     --  Exclusion des travaux
         and anc.cod_dip_anc is null
-;
+/
 
-
------------------------------ ACTEUR ------------------------------
-
-create view APOGEE.SYGAL_ACTEUR as
+create or replace view SYGAL_ACTEUR as
   with acteur as (
     select
       ths.cod_ths,
@@ -439,20 +414,20 @@ create view APOGEE.SYGAL_ACTEUR as
   )
   select distinct
     rownum                                                                        as id,
-    'apogee'                                                                      as source_id,     -- Id de la source
-    act.cod_ths                                                                   as these_id,      -- Identifiant de la these
-    roj.cod_roj                                                                   as role_id,       -- Identifiant du rôle
-    cast(act.cod_roj_compl as varchar2(1 char))                                   as cod_roj_compl, -- Code du complement sur le role dans le jury
-    rjc.lib_roj                                                                   as lib_roj_compl, -- Libelle du complement sur le role dans le jury
+    'apogee'                                                                      as source_id,        -- Id de la source
+    act.cod_ths                                                                   as these_id,         -- Identifiant de la these
+    roj.cod_roj                                                                   as role_id,          -- Identifiant du rôle
+    cast(act.cod_roj_compl as varchar2(1 char))                                   as cod_roj_compl,    -- Code du complement sur le role dans le jury
+    rjc.lib_roj                                                                   as lib_roj_compl,    -- Libelle du complement sur le role dans le jury
     coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per) as individu_id, -- Code Harpege ou Apogee de l acteur
-    act.cod_etb,                                                                                    -- Code etablissement
-    etb.lib_etb,                                                                                    -- Libelle etablissement
-    case when etb.cod_dep = '099' then etb.cod_pay_adr_etb else null end          as cod_pay_etb,   -- Code pays etablissement
-    case when etb.cod_dep = '099' then pay.lib_pay         else null end          as lib_pay_etb,   -- Libelle pays etablissement
-    cps.cod_cps,                                                                                    -- Code du corps d'appartenance
-    cps.lib_cps,                                                                                    -- Libelle du corps d'appartenance
-    per.tem_hab_rch_per,                                                                            -- HDR (O/N)
-    act.tem_rap_recu                                                                                -- Rapport recu (O/N)
+    nvl ( act.cod_etb, per.cod_etb ),                                                                  -- Code etablissement
+    etb.lib_etb,                                                                                       -- Libelle etablissement
+    case when etb.cod_dep = '099' then etb.cod_pay_adr_etb else null end          as cod_pay_etb,      -- Code pays etablissement
+    case when etb.cod_dep = '099' then pay.lib_pay         else null end          as lib_pay_etb,      -- Libelle pays etablissement
+    cps.cod_cps,                                                                                       -- Code du corps d'appartenance
+    cps.lib_cps,                                                                                       -- Libelle du corps d'appartenance
+    per.tem_hab_rch_per,                                                                               -- HDR (O/N)
+    act.tem_rap_recu                                                                                   -- Rapport recu (O/N)
   from acteur               act
     join role_jury            roj on roj.cod_roj = act.cod_roj
     join personnel            per on per.cod_per = act.cod_per
@@ -460,12 +435,9 @@ create view APOGEE.SYGAL_ACTEUR as
     left join etablissement   etb on etb.cod_etb = nvl ( act.cod_etb, per.cod_etb )
     left join pays            pay on pay.cod_pay = etb.cod_pay_adr_etb
     left join role_jury       rjc on rjc.cod_roj = act.cod_roj_compl
-;
+/
 
-
------------------------------ STRUCTURE ------------------------------
-
-create view APOGEE.SYGAL_STRUCTURE as
+create or replace view SYGAL_STRUCTURE as
   select
     'apogee' as source_id,                  -- Id de la source
     'ecole-doctorale' as TYPE_STRUCTURE_ID, -- Type de structure
@@ -487,7 +459,7 @@ create view APOGEE.SYGAL_STRUCTURE as
     null as libelle_pays                         --
   from equipe_rch  eqr
   union
-  -- Etablissements
+  -- Etablissements de cotutelle
   select
     'apogee' as source_id,                -- Id de la source
     'etablissement' as TYPE_STRUCTURE_ID, -- Type de structure
@@ -500,34 +472,101 @@ create view APOGEE.SYGAL_STRUCTURE as
     join these_hdr_sout ths on ths.cod_etb = etb.cod_etb and -- établissements de cotutelle
                                ths.cod_ths_trv = '1' -- travaux exclus
     left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
-;
+  union
+  -- Etablissements des directeurs de theses
+  select
+    'apogee' as source_id,                -- Id de la source
+    'etablissement' as TYPE_STRUCTURE_ID, -- Type de structure
+    etb.cod_etb as id,                    -- Id unique
+    null as sigle,                        --
+    etb.lib_etb as libelle,               -- Libelle
+    pay.cod_pay as code_pays,             -- Code pays
+    pay.lib_pay as libelle_pays           -- Libelle pays
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb_dir = etb.cod_etb and -- établissements des directeurs de theses
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  union
+  -- Etablissements des co-directeurs de theses
+  select
+    'apogee' as source_id,                -- Id de la source
+    'etablissement' as TYPE_STRUCTURE_ID, -- Type de structure
+    etb.cod_etb as id,                    -- Id unique
+    null as sigle,                        --
+    etb.lib_etb as libelle,               -- Libelle
+    pay.cod_pay as code_pays,             -- Code pays
+    pay.lib_pay as libelle_pays           -- Libelle pays
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb_cdr = etb.cod_etb and -- établissements des co-directeurs de theses
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  union
+  -- Etablissements des seconds co-directeurs de theses
+  select
+    'apogee' as source_id,                -- Id de la source
+    'etablissement' as TYPE_STRUCTURE_ID, -- Type de structure
+    etb.cod_etb as id,                    -- Id unique
+    null as sigle,                        --
+    etb.lib_etb as libelle,               -- Libelle
+    pay.cod_pay as code_pays,             -- Code pays
+    pay.lib_pay as libelle_pays           -- Libelle pays
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb_cdr2 = etb.cod_etb and -- établissements des seconds co-directeurs de theses
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  union
+  -- Etablissements des rapporteurs
+  select
+    'apogee' as source_id,                -- Id de la source
+    'etablissement' as TYPE_STRUCTURE_ID, -- Type de structure
+    etb.cod_etb as id,                    -- Id unique
+    null as sigle,                        --
+    etb.lib_etb as libelle,               -- Libelle
+    pay.cod_pay as code_pays,             -- Code pays
+    pay.lib_pay as libelle_pays           -- Libelle pays
+  from etablissement etb
+    join personnel   per on per.cod_etb = etb.cod_etb -- établissements des rapporteurs
+    join ths_rap_sou trs on trs.cod_per = per.cod_per
+    join these_hdr_sout ths on ths.cod_ths = trs.cod_ths and
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  where per.tem_ext_int_per = 'X' -- personnels exterieurs uniquement
+  union
+  -- Etablissements des membres du jury
+  select
+    'apogee' as source_id,                -- Id de la source
+    'etablissement' as TYPE_STRUCTURE_ID, -- Type de structure
+    etb.cod_etb as id,                    -- Id unique
+    null as sigle,                        --
+    etb.lib_etb as libelle,               -- Libelle
+    pay.cod_pay as code_pays,             -- Code pays
+    pay.lib_pay as libelle_pays           -- Libelle pays
+  from etablissement etb
+    join personnel   per on per.cod_etb = etb.cod_etb -- établissements des membres du jury
+    join ths_jur_per tjp on tjp.cod_per = per.cod_per
+    join these_hdr_sout ths on ths.cod_ths = tjp.cod_ths and
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  where per.tem_ext_int_per = 'X'
+/
 
-
------------------------------ ECOLE_DOCT ------------------------------
-
-create view APOGEE.SYGAL_ECOLE_DOCT as
+create or replace view SYGAL_ECOLE_DOCT as
   select distinct
     'apogee' as source_id,            -- Id de la source
     edo.cod_nat_edo as structure_id,  -- Id de la structure
     edo.cod_nat_edo as id             -- Id ecole doctorale
   from ecole_doctorale edo
-;
+/
 
-
------------------------------ UNITE_RECH ------------------------------
-
-create view APOGEE.SYGAL_UNITE_RECH as
+create or replace view SYGAL_UNITE_RECH as
   select distinct
     'apogee' as source_id,        -- Id de la source
     eqr.cod_eqr as structure_id,  -- Id de la structure
     eqr.cod_eqr as id             -- Id unite de recherche
   from equipe_rch eqr
-;
+/
 
-
------------------------------ ETABLISSEMENT ------------------------------
-
-create view APOGEE.SYGAL_ETABLISSEMENT as
+create or replace view SYGAL_ETABLISSEMENT as
   select distinct
     'apogee' as source_id,        -- Id de la source
     etb.cod_etb as structure_id,  -- Id de la structure
@@ -537,16 +576,65 @@ create view APOGEE.SYGAL_ETABLISSEMENT as
     join these_hdr_sout ths on ths.cod_etb = etb.cod_etb and -- établissements de cotutelle
                                ths.cod_ths_trv = '1' -- travaux exclus
     left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
-;
-
-
-
----- Supression des vues mal nommées !
-
-drop view APOGEE.OBJECTH_SOURCE    ;
-drop view APOGEE.OBJECTH_VARIABLE  ;
-drop view APOGEE.OBJECTH_INDIVIDU  ;
-drop view APOGEE.OBJECTH_ROLE      ;
-drop view APOGEE.OBJECTH_DOCTORANT ;
-drop view APOGEE.OBJECTH_THESE     ;
-drop view APOGEE.OBJECTH_ACTEUR    ;
+  union
+  -- Etablissements des directeurs de theses
+  select
+    'apogee' as source_id,        -- Id de la source
+    etb.cod_etb as structure_id,  -- Id de la structure
+    etb.cod_etb as id,            -- Identifiant unique établissement
+    etb.cod_etb as code           -- Code unique établissement
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb_dir = etb.cod_etb and -- établissements des directeurs de theses
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  union
+  -- Etablissements des co-directeurs de theses
+  select
+    'apogee' as source_id,        -- Id de la source
+    etb.cod_etb as structure_id,  -- Id de la structure
+    etb.cod_etb as id,            -- Identifiant unique établissement
+    etb.cod_etb as code           -- Code unique établissement
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb_cdr = etb.cod_etb and -- établissements des co-directeurs de theses
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  union
+  -- Etablissements des seconds co-directeurs de theses
+  select
+    'apogee' as source_id,        -- Id de la source
+    etb.cod_etb as structure_id,  -- Id de la structure
+    etb.cod_etb as id,            -- Identifiant unique établissement
+    etb.cod_etb as code           -- Code unique établissement
+  from etablissement etb
+    join these_hdr_sout ths on ths.cod_etb_cdr2 = etb.cod_etb and -- établissements des seconds co-directeurs de theses
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  union
+  -- Etablissements des rapporteurs
+  select
+    'apogee' as source_id,        -- Id de la source
+    etb.cod_etb as structure_id,  -- Id de la structure
+    etb.cod_etb as id,            -- Identifiant unique établissement
+    etb.cod_etb as code           -- Code unique établissement
+  from etablissement etb
+    join personnel   per on per.cod_etb = etb.cod_etb -- établissements des rapporteurs
+    join ths_rap_sou trs on trs.cod_per = per.cod_per
+    join these_hdr_sout ths on ths.cod_ths = trs.cod_ths and
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  where per.tem_ext_int_per = 'X' -- personnels exterieurs uniquement
+  union
+  -- Etablissements des membres du jury
+  select
+    'apogee' as source_id,        -- Id de la source
+    etb.cod_etb as structure_id,  -- Id de la structure
+    etb.cod_etb as id,            -- Identifiant unique établissement
+    etb.cod_etb as code           -- Code unique établissement
+  from etablissement etb
+    join personnel   per on per.cod_etb = etb.cod_etb -- établissements des membres du jury
+    join ths_jur_per tjp on tjp.cod_per = per.cod_per
+    join these_hdr_sout ths on ths.cod_ths = tjp.cod_ths and
+                               ths.cod_ths_trv = '1' -- travaux exclus
+    left join pays pay on pay.cod_pay = etb.cod_pay_adr_etb
+  where per.tem_ext_int_per = 'X'
+/
