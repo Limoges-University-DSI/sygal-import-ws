@@ -1,32 +1,35 @@
 # Installation
 
-## Obtention des sources
+
+## Première installation
 
 S'il s'agit de la première installation du ws, vous devez lancer la commande suivante pour obtenir les sources :
 
 ```bash
 git clone git@git.unicaen.fr:dsi/sygal-import-ws.git
-cd sygal-import-ws
 ```
+
 
 ## Installation d'une version précise
 
-Lancer la commande suivante pour obtenir la liste des versions disponibles du ws.
+Placez-vous dans le répertoire du web service puis lancez la commande git suivante pour obtenir la liste des versions disponibles du ws :
 ```bash
 git fetch && git fetch --tags && git tag
 ```
 
-Et si la version la plus récente est par exemple la `1.1.0`, utilisez la commande suivante pour "installer" sur cette version :
+Si la version la plus récente est par exemple la `1.1.0`, utilisez la commande suivante pour "installer" sur cette version :
 ```bash
 git checkout 1.1.0
 ```
 
-## Installation des dépendances
+
+## Installation des dépendances PHP
 
 Installez les packages requis par le ws via [Composer](https://getcomposer.org/) comme ceci :
 ```bash
 composer install --no-suggest --optimize-autoloader
 ```
+
 
 ## Fichier "users.htpasswd"
 
@@ -60,6 +63,7 @@ complétés puis renommés :
     - clés `host`, `dbname`, `port`, `user`, `password` : les infos d'accès à la BDD.
  
 Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
+
 
 ## Interface d'admin Apigility
 
