@@ -9,6 +9,15 @@
 -- Vues
 --
 
+create or replace view SYGAL_SOURCE as
+  select
+    'apogee' as id,
+    'apogee' as code,
+    'Apogée' as libelle,
+    1        as importable
+  from dual
+/
+
 create or replace view SYGAL_VARIABLE as
   select
     'apogee'            as source_id,       -- Id de la source
@@ -36,16 +45,7 @@ create or replace view SYGAL_VARIABLE as
     DATE_DEB_VALIDITE,
     DATE_FIN_VALIDITE
   from
-    SYGAL_VARIABLE_MANU
-/
-
-create or replace view SYGAL_SOURCE as
-  select
-    'apogee' as id,
-    'apogee' as code,
-    'Apogée' as libelle,
-    1        as importable
-  from dual
+    APOGEE.SYGAL_VARIABLE_MANU
 /
 
 create or replace view SYGAL_INDIVIDU as
@@ -360,6 +360,7 @@ create or replace view SYGAL_THESE as
 create or replace view SYGAL_ACTEUR as
   with acteur as (
     select
+      'D_' || rowid as id,
       ths.cod_ths,
       'D'              as cod_roj,
       ths.cod_per_dir  as cod_per,
@@ -371,6 +372,7 @@ create or replace view SYGAL_ACTEUR as
     where ths.cod_ths_trv = '1' and ths.cod_per_dir is not null
     union
     select
+      'K1_' || rowid as id,
       ths.cod_ths,
       'K'              as cod_roj,
       ths.cod_per_cdr  as cod_per,
@@ -382,6 +384,7 @@ create or replace view SYGAL_ACTEUR as
     where ths.cod_ths_trv = '1' and ths.cod_per_cdr is not null
     union
     select
+      'K2_' || rowid as id,
       ths.cod_ths,
       'K'              as cod_roj,
       ths.cod_per_cdr2 as cod_per,
@@ -393,6 +396,7 @@ create or replace view SYGAL_ACTEUR as
     where ths.cod_ths_trv = '1' and ths.cod_per_cdr2 is not null
     union
     select
+      'R_' || rowid as id,
       trs.cod_ths,
       'R'              as cod_roj,
       trs.cod_per,
@@ -403,6 +407,7 @@ create or replace view SYGAL_ACTEUR as
     from ths_rap_sou trs
     union
     select
+      'M_' || rowid as id,
       tjp.cod_ths,
       'M'              as cod_roj,
       tjp.cod_per,
@@ -413,15 +418,14 @@ create or replace view SYGAL_ACTEUR as
     from ths_jur_per tjp
   )
   select distinct
-    rownum                                                                        as id,
+    act.id                                                                        as id,
     'apogee'                                                                      as source_id,        -- Id de la source
     act.cod_ths                                                                   as these_id,         -- Identifiant de la these
     roj.cod_roj                                                                   as role_id,          -- Identifiant du rôle
     cast(act.cod_roj_compl as varchar2(1 char))                                   as cod_roj_compl,    -- Code du complement sur le role dans le jury
     rjc.lib_roj                                                                   as lib_roj_compl,    -- Libelle du complement sur le role dans le jury
     coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per) as individu_id, -- Code Harpege ou Apogee de l acteur
-    nvl ( act.cod_etb, per.cod_etb ),                                                                  -- Code etablissement
-    etb.lib_etb,                                                                                       -- Libelle etablissement
+    nvl ( act.cod_etb, per.cod_etb )                                              as acteur_etablissement_id, -- Id de l'etablissement de l'acteur
     case when etb.cod_dep = '099' then etb.cod_pay_adr_etb else null end          as cod_pay_etb,      -- Code pays etablissement
     case when etb.cod_dep = '099' then pay.lib_pay         else null end          as lib_pay_etb,      -- Libelle pays etablissement
     cps.cod_cps,                                                                                       -- Code du corps d'appartenance
