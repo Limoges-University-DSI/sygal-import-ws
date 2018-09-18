@@ -1,7 +1,4 @@
 <?php
-
-use ImportData\V1\Rest\Acteur\ActeurFetchAll;
-
 return [
     'doctrine' => [
         'driver' => [
@@ -22,10 +19,10 @@ return [
     ],
     'zf-apigility-doctrine-query-provider' => [
         'aliases' => [
-            'acteur_fetch_all' => ActeurFetchAll::class,
+            'acteur_fetch_all' => \ImportData\V1\Rest\Acteur\ActeurFetchAll::class,
         ],
         'factories' => [
-            ActeurFetchAll::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \ImportData\V1\Rest\Acteur\ActeurFetchAll::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
     ],
     'router' => [
@@ -160,7 +157,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\These::class,
             'collection_class' => \ImportData\V1\Rest\These\TheseCollection::class,
@@ -179,7 +176,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Doctorant::class,
             'collection_class' => \ImportData\V1\Rest\Doctorant\DoctorantCollection::class,
@@ -198,7 +195,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '500',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Individu::class,
             'collection_class' => \ImportData\V1\Rest\Individu\IndividuCollection::class,
@@ -219,7 +216,7 @@ return [
             'collection_query_whitelist' => [
                 0 => 'these_id',
             ],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Acteur::class,
             'collection_class' => \ImportData\V1\Rest\Acteur\ActeurCollection::class,
@@ -238,7 +235,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Role::class,
             'collection_class' => \ImportData\V1\Rest\Role\RoleCollection::class,
@@ -257,7 +254,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '25',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Source::class,
             'collection_class' => \ImportData\V1\Rest\Source\SourceCollection::class,
@@ -276,7 +273,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '25',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Variable::class,
             'collection_class' => \ImportData\V1\Rest\Variable\VariableCollection::class,
@@ -295,7 +292,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Structure::class,
             'collection_class' => \ImportData\V1\Rest\Structure\StructureCollection::class,
@@ -314,7 +311,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\EcoleDoctorale::class,
             'collection_class' => \ImportData\V1\Rest\EcoleDoctorale\EcoleDoctoraleCollection::class,
@@ -333,7 +330,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Etablissement::class,
             'collection_class' => \ImportData\V1\Rest\Etablissement\EtablissementCollection::class,
@@ -352,7 +349,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '250000000000000000000',
+            'page_size' => '100',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\UniteRecherche::class,
             'collection_class' => \ImportData\V1\Rest\UniteRecherche\UniteRechercheCollection::class,
@@ -454,6 +451,30 @@ return [
                 0 => 'application/json',
                 1 => 'application/*+json',
             ],
+            'ImportData\\V1\\Rest\\Variable\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\Individu\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\These\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\Doctorant\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\Role\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
+            'ImportData\\V1\\Rest\\Source\\Controller' => [
+                0 => 'application/json',
+                1 => 'application/*+json',
+            ],
         ],
         'content_type_whitelist' => [
             'ImportData\\V1\\Rest\\Structure\\Controller' => [
@@ -469,6 +490,24 @@ return [
                 0 => 'application/json',
             ],
             'ImportData\\V1\\Rest\\Acteur\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Variable\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Individu\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\These\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Doctorant\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Role\\Controller' => [
+                0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Source\\Controller' => [
                 0 => 'application/json',
             ],
         ],
@@ -615,10 +654,6 @@ return [
             \ImportData\V1\Rest\Acteur\ActeurResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'ImportData\\V1\\Rest\\Acteur\\ActeurHydrator',
-                'query_providers' => [
-                    'default' => 'default_orm',
-                    'fetch_all' => 'acteur_fetch_all',
-                ],
             ],
             \ImportData\V1\Rest\Role\RoleResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
