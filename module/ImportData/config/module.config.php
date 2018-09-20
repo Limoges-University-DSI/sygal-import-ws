@@ -126,6 +126,15 @@ return [
                     ],
                 ],
             ],
+            'import-data.rest.version' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/version[/:version_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\Version\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -141,6 +150,7 @@ return [
             8 => 'import-data.rest.doctrine.ecole-doctorale',
             9 => 'import-data.rest.doctrine.etablissement',
             10 => 'import-data.rest.doctrine.unite-recherche',
+            11 => 'import-data.rest.version',
         ],
     ],
     'zf-rest' => [
@@ -355,6 +365,22 @@ return [
             'collection_class' => \ImportData\V1\Rest\UniteRecherche\UniteRechercheCollection::class,
             'service_name' => 'UniteRecherche',
         ],
+        'ImportData\\V1\\Rest\\Version\\Controller' => [
+            'listener' => \ImportData\V1\Rest\Version\VersionResource::class,
+            'route_name' => 'import-data.rest.version',
+            'route_identifier_name' => 'version_id',
+            'collection_name' => 'version',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Rest\Version\VersionEntity::class,
+            'collection_class' => \ImportData\V1\Rest\Version\VersionCollection::class,
+            'service_name' => 'Version',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
@@ -369,6 +395,7 @@ return [
             'ImportData\\V1\\Rest\\EcoleDoctorale\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\Etablissement\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\Version\\Controller' => 'HalJson',
         ],
         'accept-whitelist' => [
             'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -475,6 +502,11 @@ return [
                 0 => 'application/json',
                 1 => 'application/*+json',
             ],
+            'ImportData\\V1\\Rest\\Version\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'ImportData\\V1\\Rest\\Structure\\Controller' => [
@@ -509,6 +541,10 @@ return [
             ],
             'ImportData\\V1\\Rest\\Source\\Controller' => [
                 0 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Version\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/json',
             ],
         ],
     ],
@@ -633,6 +669,18 @@ return [
             \ImportData\V1\Rest\UniteRecherche\UniteRechercheCollection::class => [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'import-data.rest.doctrine.unite-recherche',
+                'is_collection' => true,
+            ],
+            \ImportData\V1\Rest\Version\VersionEntity::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.version',
+                'route_identifier_name' => 'version_id',
+                'hydrator' => \Zend\Hydrator\ClassMethods::class,
+            ],
+            \ImportData\V1\Rest\Version\VersionCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.version',
+                'route_identifier_name' => 'version_id',
                 'is_collection' => true,
             ],
         ],
@@ -797,6 +845,9 @@ return [
         ],
         'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => [
             'input_filter' => 'ImportData\\V1\\Rest\\UniteRecherche\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\Version\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\Version\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -1770,6 +1821,16 @@ return [
                 ],
             ],
         ],
+        'ImportData\\V1\\Rest\\Version\\Validator' => [
+            0 => [
+                'required' => true,
+                'validators' => [],
+                'filters' => [],
+                'name' => 'number',
+                'description' => 'Numéro de version, ex: 1.1.1',
+                'field_type' => 'string',
+            ],
+        ],
     ],
     'zf-mvc-auth' => [
         'authorization' => [
@@ -1949,6 +2010,27 @@ return [
                     'DELETE' => false,
                 ],
             ],
+            'ImportData\\V1\\Rest\\Version\\Controller' => [
+                'collection' => [
+                    'GET' => false,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => false,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            \ImportData\V1\Rest\Version\VersionResource::class => \ImportData\V1\Rest\Version\VersionResourceFactory::class,
         ],
     ],
 ];
