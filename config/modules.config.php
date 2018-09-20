@@ -31,6 +31,7 @@ return [
     'Phpro\\DoctrineHydrationModule',
     'ZF\\Apigility\\Doctrine\\Server',
     'UnicaenOracle',
+    'ZF\Doctrine\QueryBuilder',
     'Application',
     'ImportData',
 ];
