@@ -702,6 +702,10 @@ return [
             \ImportData\V1\Rest\Acteur\ActeurResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'ImportData\\V1\\Rest\\Acteur\\ActeurHydrator',
+                'query_providers' => [
+                    'default' => 'default_orm',
+                    'fetch_all' => 'acteur_fetch_all',
+                ],
             ],
             \ImportData\V1\Rest\Role\RoleResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
