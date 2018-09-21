@@ -49,7 +49,7 @@ Si vous manquez d'idée pour le mot de passe, utilsez la commande suivante :
 pwgen 16 1 --symbols --secure
 ```
 
-## Fichiers de config
+## Configuration du WS
 
 S'il s'agit d'une mise à jour du ws, vous avez déjà fait la manip, inutile de lire ce paragraphe.
 Reportez-vous au "release notes" de la version choisie (ex: [1.1.0](https://git.unicaen.fr/dsi/sygal-import-ws/tags/1.1.0)).
@@ -64,6 +64,43 @@ complétés puis renommés :
  
 Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
 
+
+## Configuration PHP
+
+Selon le moteur PHP que vous avez installé, l'emplacement du fichier de config PHP à créer/modifier diffère.
+  - php7.0-fpm         : `/etc/php/7.0/fpm/conf.d/`
+  - apache2-mod-php7.0 : `/etc/php/7.0/apache2/conf.d/`
+  
+Voici le contenu du fichier `99-sygal-import-ws.ini` à créer/modifier :
+
+    date.timezone = Europe/Paris
+    short_open_tag = Off
+    expose_php = Off
+    #display_startup_errors = On
+    #error_reporting = E_ALL & ~E_DEPRECATED & ~E_NOTICE
+    display_errors = Off
+    # NB: ne peut-être supérieur au memory_limit du php.ini
+    memory_limit = 256M
+    
+    ;opcache.error_log=/var/log/php_opcache_error.log
+    opcache.enable = 1
+    opcache.memory_consumption = 256
+    opcache.interned_strings_buffer = 8
+    opcache.max_wasted_percentage = 5
+    opcache.max_accelerated_files = 16000
+    ; http://php.net/manual/en/opcache.configuration.php#ini.opcache.revalidate-freq
+    ; defaults to zend opcache checking every 180 seconds for PHP file changes
+    ; set to zero to check every second if you are doing alot of frequent
+    ; php file edits/developer work
+    ; opcache.revalidate_freq=0
+    opcache.revalidate_freq = 180
+    opcache.fast_shutdown = 0
+    opcache.enable_cli = 0
+    opcache.save_comments = 1
+    opcache.enable_file_override = 1
+    opcache.validate_timestamps = 1
+    opcache.huge_code_pages = 0
+    
 
 ## Interface d'admin Apigility
 
