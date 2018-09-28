@@ -226,7 +226,7 @@ return [
             'collection_query_whitelist' => [
                 0 => 'these_id',
             ],
-            'page_size' => '100',
+            'page_size' => '500',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\Acteur::class,
             'collection_class' => \ImportData\V1\Rest\Acteur\ActeurCollection::class,
