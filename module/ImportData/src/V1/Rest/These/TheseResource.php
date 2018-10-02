@@ -10,7 +10,7 @@ class TheseResource extends DoctrineResource
         $data['order-by'] = [
             'type' => 'field',
             'field' => 'id',
-            'directeion' => 'asc',
+            'direction' => 'asc',
         ];
 
         return parent::fetchAll($data);
