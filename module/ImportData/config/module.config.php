@@ -1,4 +1,7 @@
 <?php
+
+use ImportData\V1\Query\Provider\FetchAll;
+
 return [
     'doctrine' => [
         'driver' => [
@@ -19,9 +22,11 @@ return [
     ],
     'zf-apigility-doctrine-query-provider' => [
         'aliases' => [
+            'default_orm' => \ImportData\V1\Query\Provider\FetchAll::class,
             'acteur_fetch_all' => \ImportData\V1\Rest\Acteur\ActeurFetchAll::class,
         ],
         'factories' => [
+            \ImportData\V1\Query\Provider\FetchAll::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \ImportData\V1\Rest\Acteur\ActeurFetchAll::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
     ],

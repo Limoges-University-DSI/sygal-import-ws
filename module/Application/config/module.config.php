@@ -6,9 +6,25 @@
 
 namespace Application;
 
+use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
+    'doctrine' => [
+        'sql_logger_collector' => [
+            'orm_default' => [
+                'name' => 'orm_default',
+                'sql_logger' => 'echooooo',
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'invokables' => [
+            'echooooo' => EchoSQLLogger::class,
+        ],
+    ],
+
+
     'router' => [
         'routes' => [
             'home' => [

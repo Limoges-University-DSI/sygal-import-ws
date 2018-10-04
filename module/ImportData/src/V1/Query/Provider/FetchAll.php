@@ -1,12 +1,12 @@
 <?php
 
-namespace ImportData\V1\Rest\Acteur;
+namespace ImportData\V1\Query\Provider;
 
 use Doctrine\ORM\QueryBuilder;
-use ImportData\V1\Query\Provider\FetchAll;
+use ZF\Apigility\Doctrine\Server\Query\Provider\DefaultOrm;
 use ZF\Rest\ResourceEvent;
 
-class ActeurFetchAll extends FetchAll
+class FetchAll extends DefaultOrm
 {
     /**
      * @param ResourceEvent $event
@@ -16,13 +16,10 @@ class ActeurFetchAll extends FetchAll
      */
     public function createQuery(ResourceEvent $event, $entityClass, $parameters)
     {
+        /** @var QueryBuilder $qb */
         $qb = parent::createQuery($event, $entityClass, $parameters);
 
-        if (isset($parameters['these_id'])) {
-            $qb
-                ->andWhere('row.theseId = :theseId')
-                ->setParameter('theseId', $parameters['these_id']);
-        }
+        $qb->orderBy('row.id', 'asc'); // indispensable car les données sont fournies paginées
 
         return $qb;
     }
