@@ -4,6 +4,8 @@
 # This script runs required operations in order to set up the application.
 #
 
+php bin/generate-deploy-info-config.php
+
 # Composer install
 composer install --no-dev --no-suggest --optimize-autoloader
 

@@ -7,7 +7,20 @@ use ZF\Rest\AbstractResourceListener;
 
 class VersionResource extends AbstractResourceListener
 {
-    const VERSION_NUMBER = '1.1.3';
+    /**
+     * @var VersionEntity
+     */
+    private $versionEntity;
+
+    /**
+     * VersionResource constructor.
+     *
+     * @param VersionEntity $versionEntity
+     */
+    public function __construct(VersionEntity $versionEntity)
+    {
+        $this->versionEntity = $versionEntity;
+    }
 
     /**
      * Fetch a resource
@@ -17,6 +30,6 @@ class VersionResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return new VersionEntity(self::VERSION_NUMBER);
+        return $this->versionEntity;
     }
 }
