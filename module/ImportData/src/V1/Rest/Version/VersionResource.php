@@ -7,7 +7,7 @@ use ZF\Rest\AbstractResourceListener;
 
 class VersionResource extends AbstractResourceListener
 {
-    const VERSION_NUMBER = '1.1.1';
+    const VERSION_NUMBER = '1.1.3';
 
     /**
      * Fetch a resource

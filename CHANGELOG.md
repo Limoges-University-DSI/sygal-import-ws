@@ -22,3 +22,8 @@ grâce à l'utilisation d'une vue matérialisée des emails des individus, rafra
 
 - [BUGFIX] Les données n'étaient pas triées correctement, entraînant la présence possible du même enregistrement
 sur 2 pages distinctes retournées par le web service.
+
+## v1.1.3 (22/10/2018)
+
+- [BUGFIX] Correction du script de la vue Apogée SYGAL_INDIVIDU qui inversait le nom usuel et le nom de naissance 
+des acteurs.
