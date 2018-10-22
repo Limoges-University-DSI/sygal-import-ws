@@ -4,6 +4,7 @@
 # This script runs required operations in order to set up the application.
 #
 
+# Génération d'info à propos de la version courante
 php bin/generate-deploy-info-config.php
 
 # Composer install
