@@ -6,6 +6,7 @@
 
 # Composer install
 composer install --no-dev --no-suggest --optimize-autoloader
+# NB: 'bin/generate-deploy-info-config.php' est lancé lors d'un composer install.
 
 # Répertoires de travail de Doctrine
 mkdir -p data/cache                   && chmod -R 777 data/cache
