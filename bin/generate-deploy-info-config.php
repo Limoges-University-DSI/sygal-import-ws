@@ -1,10 +1,16 @@
 <?php
+/**
+ * Création du fichier de config 'config/autoload/deploy-info.local.php'
+ * contenant la version courante de l'application.
+ *
+ * La version est obtenue grâce à git.
+ */
 
 use Zend\Config\Writer\PhpArray;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$OUTPUT_CONFIG_FILE = __DIR__ . '/../config/autoload/deploy-info.local.php';
+$OUTPUT_CONFIG_FILE = realpath(__DIR__ . '/../config/autoload/deploy-info.local.php');
 
 function versionFromGit()
 {
@@ -35,3 +41,6 @@ $config = [
 $configWriter = new PhpArray();
 $configWriter->setUseBracketArraySyntax(true);
 $configWriter->toFile($OUTPUT_CONFIG_FILE, $config);
+
+echo "Fichier '$OUTPUT_CONFIG_FILE' créé avec succès." . PHP_EOL;
+echo "Version détectée: $version." . PHP_EOL;

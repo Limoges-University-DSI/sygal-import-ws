@@ -44,6 +44,10 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "php bin/generate-deploy-info-config.php"
+        ],
+
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "development-disable": "zf-development-mode disable",
