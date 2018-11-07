@@ -8,6 +8,9 @@
 composer install --no-dev --no-suggest --optimize-autoloader
 # NB: 'bin/generate-deploy-info-config.php' est lancé lors d'un composer install.
 
+# Désactivation de l'interface d'admin Apigility
+composer development-disable
+
 # Répertoires de travail de Doctrine
 mkdir -p data/cache                   && chmod -R 777 data/cache
 mkdir -p data/DoctrineModule/cache    && chmod -R 777 data/DoctrineModule/cache
