@@ -14,8 +14,8 @@ class VersionResourceFactory
     {
         $config = $container->get('config');
 
-        if (isset($config['version'])) {
-            $version = $config['version'];
+        if (isset($config['deploy-info']['version'])) {
+            $version = $config['deploy-info']['version'];
         } else {
             $version = "Inconnue";
         }
