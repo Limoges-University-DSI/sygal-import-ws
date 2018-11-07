@@ -27,3 +27,9 @@ sur 2 pages distinctes retournées par le web service.
 
 - [BUGFIX] Correction du script de la vue Apogée SYGAL_INDIVIDU qui inversait le nom usuel et le nom de naissance 
 des acteurs.
+
+## v1.2.0 (07/11/2018)
+
+- [FEATURE] Sygal peut désormais avoir connaissance de tous les acteurs des thèses (ex: co-directeurs sur les thèses de Rouen) 
+            tout en permettant à l'établissement source de conserver sa propre codification des rôles des acteurs.
+- [FEATURE] Le service Version retourne désormais la version déployée effective (à l'aide de git).
