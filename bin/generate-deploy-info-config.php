@@ -33,7 +33,7 @@ $version = versionFromGit();
 
 $config = [
     'deploy-info' => [
-        'about'   => "Ce fichier de config est généré par " . __FILE__,
+        'about'   => sprintf("Ce fichier de config est généré par %s le %s", __FILE__, date('d/m/Y H:i:s')),
         'version' => $version,
     ],
 ];
