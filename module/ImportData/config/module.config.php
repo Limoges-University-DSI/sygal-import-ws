@@ -1,7 +1,4 @@
 <?php
-
-use ImportData\V1\Query\Provider\FetchAll;
-
 return [
     'doctrine' => [
         'driver' => [
@@ -140,6 +137,24 @@ return [
                     ],
                 ],
             ],
+            'import-data.rest.doctrine.origine-financement' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/origine-financement[/:origine_financement_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\OrigineFinancement\\Controller',
+                    ],
+                ],
+            ],
+            'import-data.rest.doctrine.financement' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/financement[/:financement_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\Financement\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -156,6 +171,8 @@ return [
             9 => 'import-data.rest.doctrine.etablissement',
             10 => 'import-data.rest.doctrine.unite-recherche',
             11 => 'import-data.rest.version',
+            12 => 'import-data.rest.doctrine.origine-financement',
+            13 => 'import-data.rest.doctrine.financement',
         ],
     ],
     'zf-rest' => [
@@ -386,6 +403,44 @@ return [
             'collection_class' => \ImportData\V1\Rest\Version\VersionCollection::class,
             'service_name' => 'Version',
         ],
+        'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => [
+            'listener' => \ImportData\V1\Rest\OrigineFinancement\OrigineFinancementResource::class,
+            'route_name' => 'import-data.rest.doctrine.origine-financement',
+            'route_identifier_name' => 'origine_financement_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'origine_financement',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\OrigineFinancement::class,
+            'collection_class' => \ImportData\V1\Rest\OrigineFinancement\OrigineFinancementCollection::class,
+            'service_name' => 'OrigineFinancement',
+        ],
+        'ImportData\\V1\\Rest\\Financement\\Controller' => [
+            'listener' => \ImportData\V1\Rest\Financement\FinancementResource::class,
+            'route_name' => 'import-data.rest.doctrine.financement',
+            'route_identifier_name' => 'financement_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'financement',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => '100',
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\Financement::class,
+            'collection_class' => \ImportData\V1\Rest\Financement\FinancementCollection::class,
+            'service_name' => 'Financement',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
@@ -401,6 +456,8 @@ return [
             'ImportData\\V1\\Rest\\Etablissement\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\UniteRecherche\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\Version\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\Financement\\Controller' => 'HalJson',
         ],
         'accept-whitelist' => [
             'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -512,6 +569,16 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
+            'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Financement\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'ImportData\\V1\\Rest\\Structure\\Controller' => [
@@ -548,6 +615,14 @@ return [
                 0 => 'application/json',
             ],
             'ImportData\\V1\\Rest\\Version\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\Financement\\Controller' => [
                 0 => 'application/vnd.import-data.v1+json',
                 1 => 'application/json',
             ],
@@ -688,6 +763,28 @@ return [
                 'route_identifier_name' => 'version_id',
                 'is_collection' => true,
             ],
+            \ImportData\V1\Entity\Db\OrigineFinancement::class => [
+                'route_identifier_name' => 'origine_financement_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.origine-financement',
+                'hydrator' => 'ImportData\\V1\\Rest\\OrigineFinancement\\OrigineFinancementHydrator',
+            ],
+            \ImportData\V1\Rest\OrigineFinancement\OrigineFinancementCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.origine-financement',
+                'is_collection' => true,
+            ],
+            \ImportData\V1\Entity\Db\Financement::class => [
+                'route_identifier_name' => 'financement_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.financement',
+                'hydrator' => 'ImportData\\V1\\Rest\\Financement\\FinancementHydrator',
+            ],
+            \ImportData\V1\Rest\Financement\FinancementCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.financement',
+                'is_collection' => true,
+            ],
         ],
     ],
     'zf-apigility' => [
@@ -739,6 +836,14 @@ return [
             \ImportData\V1\Rest\UniteRecherche\UniteRechercheResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'ImportData\\V1\\Rest\\UniteRecherche\\UniteRechercheHydrator',
+            ],
+            \ImportData\V1\Rest\OrigineFinancement\OrigineFinancementResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\OrigineFinancement\\OrigineFinancementHydrator',
+            ],
+            \ImportData\V1\Rest\Financement\FinancementResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\Financement\\FinancementHydrator',
             ],
         ],
     ],
@@ -820,6 +925,20 @@ return [
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
+        'ImportData\\V1\\Rest\\OrigineFinancement\\OrigineFinancementHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\OrigineFinancement::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'ImportData\\V1\\Rest\\Financement\\FinancementHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\Financement::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
     ],
     'zf-content-validation' => [
         'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -857,6 +976,12 @@ return [
         ],
         'ImportData\\V1\\Rest\\Version\\Controller' => [
             'input_filter' => 'ImportData\\V1\\Rest\\Version\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\OrigineFinancement\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\Financement\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\Financement\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -1840,6 +1965,216 @@ return [
                 'field_type' => 'string',
             ],
         ],
+        'ImportData\\V1\\Rest\\OrigineFinancement\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 6,
+                        ],
+                    ],
+                ],
+            ],
+            1 => [
+                'name' => 'codOfi',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 8,
+                        ],
+                    ],
+                ],
+            ],
+            2 => [
+                'name' => 'licOfi',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 10,
+                        ],
+                    ],
+                ],
+            ],
+            3 => [
+                'name' => 'libOfi',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 50,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'ImportData\\V1\\Rest\\Financement\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 6,
+                        ],
+                    ],
+                ],
+            ],
+            1 => [
+                'name' => 'theseId',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\Digits::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'annee',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 8,
+                        ],
+                    ],
+                ],
+            ],
+            3 => [
+                'name' => 'origineFinancementId',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 8,
+                        ],
+                    ],
+                ],
+            ],
+            4 => [
+                'name' => 'complementFinancement',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 40,
+                        ],
+                    ],
+                ],
+            ],
+            5 => [
+                'name' => 'quotiteFinancement',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\Digits::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            6 => [
+                'name' => 'dateDebutFinancement',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            7 => [
+                'name' => 'dateFinFinancement',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+        ],
     ],
     'zf-mvc-auth' => [
         'authorization' => [
@@ -2029,6 +2364,38 @@ return [
                 ],
                 'entity' => [
                     'GET' => false,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
+            'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => [
+                'collection' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
+            'ImportData\\V1\\Rest\\Financement\\Controller' => [
+                'collection' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => true,
                     'POST' => false,
                     'PUT' => false,
                     'PATCH' => false,
