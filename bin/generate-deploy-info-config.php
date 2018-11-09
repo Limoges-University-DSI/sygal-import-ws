@@ -10,7 +10,7 @@ use Zend\Config\Writer\PhpArray;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$OUTPUT_CONFIG_FILE = realpath(__DIR__ . '/../config/autoload/deploy-info.local.php');
+$OUTPUT_CONFIG_FILE = __DIR__ . '/../config/autoload/deploy-info.local.php';
 
 function versionFromGit()
 {
