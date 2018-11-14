@@ -3,18 +3,18 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="ImportData\V1\Entity\Db\Individu" table="SYGAL_INDIVIDU">
-        <id name="id"                   type="string"                      column="ID" />
-        <field name="sourceId"          type="string"       length="6"      column="SOURCE_ID"                  nullable="true"/>
-        <field name="type"              type="string"       length="9"      column="TYPE"                       nullable="true"/>
-        <field name="civilite"          type="string"       length="5"      column="CIV"                        nullable="true"/>
-        <field name="nomUsuel"          type="string"       length="60"     column="LIB_NOM_USU_IND"            nullable="true"/>
-        <field name="nomPatronymique"   type="string"       length="60"     column="LIB_NOM_PAT_IND"            nullable="true"/>
-        <field name="prenom1"           type="string"       length="60"     column="LIB_PR1_IND"                nullable="true"/>
-        <field name="prenom2"           type="string"       length="60"     column="LIB_PR2_IND"                nullable="true"/>
-        <field name="prenom3"           type="string"       length="60"     column="LIB_PR3_IND"                nullable="true"/>
-        <field name="email"             type="string"       length="256"    column="EMAIL"                      nullable="true"/>
-        <field name="dateNaissance"     type="datetime"                     column="DATE_NAI_IND"               nullable="true"/>
-        <field name="nationalite"       type="string"       length="60"     column="LIB_NAT"                    nullable="true"/>
-
+        <id name="id" type="string" column="ID"/>
+        <field name="sourceId" column="SOURCE_ID"/>
+        <field name="supannId" column="SUPANN_ID"/>
+        <field name="type" column="TYPE"/>
+        <field name="civilite" column="CIV"/>
+        <field name="nomUsuel" column="LIB_NOM_USU_IND"/>
+        <field name="nomPatronymique" column="LIB_NOM_PAT_IND"/>
+        <field name="prenom1" column="LIB_PR1_IND"/>
+        <field name="prenom2" column="LIB_PR2_IND"/>
+        <field name="prenom3" column="LIB_PR3_IND"/>
+        <field name="email" column="EMAIL"/>
+        <field name="dateNaissance" type="datetime" column="DATE_NAI_IND"/>
+        <field name="nationalite" column="LIB_NAT"/>
     </entity>
 </doctrine-mapping>
