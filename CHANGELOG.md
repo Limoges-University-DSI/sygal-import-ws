@@ -35,3 +35,7 @@ des acteurs.
 - [FEATURE] Deux nouveaux services apparaissent pour que Sygal puisse importer les informations concernant le financement 
             des thèses en cours : 'financement' et 'origine-financement'. 
 - [FEATURE] Le service 'version' retourne désormais la version déployée effective (à l'aide de git).
+
+## v1.2.1 (??/11/2018)
+
+- [BUGFIX] supann_id dans individu...
