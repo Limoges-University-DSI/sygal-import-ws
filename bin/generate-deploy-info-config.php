@@ -14,12 +14,19 @@ $OUTPUT_CONFIG_FILE = __DIR__ . '/../config/autoload/deploy-info.local.php';
 
 function versionFromGit()
 {
+    $GIT_BRANCH  = 'git rev-parse --abbrev-ref HEAD';
     $GIT_VERSION = 'git --no-pager describe --tags --always';
-    $GIT_COMMIT = 'git rev-parse --verify --short=8 HEAD';
+    $GIT_COMMIT  = 'git rev-parse --verify --short=8 HEAD';
 
     $output = [];
-    exec($GIT_VERSION, $output, $return);
-    $tag = $return === 0 ? implode('', $output) : 'Version inconnue';
+    exec($GIT_BRANCH, $output, $return);
+    if ($output[0] !== 'HEAD') {
+        $tag = $output[0];
+    } else {
+        $output = [];
+        exec($GIT_VERSION, $output, $return);
+        $tag = $return === 0 ? implode('', $output) : 'Version inconnue';
+    }
     $output = [];
     exec($GIT_COMMIT, $output, $return);
     $commit = $return === 0 ? implode('', $output) : 'Commit inconnu';
