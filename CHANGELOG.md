@@ -38,4 +38,5 @@ des acteurs.
 
 ## v1.2.1 (??/11/2018)
 
-- [BUGFIX] supann_id dans individu...
+- [BUGFIX] Une nouvelle colonne apparaît dans la vue SYGAL_INDIVIDU permettant notamment de détecter les acteurs que 
+           Sygal ne sera pas en mesure de reconnaître à la connexion.
