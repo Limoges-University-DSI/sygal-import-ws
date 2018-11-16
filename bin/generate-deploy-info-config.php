@@ -20,7 +20,7 @@ function versionFromGit()
 
     $output = [];
     exec($GIT_BRANCH, $output, $return);
-    var_dump('f');
+    var_dump('g');
 
     if ($output[0] !== 'HEAD') {
         $tag = $output[0];
