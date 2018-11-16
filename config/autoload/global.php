@@ -1,8 +1,6 @@
 <?php
 return [
-    'version' => [
-        'number' => '1.2.1-dev',
-    ],
+    'version' => '1.2.1-dev',
     'zf-mvc-auth' => [
         'authentication' => [
             'adapters' => [
