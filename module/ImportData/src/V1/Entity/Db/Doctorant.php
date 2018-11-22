@@ -2,7 +2,6 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * Doctorant
  */
@@ -63,6 +62,4 @@ class Doctorant
     {
         $this->individuId = $individuId;
     }
-
-
 }

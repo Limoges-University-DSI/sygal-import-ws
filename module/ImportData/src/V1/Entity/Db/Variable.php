@@ -2,7 +2,6 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * Variable
  */
@@ -131,6 +130,4 @@ class Variable
     {
         $this->sourceId = $sourceId;
     }
-
-
 }

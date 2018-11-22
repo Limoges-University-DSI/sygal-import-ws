@@ -2,7 +2,6 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * These
  */
@@ -230,6 +229,4 @@ class Individu
     {
         $this->nationalite = $nationalite;
     }
-
-
 }

@@ -2576,7 +2576,8 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            \ImportData\V1\Rest\Version\VersionResource::class => \ImportData\V1\Rest\Version\VersionResourceFactory::class,
+            \ImportData\V1\Rest\Version\VersionResource::class =>
+                \ImportData\V1\Rest\Version\VersionResourceFactory::class,
         ],
     ],
 ];

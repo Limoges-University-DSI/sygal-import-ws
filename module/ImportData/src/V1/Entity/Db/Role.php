@@ -2,7 +2,6 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * Role
  */
@@ -76,6 +75,4 @@ class Role
     {
         $this->libCourtRole = $libCourtRole;
     }
-
-
 }

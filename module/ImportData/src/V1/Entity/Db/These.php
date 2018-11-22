@@ -2,7 +2,6 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * These
  */
@@ -385,6 +384,4 @@ class These
     {
         $this->correctionAutorisee = $correctionAutorisee;
     }
-    
-
 }
