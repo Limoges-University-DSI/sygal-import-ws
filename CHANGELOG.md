@@ -38,5 +38,7 @@ des acteurs.
 
 ## v1.2.1 (??/11/2018)
 
-- [BUGFIX] Une nouvelle colonne apparaît dans la vue SYGAL_INDIVIDU permettant notamment de détecter les acteurs que 
-           Sygal ne sera pas en mesure de reconnaître à la connexion.
+- [FEATURE] Une nouvelle colonne apparaît dans la vue SYGAL_INDIVIDU permettant notamment de détecter les acteurs que 
+            Sygal ne sera pas en mesure de reconnaître à la connexion.
+
+- [FEATURE] Une nouvelle vue SYGAL_TITRE_ACCES apparaît pour fournir les titres d'accès à l'inscription en thèse.  

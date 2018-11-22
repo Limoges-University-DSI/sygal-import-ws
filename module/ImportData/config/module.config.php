@@ -155,6 +155,15 @@ return [
                     ],
                 ],
             ],
+            'import-data.rest.doctrine.titre-acces' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/titre-acces[/:titre_acces_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\TitreAcces\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -173,6 +182,7 @@ return [
             11 => 'import-data.rest.version',
             12 => 'import-data.rest.doctrine.origine-financement',
             13 => 'import-data.rest.doctrine.financement',
+            14 => 'import-data.rest.doctrine.titre-acces',
         ],
     ],
     'zf-rest' => [
@@ -189,7 +199,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => '100',
+            'page_size' => '250',
             'page_size_param' => null,
             'entity_class' => \ImportData\V1\Entity\Db\These::class,
             'collection_class' => \ImportData\V1\Rest\These\TheseCollection::class,
@@ -441,6 +451,25 @@ return [
             'collection_class' => \ImportData\V1\Rest\Financement\FinancementCollection::class,
             'service_name' => 'Financement',
         ],
+        'ImportData\\V1\\Rest\\TitreAcces\\Controller' => [
+            'listener' => \ImportData\V1\Rest\TitreAcces\TitreAccesResource::class,
+            'route_name' => 'import-data.rest.doctrine.titre-acces',
+            'route_identifier_name' => 'titre_acces_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'titre_acces',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => '100',
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\TitreAcces::class,
+            'collection_class' => \ImportData\V1\Rest\TitreAcces\TitreAccesCollection::class,
+            'service_name' => 'TitreAcces',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
@@ -458,6 +487,7 @@ return [
             'ImportData\\V1\\Rest\\Version\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\Financement\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\TitreAcces\\Controller' => 'HalJson',
         ],
         'accept-whitelist' => [
             'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -579,6 +609,11 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
+            'ImportData\\V1\\Rest\\TitreAcces\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'ImportData\\V1\\Rest\\Structure\\Controller' => [
@@ -623,6 +658,10 @@ return [
                 1 => 'application/json',
             ],
             'ImportData\\V1\\Rest\\Financement\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\TitreAcces\\Controller' => [
                 0 => 'application/vnd.import-data.v1+json',
                 1 => 'application/json',
             ],
@@ -785,6 +824,17 @@ return [
                 'route_name' => 'import-data.rest.doctrine.financement',
                 'is_collection' => true,
             ],
+            \ImportData\V1\Entity\Db\TitreAcces::class => [
+                'route_identifier_name' => 'titre_acces_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.titre-acces',
+                'hydrator' => 'ImportData\\V1\\Rest\\TitreAcces\\TitreAccesHydrator',
+            ],
+            \ImportData\V1\Rest\TitreAcces\TitreAccesCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.titre-acces',
+                'is_collection' => true,
+            ],
         ],
     ],
     'zf-apigility' => [
@@ -844,6 +894,10 @@ return [
             \ImportData\V1\Rest\Financement\FinancementResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'ImportData\\V1\\Rest\\Financement\\FinancementHydrator',
+            ],
+            \ImportData\V1\Rest\TitreAcces\TitreAccesResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\TitreAcces\\TitreAccesHydrator',
             ],
         ],
     ],
@@ -939,6 +993,13 @@ return [
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
+        'ImportData\\V1\\Rest\\TitreAcces\\TitreAccesHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\TitreAcces::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
     ],
     'zf-content-validation' => [
         'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -982,6 +1043,9 @@ return [
         ],
         'ImportData\\V1\\Rest\\Financement\\Controller' => [
             'input_filter' => 'ImportData\\V1\\Rest\\Financement\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\TitreAcces\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\TitreAcces\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -2172,6 +2236,112 @@ return [
                 'name' => 'dateFinFinancement',
                 'required' => false,
                 'filters' => [],
+                'validators' => [],
+            ],
+        ],
+        'ImportData\\V1\\Rest\\TitreAcces\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'theseId',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'titreAccesInterneExterne',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            3 => [
+                'name' => 'libelleTitreAcces',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            4 => [
+                'name' => 'typeEtabTitreAcces',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            5 => [
+                'name' => 'libelleEtabTitreAcces',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            6 => [
+                'name' => 'codeDeptTitreAcces',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            7 => [
+                'name' => 'codePaysTitreAcces',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
                 'validators' => [],
             ],
         ],
