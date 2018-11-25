@@ -4,6 +4,8 @@ namespace ImportData\V1\Entity\Db;
 
 /**
  * Acteur
+ *
+ * @codeCoverageIgnore
  */
 class Acteur
 {

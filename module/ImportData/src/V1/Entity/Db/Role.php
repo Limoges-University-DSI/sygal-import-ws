@@ -4,6 +4,8 @@ namespace ImportData\V1\Entity\Db;
 
 /**
  * Role
+ *
+ * @codeCoverageIgnore
  */
 class Role
 {

@@ -7,29 +7,31 @@ use ZF\Rest\AbstractResourceListener;
 
 class VersionResource extends AbstractResourceListener
 {
+    const VERSION_INCONNUE = 'Inconnue';
+
     /**
-     * @var VersionEntity
+     * @var string
      */
-    private $versionEntity;
+    private $version;
 
     /**
      * VersionResource constructor.
      *
-     * @param VersionEntity $versionEntity
+     * @param string $version
      */
-    public function __construct(VersionEntity $versionEntity)
+    public function __construct($version = null)
     {
-        $this->versionEntity = $versionEntity;
+        $this->version = $version ?: self::VERSION_INCONNUE;
     }
 
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
+     * @param  string $id
+     * @return VersionEntity
      */
     public function fetch($id)
     {
-        return $this->versionEntity;
+        return new VersionEntity($this->version);
     }
 }
