@@ -1,0 +1,8 @@
+image: localhost:5000/unicaen-dev-php7.0-apache
+  
+stages:
+  - test
+   
+test:
+  stage: test
+  script: composer test
