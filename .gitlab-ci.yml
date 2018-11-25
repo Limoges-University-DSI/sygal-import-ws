@@ -11,5 +11,4 @@ test:
   stage: test
   script:
     - composer install --dev
-    - composer development-disable
     - composer test module/ImportData
