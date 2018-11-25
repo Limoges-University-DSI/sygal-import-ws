@@ -5,4 +5,4 @@ stages:
    
 test:
   stage: test
-  script: composer test
+  script: composer install --dev && composer test
