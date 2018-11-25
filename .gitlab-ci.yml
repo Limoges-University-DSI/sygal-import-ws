@@ -9,4 +9,4 @@ cache:
 
 test:
   stage: test
-  script: composer development-disable ; composer install --dev && composer test module/ImportData
+  script: composer install --dev && composer development-disable ; composer test module/ImportData
