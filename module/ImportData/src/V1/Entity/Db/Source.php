@@ -2,9 +2,10 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * Source
+ *
+ * @codeCoverageIgnore
  */
 class Source
 {
@@ -80,7 +81,4 @@ class Source
     {
         $this->code = $code;
     }
-
-
-
 }

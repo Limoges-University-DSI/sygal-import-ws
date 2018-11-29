@@ -1,0 +1,14 @@
+image: localhost:5000/unicaen-dev-php7.0-apache
+  
+stages:
+  - test
+
+cache:
+  paths:
+    - vendor/
+
+test:
+  stage: test
+  script:
+    - composer install --dev
+    - composer test module/ImportData

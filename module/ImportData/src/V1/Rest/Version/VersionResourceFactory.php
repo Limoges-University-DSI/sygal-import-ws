@@ -13,15 +13,8 @@ class VersionResourceFactory
     public function __invoke(ContainerInterface $container)
     {
         $config = $container->get('config');
+        $version = isset($config['version']) ? $config['version'] : null;
 
-        if (isset($config['deploy-info']['version'])) {
-            $version = $config['deploy-info']['version'];
-        } else {
-            $version = "Inconnue";
-        }
-
-        $entity = new VersionEntity($version);
-
-        return new VersionResource($entity);
+        return new VersionResource($version);
     }
 }

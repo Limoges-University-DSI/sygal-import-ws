@@ -2,13 +2,13 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * Variable
+ *
+ * @codeCoverageIgnore
  */
 class Variable
 {
-
     /**
      * @var integer
      */
@@ -131,6 +131,4 @@ class Variable
     {
         $this->sourceId = $sourceId;
     }
-
-
 }

@@ -19,7 +19,7 @@ class FetchAll extends DefaultOrm
         /** @var QueryBuilder $qb */
         $qb = parent::createQuery($event, $entityClass, $parameters);
 
-        $qb->orderBy('row.id', 'asc'); // indispensable car les données sont fournies paginées
+        $qb->orderBy('row.id', 'asc'); // indispensable car les données sont demandées paginées
 
         return $qb;
     }

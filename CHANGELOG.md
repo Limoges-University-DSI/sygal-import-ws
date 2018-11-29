@@ -35,3 +35,13 @@ des acteurs.
 - [FEATURE] Deux nouveaux services apparaissent pour que Sygal puisse importer les informations concernant le financement 
             des thèses en cours : 'financement' et 'origine-financement'. 
 - [FEATURE] Le service 'version' retourne désormais la version déployée effective (à l'aide de git).
+
+## v1.2.1 (??/11/2018)
+
+- [FEATURE] Une nouvelle colonne apparaît dans la vue SYGAL_INDIVIDU permettant notamment de détecter les acteurs que 
+            Sygal ne sera pas en mesure de reconnaître à la connexion.
+
+- [FEATURE] Une nouvelle vue SYGAL_TITRE_ACCES apparaît pour fournir les titres d'accès à l'inscription en thèse.  
+
+- [FEATURE] Pour les corrections attendues d'une thèse, on parle désormais de corrections facultatives ou obligatoires, 
+            plutôt que mineures ou majeures. La vue `SYGAL_THESE` est retouchée en ce sens.

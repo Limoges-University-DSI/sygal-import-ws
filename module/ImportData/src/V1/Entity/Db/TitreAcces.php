@@ -3,21 +3,21 @@
 namespace ImportData\V1\Entity\Db;
 
 /**
- * Financement
+ * TitreAcces
  *
  * @codeCoverageIgnore
  */
-class Financement
+class TitreAcces
 {
     protected $id;
     protected $sourceId;
     protected $theseId;
-    protected $annee;
-    protected $origineFinancementId;
-    protected $complementFinancement;
-    protected $quotiteFinancement;
-    protected $dateDebutFinancement;
-    protected $dateFinFinancement;
+    protected $titreAccesInterneExterne;
+    protected $libelleTitreAcces;
+    protected $typeEtabTitreAcces;
+    protected $libelleEtabTitreAcces;
+    protected $codeDeptTitreAcces;
+    protected $codePaysTitreAcces;
 
     /**
      * @return mixed
@@ -46,48 +46,48 @@ class Financement
     /**
      * @return mixed
      */
-    public function getAnnee()
+    public function getTitreAccesInterneExterne()
     {
-        return $this->annee;
+        return $this->titreAccesInterneExterne;
     }
 
     /**
      * @return mixed
      */
-    public function getOrigineFinancementId()
+    public function getLibelleTitreAcces()
     {
-        return $this->origineFinancementId;
+        return $this->libelleTitreAcces;
     }
 
     /**
      * @return mixed
      */
-    public function getComplementFinancement()
+    public function getTypeEtabTitreAcces()
     {
-        return $this->complementFinancement;
+        return $this->typeEtabTitreAcces;
     }
 
     /**
      * @return mixed
      */
-    public function getQuotiteFinancement()
+    public function getLibelleEtabTitreAcces()
     {
-        return $this->quotiteFinancement;
+        return $this->libelleEtabTitreAcces;
     }
 
     /**
      * @return mixed
      */
-    public function getDateDebutFinancement()
+    public function getCodeDeptTitreAcces()
     {
-        return $this->dateDebutFinancement;
+        return $this->codeDeptTitreAcces;
     }
 
     /**
      * @return mixed
      */
-    public function getDateFinFinancement()
+    public function getCodePaysTitreAcces()
     {
-        return $this->dateFinFinancement;
+        return $this->codePaysTitreAcces;
     }
 }

@@ -2,15 +2,17 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * These
+ *
+ * @codeCoverageIgnore
  */
 class Individu
 {
 
     protected $id;
     protected $sourceId;
+    protected $supannId;
     protected $type;
     protected $civilite;
     protected $nomUsuel;
@@ -52,6 +54,22 @@ class Individu
     public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSupannId()
+    {
+        return $this->supannId;
+    }
+
+    /**
+     * @param string $supannId
+     */
+    public function setSupannId($supannId)
+    {
+        $this->supannId = $supannId;
     }
 
     /**
@@ -213,6 +231,4 @@ class Individu
     {
         $this->nationalite = $nationalite;
     }
-
-
 }

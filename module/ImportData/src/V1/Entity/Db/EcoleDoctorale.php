@@ -4,6 +4,8 @@ namespace ImportData\V1\Entity\Db;
 
 /**
  * Structure
+ *
+ * @codeCoverageIgnore
  */
 class EcoleDoctorale
 {

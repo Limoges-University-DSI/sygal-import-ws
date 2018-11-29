@@ -2,13 +2,13 @@
 
 namespace ImportData\V1\Entity\Db;
 
-
 /**
  * These
+ *
+ * @codeCoverageIgnore
  */
 class These
 {
-
     protected $id;
     protected $sourceId;
     protected $etatThese;
@@ -63,8 +63,6 @@ class These
     {
         $this->uniteRechId = $uniteRechId;
     }
-
-
 
     /**
      * @return mixed
@@ -385,6 +383,4 @@ class These
     {
         $this->correctionAutorisee = $correctionAutorisee;
     }
-    
-
 }
