@@ -42,3 +42,6 @@ des acteurs.
             Sygal ne sera pas en mesure de reconnaître à la connexion.
 
 - [FEATURE] Une nouvelle vue SYGAL_TITRE_ACCES apparaît pour fournir les titres d'accès à l'inscription en thèse.  
+
+- [FEATURE] Pour les corrections attendues d'une thèse, on parle désormais de corrections facultatives ou obligatoires, 
+            plutôt que mineures ou majeures. La vue `SYGAL_THESE` est retouchée en ce sens.
