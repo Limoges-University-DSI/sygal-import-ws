@@ -163,19 +163,19 @@ create view SYGAL_INDIVIDU as
     ind.cod_pay_nat                                     as cod_pay_nat,     -- Code nationalite
     pay.lib_nat                                         as lib_nat          -- Libelle nationalite
   from these_hdr_sout ths
-    join diplome        dip on dip.cod_dip     = ths.cod_dip
-    join typ_diplome    tpd on tpd.cod_tpd_etb = dip.cod_tpd_etb
-    join individu       ind on ind.cod_ind     = ths.cod_ind --and ind.cod_etu != 21009539 -- Exclusion du compte de test Aaron AAABA
-    join pays           pay on pay.cod_pay     = ind.cod_pay_nat
-    left join SYGAL_MV_EMAIL emails on emails.id = ind.cod_etu
+         join diplome        dip on dip.cod_dip     = ths.cod_dip
+         join typ_diplome    tpd on tpd.cod_tpd_etb = dip.cod_tpd_etb
+         join individu       ind on ind.cod_ind     = ths.cod_ind --and ind.cod_etu != 21009539 -- Exclusion du compte de test Aaron AAABA
+         join pays           pay on pay.cod_pay     = ind.cod_pay_nat
+         left join SYGAL_MV_EMAIL emails on emails.id = ind.cod_etu
   where ths.cod_ths_trv     =  '1'  --  Exclusion des travaux
-        and dip.cod_tpd_etb     in ( '39', '40' )
-        and tpd.eta_ths_hdr_drt =  'T'  -- Inscription en these
-        and tpd.tem_sante       =  'N'  -- Exclusion des theses d exercice
-        and ind.cod_etu is not null         -- oui, oui, ça arrive
+    and dip.cod_tpd_etb     in ( '39', '40' )
+    and tpd.eta_ths_hdr_drt =  'T'  -- Inscription en these
+    and tpd.tem_sante       =  'N'  -- Exclusion des theses d exercice
+    and ind.cod_etu is not null         -- oui, oui, ça arrive
   union
-  -- acteurs
-  select "SOURCE_ID","TYPE","ID","SUPANN_ID","CIV","LIB_NOM_PAT_IND","LIB_NOM_USU_IND","LIB_PR1_IND","LIB_PR2_IND","LIB_PR3_IND","EMAIL","DATE_NAI_IND","COD_PAY_NAT","LIB_NAT" from (
+    -- acteurs
+  select * from (
     with acteur as (
       select
         ths.cod_ths,
@@ -229,26 +229,26 @@ create view SYGAL_INDIVIDU as
         null             as tem_rap_recu,
         case when tjp.cod_roj in ( 'P', 'B', 'A' ) then tjp.cod_roj else null end as cod_roj_compl
       from ths_jur_per tjp
-    )
-    select distinct
-      'apogee'                                                                                                as source_id,
-      'acteur'                                                                                                as type,
-      coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per)                      as id,     -- Code Harpege ou Apogee de l acteur
-      regexp_replace(per.num_dos_har_per,'[^0-9]','')                                                         as supann_id, -- Code Harpege de l acteur
-      initcap(per.cod_civ_per)                                                                                as civ,             -- Civilite acteur
-      per.LIB_NOM_PAT_PER                                                                                     as lib_nom_pat_ind, -- Nom de famille acteur
-      per.lib_nom_usu_per                                                                                     as lib_nom_usu_ind, -- Nom d'usage acteur
-      per.lib_pr1_per                                                                                         as lib_pr1_ind,     -- Prenom 1 acteur
-      null                                                                                                    as lib_pr2_ind,     -- Prenom 2 acteur
-      null                                                                                                    as lib_pr3_ind,     -- Prenom 3 acteur
-      emails.email                                                                                            as email,           -- Mail acteur
-      per.dat_nai_per                                                                                         as date_nai_ind,    -- Date naissance acteur
-      null                                                                                                    as cod_pay_nat,     -- Code nationalite
-      null                                                                                                    as lib_nat          -- Libelle nationalite
-    from acteur               act
-      join role_jury            roj on roj.cod_roj = act.cod_roj
-      join personnel            per on per.cod_per = act.cod_per
-      left join SYGAL_MV_EMAIL emails on emails.id = per.num_dos_har_per
+      )
+      select distinct
+        'apogee'                                                                                                as source_id,
+        'acteur'                                                                                                as type,
+        coalesce(regexp_replace(per.num_dos_har_per,'[^0-9]',''), 'COD_PER_'||act.cod_per)                      as id,     -- Code Harpege ou Apogee de l acteur
+        regexp_replace(per.num_dos_har_per,'[^0-9]','')                                                         as supann_id, -- Code Harpege de l acteur
+        initcap(per.cod_civ_per)                                                                                as civ,             -- Civilite acteur
+        per.LIB_NOM_PAT_PER                                                                                     as lib_nom_pat_ind, -- Nom de famille acteur
+        per.lib_nom_usu_per                                                                                     as lib_nom_usu_ind, -- Nom d'usage acteur
+        per.lib_pr1_per                                                                                         as lib_pr1_ind,     -- Prenom 1 acteur
+        null                                                                                                    as lib_pr2_ind,     -- Prenom 2 acteur
+        null                                                                                                    as lib_pr3_ind,     -- Prenom 3 acteur
+        emails.email                                                                                            as email,           -- Mail acteur
+        per.dat_nai_per                                                                                         as date_nai_ind,    -- Date naissance acteur
+        null                                                                                                    as cod_pay_nat,     -- Code nationalite
+        null                                                                                                    as lib_nat          -- Libelle nationalite
+      from acteur               act
+             join role_jury            roj on roj.cod_roj = act.cod_roj
+             join personnel            per on per.cod_per = act.cod_per
+             left join SYGAL_MV_EMAIL emails on emails.id = per.num_dos_har_per
   )
 /
 
@@ -281,166 +281,166 @@ create view SYGAL_DOCTORANT as
 
 create view SYGAL_THESE as
   with inscription_administrative as (
-      select
-        iae.cod_ind,
-        iae.cod_dip,
-        iae.cod_vrs_vdi,
-        dip.lib_dip,
-        max ( iae.cod_anu ) cod_anu_der_iae
-      from ins_adm_etp iae
-        join diplome     dip on dip.cod_dip     = iae.cod_dip
-        join typ_diplome tpd on tpd.cod_tpd_etb = dip.cod_tpd_etb
-      where iae.eta_iae         =  'E'  -- Inscription administrative non annulee
-            and iae.eta_pmt_iae     =  'P'  -- Inscription administrative payee
-            and dip.cod_tpd_etb     in ( '39', '40' )
-            and tpd.eta_ths_hdr_drt =  'T'  -- Inscription en these
-            and tpd.tem_sante       =  'N'  -- Exclusion des theses d exercice
-      group by
-        iae.cod_ind,
-        iae.cod_dip,
-        iae.cod_vrs_vdi,
-        dip.lib_dip
-  ),
-      hierarchie_structures as (
-        select
-          cod_cmp_inf,
-          cod_cmp_sup
-        from cmp_cmp
-        where connect_by_isleaf = 1
-        connect by prior cod_cmp_sup = cod_cmp_inf
+    select
+      iae.cod_ind,
+      iae.cod_dip,
+      iae.cod_vrs_vdi,
+      dip.lib_dip,
+      max ( iae.cod_anu ) cod_anu_der_iae
+    from ins_adm_etp iae
+           join diplome     dip on dip.cod_dip     = iae.cod_dip
+           join typ_diplome tpd on tpd.cod_tpd_etb = dip.cod_tpd_etb
+    where iae.eta_iae         =  'E'  -- Inscription administrative non annulee
+      and iae.eta_pmt_iae     =  'P'  -- Inscription administrative payee
+      and dip.cod_tpd_etb     in ( '39', '40' )
+      and tpd.eta_ths_hdr_drt =  'T'  -- Inscription en these
+      and tpd.tem_sante       =  'N'  -- Exclusion des theses d exercice
+    group by
+      iae.cod_ind,
+      iae.cod_dip,
+      iae.cod_vrs_vdi,
+      dip.lib_dip
     ),
-      ancienne_these as (
-        select distinct
-          cod_ind,
-          cod_dip_anc,
-          cod_vrs_vdi_anc,
-          'A' eta_ths
-        from these_hdr_sout
-        where cod_ths_trv = '1'
-              and cod_dip_anc is not null
-    )
-  select
-    'apogee' as source_id, -- Id de la source
-    --
-    -- -------- Enregistrement de la these --------
-    --
-    ths.cod_ths as id,                       -- Identifiant de la these
-    case when ths.eta_ths = 'S' and nvl ( ths.dat_sou_ths, sysdate + 1 ) > sysdate
-      then 'E' else ths.eta_ths end eta_ths,          -- Etat de la these ( E=En cours / A=Abandonnee / S=Soutenue / U=Transferee )
-    ind.cod_etu                     doctorant_id,     -- Identifiant du doctorant
-    --iae.cod_dip,                                      -- Code diplome
-    --iae.cod_vrs_vdi,                                  -- Version de diplome
-    --nvl ( vdi.lib_web_vdi, iae.lib_dip ) lib_web_vdi, -- Libelle version de diplome
-    ths.cod_dis,                                      -- Code discipline
-    dis.lib_int1_dis,                                 -- Libellé discipline
-    ths.lib_ths,                                      -- Titre de la these
-    ths.cod_lng,                                      -- Code langue etrangere du titre
-    --lng.lib_lng,                                      -- Libelle langue etrangere du titre
-    --lng.lib_nls_lng,                                  -- Parametre Oracle NLS_LANG
-    --ths.lib_ths_lng,                                  -- Titre de la these dans la langue etrangere
-    ths.dat_deb_ths,                                  -- Date de 1ere inscription
-    --iae.cod_anu_der_iae,                              -- Code annee de derniere inscription
-    --ths.daa_fin_ths,                                  -- Code annee previsionnelle de soutenance
-    --ans.lib_anu lib_anu_fin_ths,                      -- Libelle annee previsionnelle de soutenance
-    --ths.cod_edo,                                      -- Code ecole doctorale
-    edo.cod_nat_edo,                                  -- Identifiant national ecole doctorale
-    --edo.lib_edo,                                      -- Denomination ecole doctorale
-    --ths.cod_ser,                                      -- Code secteur de recherche principal
-    --ser.lib_ser,                                      -- Denomination secteur de recherche principal
-    ths.cod_eqr,                                      -- Code unite de recherche principale
-    --eqr.lib_eqr,                                      -- Denomination unite de recherche principale
-    --ths.lib_cmt_ths,                                  -- Informations complementaires sur la these
-    --
-    -- ----------------------------- Cotutelle -----------------------------
-    --
-    --ths.tem_cot_ths,                                  -- Cotutelle (O/N)
-    --ths.lib_cmt_cot_ths,                              -- Descriptif cotutelle
-    --ths.cod_pay,                                      -- Code pays de cotutelle
-    pay.lib_pay,                                      -- Denomination pays de cotutelle
-    --ths.cod_etb cod_etb_cot,                          -- Code etablissement de cotutelle
-    nvl ( etb.lib_web_etb, etb.lib_etb ) lib_etb_cot, -- Denomination etablissement de cotutelle
-    --ths.dat_sign_cnv,                                 -- Date de signature de la convention de cotutelle
-    ths.tem_avenant,                                  -- Avenant a la convention de cotutelle (O/N)
-    --ths.tem_etb_sou,                                  -- Soutenance dans l etablissement d inscription (V) ou dans l etablissement de cotutelle (E)
-    --ths.lib_cmt_compl,                                -- Info complementaire sur cotutelle
-    --
-    -- -------- Abandon ou transferts --------
-    --
-    --ths.dat_abandon,                                  -- Date d abandon de la these
-    --ths.dat_transfert_dep,                            -- Date de transfert depart
-    --ths.tem_transfert_arr,                            -- Transfert arrivee (O/N)
-    --ths.dat_deb_ths_ori,                              -- Date de debut de la these dans l etablissement d origine
-    --ths.cod_etb_origine,                              -- Code etablissement d origine
-    --nvl ( ori.lib_web_etb, ori.lib_etb ) lib_etb_origine, -- Denomination etablissement d origine
-    --
-    -- -------- Expertise des rapporteurs --------
-    --
-    --ths.dat_des_rap_ths,                              -- Date de designation des rapporteurs
-    --
-    -- -------- Organisation de la soutenance --------
-    --
-    --ths.duree_ths,                                    -- Duree de la these en mois
-    --ths.eta_duree_ths,                                -- Etat de la duree de la these ( M=Modifiee? / C=Calculee? )
-    ths.dat_prev_sou,                                 -- Date previsionnelle de soutenance
-    ths.tem_sou_aut_ths,                              -- Soutenance autorisee (O/N/null)
-    ths.dat_aut_sou_ths,                              -- Date d autorisation de soutenance
-    --ths.lib_cmt_sou_aut_ths,                          -- Commentaire associe a la non autorisation de soutenance
-    --ths.lib_cmt_leu_sou_ths,                          -- Lieu de la soutenance
-    --ths.cod_etb_sou,                                  -- Code etablissement du lieu de soutenance
-    --nvl ( sou.lib_web_etb, sou.lib_etb ) lib_etb_sou, -- Denomination etablissement du lieu de soutenance
-    ths.dat_sou_ths,                                  -- Date de soutenance de la these
-    --ths.hh_sou_ths,                                   -- Heure de soutenance (hh)
-    --ths.mm_sou_ths,                                   -- Heure de soutenance (mi)
-    --cmp.cod_cmp,                                      -- Code composante
-    --cmp.lib_web_cmp,                                  -- Libelle composante
-    --ths.tem_aut_etb_sou_ths,                          -- Soutenance dans autre etablissement si cotutelle (O/N)
-    --
-    -- -------- Confidentialite --------
-    --
-    --ths.tem_pub_sou_ths,                              -- Soutenance publique (O/N)
-    --ths.lib_cmt_pub_sou_ths,                          -- Commentaire associe a la confidentialite de la these
-    ths.dat_fin_cfd_ths,                              -- Date de fin de confidentialite de la these
-    --
-    -- -------- Jury et resultats --------
-    --
-    --ths.dat_des_jur_ths,                              -- Date de designation du jury
-    -- rvi.cod_anu cod_anu_rvi,                          -- Code annee universitaire du resultat
-    --anr.lib_anu lib_anu_rvi,                          -- Libelle annee universitaire du resultat
-    tre.cod_neg_tre,                                    -- Resultat positif (1) ou non (0)
-    --rvi.cod_tre,                                      -- Code resultat
-    --tre.lib_tre,                                      -- Libelle resultat
-    --rvi.cod_men,                                      -- Code mention
-    --men.lib_men,                                      -- Libelle mention
-    --ths.tem_lab_eur_ths,                              -- Label europeen (O/N)
-    ths.eta_rpd_ths,                                  -- Reproduction de la these ( O=Oui / C=Oui avec corrections / N=Non )
-    decode(ths.eta_rpd_ths, 'N', 'majeure', 'C', 'mineure', null) as correction_possible
-  --ths.tem_cor_ths,                                  -- Corrections effectuees (O/N)
-  --ths.tem_pv_transmis,                              -- PV de soutenance transmis (O/N)
-  --ths.tem_rap_transmis,                             -- Rapport de soutenance transmis (O/N)
-  --ths.tem_stop_mvt_abes                             -- Aucun mouvement ne doit etre genere vers l ABES (O/N)
-  from inscription_administrative iae
-    join individu                   ind on ind.cod_ind = iae.cod_ind
-    join version_diplome            vdi on vdi.cod_dip = iae.cod_dip and vdi.cod_vrs_vdi = iae.cod_vrs_vdi
-    join these_hdr_sout             ths on ths.cod_ind = iae.cod_ind and ths.cod_dip = iae.cod_dip and ths.cod_vrs_vdi = iae.cod_vrs_vdi
-    left join ancienne_these        anc on anc.cod_ind = ths.cod_ind and anc.cod_dip_anc = ths.cod_dip and anc.cod_vrs_vdi_anc = ths.cod_vrs_vdi and anc.eta_ths = ths.eta_ths
-    left join annee_uni             ans on ans.cod_anu = ths.daa_fin_ths
-    left join ecole_doctorale       edo on edo.cod_edo = ths.cod_edo
-    left join secteur_rch           ser on ser.cod_ser = ths.cod_ser
-    left join equipe_rch            eqr on eqr.cod_eqr = ths.cod_eqr
-    left join resultat_vdi          rvi on rvi.cod_ind = iae.cod_ind and rvi.cod_dip = iae.cod_dip and rvi.cod_vrs_vdi = iae.cod_vrs_vdi and rvi.cod_ses = '0' and rvi.cod_adm = '1' and rvi.cod_tre is not null
-    left join annee_uni             anr on anr.cod_anu = rvi.cod_anu
-    left join typ_resultat          tre on tre.cod_tre = rvi.cod_tre
-    left join mention               men on men.cod_men = rvi.cod_men
-    left join hierarchie_structures ccm on ccm.cod_cmp_inf = ths.cod_cmp
-    left join composante            cmp on cmp.cod_cmp = nvl ( ccm.cod_cmp_sup, ths.cod_cmp )
-    left join diplome_sise          dis on dis.cod_dis = ths.cod_dis
-    left join etablissement         etb on etb.cod_etb = ths.cod_etb
-    left join pays                  pay on pay.cod_pay = ths.cod_pay
-    left join etablissement         sou on sou.cod_etb = ths.cod_etb_sou
-    left join etablissement         ori on ori.cod_etb = ths.cod_etb_origine
-    left join langue                lng on lng.cod_lng = ths.cod_lng
-  where ths.cod_ths_trv = '1'     --  Exclusion des travaux
-        and anc.cod_dip_anc is null
+    hierarchie_structures as (
+      select
+        cod_cmp_inf,
+        cod_cmp_sup
+      from cmp_cmp
+      where connect_by_isleaf = 1
+      connect by prior cod_cmp_sup = cod_cmp_inf
+      ),
+    ancienne_these as (
+      select distinct
+        cod_ind,
+        cod_dip_anc,
+        cod_vrs_vdi_anc,
+        'A' eta_ths
+      from these_hdr_sout
+      where cod_ths_trv = '1'
+        and cod_dip_anc is not null
+      )
+    select
+      'apogee' as source_id, -- Id de la source
+      --
+      -- -------- Enregistrement de la these --------
+      --
+      ths.cod_ths as id,                       -- Identifiant de la these
+      case when ths.eta_ths = 'S' and nvl ( ths.dat_sou_ths, sysdate + 1 ) > sysdate
+             then 'E' else ths.eta_ths end eta_ths,          -- Etat de la these ( E=En cours / A=Abandonnee / S=Soutenue / U=Transferee )
+      ind.cod_etu                     doctorant_id,     -- Identifiant du doctorant
+      --iae.cod_dip,                                      -- Code diplome
+      --iae.cod_vrs_vdi,                                  -- Version de diplome
+      --nvl ( vdi.lib_web_vdi, iae.lib_dip ) lib_web_vdi, -- Libelle version de diplome
+      ths.cod_dis,                                      -- Code discipline
+      dis.lib_int1_dis,                                 -- Libellé discipline
+      ths.lib_ths,                                      -- Titre de la these
+      ths.cod_lng,                                      -- Code langue etrangere du titre
+      --lng.lib_lng,                                      -- Libelle langue etrangere du titre
+      --lng.lib_nls_lng,                                  -- Parametre Oracle NLS_LANG
+      --ths.lib_ths_lng,                                  -- Titre de la these dans la langue etrangere
+      ths.dat_deb_ths,                                  -- Date de 1ere inscription
+      --iae.cod_anu_der_iae,                              -- Code annee de derniere inscription
+      --ths.daa_fin_ths,                                  -- Code annee previsionnelle de soutenance
+      --ans.lib_anu lib_anu_fin_ths,                      -- Libelle annee previsionnelle de soutenance
+      --ths.cod_edo,                                      -- Code ecole doctorale
+      edo.cod_nat_edo,                                  -- Identifiant national ecole doctorale
+      --edo.lib_edo,                                      -- Denomination ecole doctorale
+      --ths.cod_ser,                                      -- Code secteur de recherche principal
+      --ser.lib_ser,                                      -- Denomination secteur de recherche principal
+      ths.cod_eqr,                                      -- Code unite de recherche principale
+      --eqr.lib_eqr,                                      -- Denomination unite de recherche principale
+      --ths.lib_cmt_ths,                                  -- Informations complementaires sur la these
+      --
+      -- ----------------------------- Cotutelle -----------------------------
+      --
+      --ths.tem_cot_ths,                                  -- Cotutelle (O/N)
+      --ths.lib_cmt_cot_ths,                              -- Descriptif cotutelle
+      --ths.cod_pay,                                      -- Code pays de cotutelle
+      pay.lib_pay,                                      -- Denomination pays de cotutelle
+      --ths.cod_etb cod_etb_cot,                          -- Code etablissement de cotutelle
+      nvl ( etb.lib_web_etb, etb.lib_etb ) lib_etb_cot, -- Denomination etablissement de cotutelle
+      --ths.dat_sign_cnv,                                 -- Date de signature de la convention de cotutelle
+      ths.tem_avenant,                                  -- Avenant a la convention de cotutelle (O/N)
+      --ths.tem_etb_sou,                                  -- Soutenance dans l etablissement d inscription (V) ou dans l etablissement de cotutelle (E)
+      --ths.lib_cmt_compl,                                -- Info complementaire sur cotutelle
+      --
+      -- -------- Abandon ou transferts --------
+      --
+      --ths.dat_abandon,                                  -- Date d abandon de la these
+      --ths.dat_transfert_dep,                            -- Date de transfert depart
+      --ths.tem_transfert_arr,                            -- Transfert arrivee (O/N)
+      --ths.dat_deb_ths_ori,                              -- Date de debut de la these dans l etablissement d origine
+      --ths.cod_etb_origine,                              -- Code etablissement d origine
+      --nvl ( ori.lib_web_etb, ori.lib_etb ) lib_etb_origine, -- Denomination etablissement d origine
+      --
+      -- -------- Expertise des rapporteurs --------
+      --
+      --ths.dat_des_rap_ths,                              -- Date de designation des rapporteurs
+      --
+      -- -------- Organisation de la soutenance --------
+      --
+      --ths.duree_ths,                                    -- Duree de la these en mois
+      --ths.eta_duree_ths,                                -- Etat de la duree de la these ( M=Modifiee? / C=Calculee? )
+      ths.dat_prev_sou,                                 -- Date previsionnelle de soutenance
+      ths.tem_sou_aut_ths,                              -- Soutenance autorisee (O/N/null)
+      ths.dat_aut_sou_ths,                              -- Date d autorisation de soutenance
+      --ths.lib_cmt_sou_aut_ths,                          -- Commentaire associe a la non autorisation de soutenance
+      --ths.lib_cmt_leu_sou_ths,                          -- Lieu de la soutenance
+      --ths.cod_etb_sou,                                  -- Code etablissement du lieu de soutenance
+      --nvl ( sou.lib_web_etb, sou.lib_etb ) lib_etb_sou, -- Denomination etablissement du lieu de soutenance
+      ths.dat_sou_ths,                                  -- Date de soutenance de la these
+      --ths.hh_sou_ths,                                   -- Heure de soutenance (hh)
+      --ths.mm_sou_ths,                                   -- Heure de soutenance (mi)
+      --cmp.cod_cmp,                                      -- Code composante
+      --cmp.lib_web_cmp,                                  -- Libelle composante
+      --ths.tem_aut_etb_sou_ths,                          -- Soutenance dans autre etablissement si cotutelle (O/N)
+      --
+      -- -------- Confidentialite --------
+      --
+      --ths.tem_pub_sou_ths,                              -- Soutenance publique (O/N)
+      --ths.lib_cmt_pub_sou_ths,                          -- Commentaire associe a la confidentialite de la these
+      ths.dat_fin_cfd_ths,                              -- Date de fin de confidentialite de la these
+      --
+      -- -------- Jury et resultats --------
+      --
+      --ths.dat_des_jur_ths,                              -- Date de designation du jury
+      -- rvi.cod_anu cod_anu_rvi,                          -- Code annee universitaire du resultat
+      --anr.lib_anu lib_anu_rvi,                          -- Libelle annee universitaire du resultat
+      tre.cod_neg_tre,                                    -- Resultat positif (1) ou non (0)
+      --rvi.cod_tre,                                      -- Code resultat
+      --tre.lib_tre,                                      -- Libelle resultat
+      --rvi.cod_men,                                      -- Code mention
+      --men.lib_men,                                      -- Libelle mention
+      --ths.tem_lab_eur_ths,                              -- Label europeen (O/N)
+      ths.eta_rpd_ths,                                  -- Reproduction de la these ( O=Oui / C=Oui avec corrections / N=Non )
+      decode(ths.eta_rpd_ths, 'N', 'obligatoire', 'C', 'facultative', null) as correction_possible
+      --ths.tem_cor_ths,                                  -- Corrections effectuees (O/N)
+      --ths.tem_pv_transmis,                              -- PV de soutenance transmis (O/N)
+      --ths.tem_rap_transmis,                             -- Rapport de soutenance transmis (O/N)
+      --ths.tem_stop_mvt_abes                             -- Aucun mouvement ne doit etre genere vers l ABES (O/N)
+    from inscription_administrative iae
+           join individu                   ind on ind.cod_ind = iae.cod_ind
+           join version_diplome            vdi on vdi.cod_dip = iae.cod_dip and vdi.cod_vrs_vdi = iae.cod_vrs_vdi
+           join these_hdr_sout             ths on ths.cod_ind = iae.cod_ind and ths.cod_dip = iae.cod_dip and ths.cod_vrs_vdi = iae.cod_vrs_vdi
+           left join ancienne_these        anc on anc.cod_ind = ths.cod_ind and anc.cod_dip_anc = ths.cod_dip and anc.cod_vrs_vdi_anc = ths.cod_vrs_vdi and anc.eta_ths = ths.eta_ths
+           left join annee_uni             ans on ans.cod_anu = ths.daa_fin_ths
+           left join ecole_doctorale       edo on edo.cod_edo = ths.cod_edo
+           left join secteur_rch           ser on ser.cod_ser = ths.cod_ser
+           left join equipe_rch            eqr on eqr.cod_eqr = ths.cod_eqr
+           left join resultat_vdi          rvi on rvi.cod_ind = iae.cod_ind and rvi.cod_dip = iae.cod_dip and rvi.cod_vrs_vdi = iae.cod_vrs_vdi and rvi.cod_ses = '0' and rvi.cod_adm = '1' and rvi.cod_tre is not null
+           left join annee_uni             anr on anr.cod_anu = rvi.cod_anu
+           left join typ_resultat          tre on tre.cod_tre = rvi.cod_tre
+           left join mention               men on men.cod_men = rvi.cod_men
+           left join hierarchie_structures ccm on ccm.cod_cmp_inf = ths.cod_cmp
+           left join composante            cmp on cmp.cod_cmp = nvl ( ccm.cod_cmp_sup, ths.cod_cmp )
+           left join diplome_sise          dis on dis.cod_dis = ths.cod_dis
+           left join etablissement         etb on etb.cod_etb = ths.cod_etb
+           left join pays                  pay on pay.cod_pay = ths.cod_pay
+           left join etablissement         sou on sou.cod_etb = ths.cod_etb_sou
+           left join etablissement         ori on ori.cod_etb = ths.cod_etb_origine
+           left join langue                lng on lng.cod_lng = ths.cod_lng
+    where ths.cod_ths_trv = '1'     --  Exclusion des travaux
+      and anc.cod_dip_anc is null
 /
 
 create view SYGAL_STRUCTURE as
@@ -832,3 +832,89 @@ create view SYGAL_ORIGINE_FINANCEMENT as
   select '43', 'apogee', '43', 'ORG INTER',   'Organismes Internationaux'                from dual
 /
 
+create view SYGAL_TITRE_ACCES as
+  with inscription_administrative as (
+    select
+      iae.cod_ind,
+      iae.cod_dip,
+      iae.cod_vrs_vdi,
+      dip.lib_dip,
+      max ( iae.cod_anu ) as cod_anu_der_iae,
+      min ( iae.cod_nat_tit_acc_iae ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_nat_tit_acc_iae,
+      min ( iae.cod_dip_acc         ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_dip_acc,
+      min ( iae.cod_vrs_vdi_acc     ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_vrs_vdi_acc,
+      min ( iae.cod_dac_acc         ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_dac_acc,
+      min ( iae.cod_tpe_acc_iae     ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_tpe_acc_iae,
+      min ( iae.cod_etb_acc_iae     ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_etb_acc_iae,
+      min ( iae.cod_dep_pay_acc     ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_dep_pay_acc,
+      min ( iae.cod_typ_dep_pay_acc ) keep ( dense_rank first order by iae.cod_ind, iae.cod_dip, iae.cod_vrs_vdi, iae.cod_nat_tit_acc_iae desc, iae.cod_anu ) as cod_typ_dep_pay_acc
+    from ins_adm_etp iae
+           join diplome dip on dip.cod_dip = iae.cod_dip
+           join typ_diplome tpd on tpd.cod_tpd_etb = dip.cod_tpd_etb
+    where iae.eta_iae = 'E'  -- Inscription administrative non annulee
+      and iae.eta_pmt_iae = 'P'  -- Inscription administrative payee
+      and dip.cod_tpd_etb in ('39', '40') -- Inscription dans un diplome de type doctorat
+      and tpd.eta_ths_hdr_drt = 'T'  -- Inscription en these
+      and tpd.tem_sante = 'N'  -- Exclusion des theses d exercice
+    group by
+      iae.cod_ind,
+      iae.cod_dip,
+      iae.cod_vrs_vdi,
+      dip.lib_dip
+    ),
+    titre_acces as (
+      select
+        iae.cod_ind,
+        iae.cod_dip,
+        iae.cod_vrs_vdi,
+        case iae.cod_nat_tit_acc_iae
+          when 'A' then null
+          else iae.cod_nat_tit_acc_iae
+          end                                                as titre_acces_interne_externe,
+        case iae.cod_nat_tit_acc_iae
+          when 'I' then vdi.lib_web_vdi
+          when 'E' then nvl ( dac.lib_web_dac, dac.lib_dac )
+          end                                                as libelle_titre_acces,
+        tpe.lib_tpe                                          as type_etb_titre_acces,
+        case iae.cod_nat_tit_acc_iae
+          when 'I' then etb_lib.par_vap
+          when 'E' then etb.lib_etb
+          end                                                as libelle_etb_titre_acces,
+        case iae.cod_nat_tit_acc_iae
+          when 'I' then etb_dep.par_vap
+          when 'E' then case iae.cod_typ_dep_pay_acc when 'D' then iae.cod_dep_pay_acc else null end
+          end                                                as code_dept_titre_acces,
+        case iae.cod_nat_tit_acc_iae
+          when 'I' then '100'
+          when 'E' then case iae.cod_typ_dep_pay_acc when 'P' then iae.cod_dep_pay_acc else null end
+          end                                                as code_pays_titre_acces
+      from variable_appli                     etb_cod
+             cross join variable_appli             etb_typ
+             cross join variable_appli             etb_lib
+             cross join variable_appli             etb_dep
+             cross join inscription_administrative iae
+             left join version_diplome             vdi on vdi.cod_dip = iae.cod_dip_acc and vdi.cod_vrs_vdi = iae.cod_vrs_vdi_acc
+             left join dip_aut_cur                 dac on dac.cod_dac = iae.cod_dac_acc
+             left join typ_etb                     tpe on tpe.cod_tpe = case iae.cod_nat_tit_acc_iae when 'I' then etb_typ.par_vap when 'E' then iae.cod_tpe_acc_iae end
+             left join etablissement               etb on etb.cod_etb = iae.cod_etb_acc_iae
+      where etb_cod.cod_vap = 'ETB_COD'
+        and etb_typ.cod_vap = 'ETB_TYP'
+        and etb_lib.cod_vap = 'ETB_LIB'
+        and etb_dep.cod_vap = 'ETB_DEP'
+      )
+    select
+      'apogee' as source_id,    -- Id de la source
+      ths.cod_ths as id,        -- Clé primaire de la vue
+      ths.cod_ths as these_id,  -- Identifiant de la these
+      tac.titre_acces_interne_externe,
+      tac.libelle_titre_acces,
+      tac.type_etb_titre_acces,
+      tac.libelle_etb_titre_acces,
+      tac.code_dept_titre_acces,
+      tac.code_pays_titre_acces
+    from inscription_administrative iae
+           join these_hdr_sout ths on ths.cod_ind = iae.cod_ind and ths.cod_dip = iae.cod_dip and ths.cod_vrs_vdi = iae.cod_vrs_vdi
+           join titre_acces    tac on tac.cod_ind = iae.cod_ind and tac.cod_dip = iae.cod_dip and tac.cod_vrs_vdi = iae.cod_vrs_vdi
+    where
+        tac.titre_acces_interne_externe is not null
+/
