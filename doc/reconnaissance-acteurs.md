@@ -1,5 +1,18 @@
 # Reconnaissance des différents acteurs par l'application
 
+Lorsqu'un individu se connecte à Sygal avec la fédération d'identité Renater, l'application obtient un certains nombres
+d'attributs LDAP le concernant provenant de son établissement d'appartenance : nom, prénom, adresse électronique, etc.
+
+- Si un personnel de l'établissement se connecte avec son identifiant "professionnel", Shibboleth met à disposition 
+  l'attribut `supannEmpId`.
+- Si un doctorant se connecte avec son identifiant "étudiant", Shibboleth met à disposition l'attribut `supannEtuId`.
+
+Sygal n'a à sa disposition que le `supannEmpId` ou le `supannEtuId` fourni par Shibboleth pour faire le lien entre 
+l'individu connecté et les données importées de chaque établissement : thèses, individus acteurs sur les thèses, etc.
+
+Il faut donc veiller à ce que les données mises à dispoition par chaque établissement et importées par Sygal référencent 
+bien le `supannEmpId` ou le `supannEtuId` des individus concernés.
+
 
 ## Etablissements ayant Apogée
 
@@ -29,14 +42,15 @@ Points importants :
 - Colonne SUPANN_ID :
   - Si elle est renseignée, l'individu possède dans Apogée un code Harpege (cf. colonne "num_dos_har_per" de la table 
   "personnel" pour le COD_PER en question). Lorsque l'individu se connecte avec la fédération d'identité Renater, c'est 
-  ce code Harpege que Sygal obtient via l'attribut shibboleth "supannEmpId". Par exemple, lorsque Patrice Lerouge se 
-  connecte, Sygal obtient un supannEmpId=4203.
-  - Si lette colonne est null, l'individu pourra se connecter mais il ne sera pas reconnu par Sygal comme acteur d'une 
+  ce code Harpege que Sygal obtient via l'attribut shibboleth "supannEmpId".
+  - Si lette colonne est null, l'individu pourra certes se connecter mais il ne sera pas reconnu par Sygal comme acteur d'une 
   thèse. C'est ce genre de situation que Sygal signale pour les directeurs de thèses par un triangle rouge sur la page 
   Thèse.
 
 Pour renseigner dans Apogée le code Harpege qui ferait défaut, il faut aller sur la fiche "Personnel" de l'individu en 
-question, cadre "Infos administratives".
+question, cadre "Infos administratives" :
+
+![alt text](capture-personnel-apogee.png "Capture fiche Personnel dans Apogée")
 
 ### Doctorants
 
