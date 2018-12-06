@@ -4,7 +4,7 @@
 ## Applicatif
 
 
-### Première obtention des sources et configuration du serveur 
+### Première obtention des sources et installation du serveur 
 
 Sur un serveur Debian Stretch, lancez les commandes suivantes :
 ```bash
@@ -13,29 +13,38 @@ cd /var/www/sygal-import-WS
 source Dockerfile.sh
 ```
 
-- La config Apache pour le WS est dans le répertoire `docker/` : `apache-site.conf`, `apache-site-ssl.conf` et `apache-ports.conf`.
-- La config PHP est aussi dans le répertoire `docker/` : `php.conf`.
-- Le WS doit écouter sur les port 8080 (en http) et 8443 (en https).
-- Autoriser l'accès depuis l'extérieur sur ces ports (on vous dira notre IP de sortie si besoin).
+Ensuite, vérifiez et ajustez si besoin sur votre serveur les fichiers de configs suivants :
+- ${APACHE_CONF_DIR}/sites-available/ports.conf
+- ${APACHE_CONF_DIR}/sites-available/sygal-import-ws.conf
+- ${APACHE_CONF_DIR}/sites-available/sygal-import-ws-ssl.conf  
+- ${PHP_CONF_DIR}/fpm/pool.d/sygal-import-ws.conf
+- ${PHP_CONF_DIR}/fpm/conf.d/
+
+NB: Vérifiez dans le script `Dockerfile.sh` que vous venez de lancer mais normalement 
+`APACHE_CONF_DIR=/etc/apache2` et `PHP_CONF_DIR=/etc/php/7.0`.
 
 
-### Installation d'une version précise
+### Installation d'une version précise du WS
+
+Normalement, vous ne devez installer que les versions officielles du WS, c'est à dire les versions taguées du genre `1.2.1`
+par exemple.
 
 Placez-vous dans le répertoire des sources du web service puis lancez la commande git suivante pour obtenir la liste des
-versions disponibles du WS :
+versions officielles du WS :
 ```bash
 git fetch && git fetch --tags && git tag
 ```
 
-Si la version la plus récente est par exemple la `1.2.1`, utilisez la commande suivante pour "installer" sur cette version :
+Si la version la plus récente est par exemple la `1.2.1`, utilisez la commande suivante pour "installer" sur cette version 
+sur votre serveur :
 ```bash
-git checkout --force 1.1.0 && bash install.sh
+git checkout --force 1.2.1 && bash install.sh
 ```
 
 
 ### Fichier "users.htpasswd"
 
-Ce fichier contient les utilisateurs/mot de passe autorisés à appeler le WS.
+Ce fichier contient les utilisateurs/mot de passe autorisés à interroger le WS.
 
 S'il s'agit d'une mise à jour du WS, vous avez déjà fait la manip, inutile de lire ce paragraphe.
 
@@ -67,13 +76,9 @@ complétés puis renommés :
 Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
 
 
-### Configuration PHP
+### Configuration PHP pour le WS
 
-Selon le moteur PHP que vous avez installé, l'emplacement du fichier de config PHP à créer/modifier diffère.
-  - php7.0-fpm         : `/etc/php/7.0/fpm/conf.d/`
-  - apache2-mod-php7.0 : `/etc/php/7.0/apache2/conf.d/`
-  
-Voici le contenu du fichier `99-sygal-import-WS.ini` à créer/modifier :
+Créez/corrigez le fichier de config PHP `/etc/php/7.0/fpm/conf.d/99-sygal-import-WS.ini` comme suit :
 
     date.timezone = Europe/Paris
     short_open_tag = Off
