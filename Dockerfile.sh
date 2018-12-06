@@ -23,6 +23,10 @@ source Dockerfile.sh
 
 cd ${DIR}
 
+# NB: Variables d'env positionnées par ${UNICAEN_IMAGE_TMP_DIR}/Dockerfile.sh
+# APACHE_CONF_DIR=/etc/apache2 \
+# PHP_CONF_DIR=/etc/php/7.0
+
 # Configuration Apache et FPM
 cp docker/apache-ports.conf    ${APACHE_CONF_DIR}/ports.conf
 cp docker/apache-site.conf     ${APACHE_CONF_DIR}/sites-available/sygal-import-ws.conf
