@@ -29,13 +29,13 @@ NB: Vérifiez dans le script `Dockerfile.sh` que vous venez de lancer mais norma
 Normalement, vous ne devez installer que les versions officielles du WS, c'est à dire les versions taguées du genre `1.2.1`
 par exemple.
 
-Placez-vous dans le répertoire des sources du web service puis lancez la commande git suivante pour obtenir la liste des
+Placez-vous dans le répertoire des sources du web service puis lancez les commandes git suivantes pour obtenir la liste des
 versions officielles du WS :
 ```bash
 git fetch && git fetch --tags && git tag
 ```
 
-Si la version la plus récente est par exemple la `1.2.1`, utilisez la commande suivante pour "installer" sur cette version 
+Si la version la plus récente est par exemple la `1.2.1`, utilisez les commandes suivantes pour "installer" cette version 
 sur votre serveur :
 ```bash
 git checkout --force 1.2.1 && bash install.sh
@@ -44,13 +44,13 @@ git checkout --force 1.2.1 && bash install.sh
 
 ### Fichier "users.htpasswd"
 
-Ce fichier contient les utilisateurs/mot de passe autorisés à interroger le WS.
+Ce fichier contient les utilisateurs/mot de passe autorisés à interroger le WS au regard de l'authentification HTTP Basic.
 
 S'il s'agit d'une mise à jour du WS, vous avez déjà fait la manip, inutile de lire ce paragraphe.
 
-S'il s'agit de la première installation du WS, placez-vous dans le répertoire [`config`](config) des sources et lancer la 
+S'il s'agit de la première installation du WS, placez-vous dans le répertoire [`config`](config) des sources et lancez la 
 commande suivante pour créer le fichier "users.htpasswd" contenant un utilisateur `sygal-app` dont le mot de passe 
-va vous être demandé :
+vous sera demandé :
 ```bash
 htpasswd -c users.htpasswd sygal-app
 ```
@@ -65,15 +65,15 @@ pwgen 16 1 --symbols --secure
 S'il s'agit d'une mise à jour du WS, vous avez déjà fait la manip, inutile de lire ce paragraphe.
 Reportez-vous simplement aux "release notes" de la version choisie situées dans `doc/release-notes`.
 
-S'il s'agit de la première installation du WS, 2 fichiers situés dans le répertoire `config/autoload` ont besoin d'être 
-complétés puis renommés :
+S'il s'agit de la première installation du WS, 2 fichiers situés dans le répertoire [`config/autoload`](config/autoload) 
+doivent être complétés puis renommés :
 
   - **local.php.dist** : qui est notamment utilisé pour l'authentification.
     - clé `htpasswd` qui désigne le chemin du fichier "users.htpasswd" évoqué plus haut
   - **database.local.php.dist** : qui est utilisé pour la connection à la BDD.
     - clés `host`, `dbname`, `port`, `user`, `password` : les infos d'accès à la BDD.
  
-Une fois ces fichiers complétés, changer leur extension `.php.dist` en `.php`.
+Une fois ces fichiers complétés, changez leur extension `.php.dist` en `.php`.
 
 
 ### Configuration PHP pour le WS
@@ -128,7 +128,7 @@ composer development-enable
 Le WS interroge des vues que vous devez créer dans la base de données de votre logiciel de scolarité, ou autre part
 si c'est possible, à vous de voir.
 
-En fonction du logiciel de scolarité que votre établissement utilise, reportez-vous dans le répertoire `data/sql` 
+En fonction du logiciel de scolarité que votre établissement utilise, intéressez-vous dans le répertoire [`data/sql`](data/sql) 
 à l'un des dossiers suivants :
 - `apogee`
 - `physalis`
