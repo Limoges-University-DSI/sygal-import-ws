@@ -23,7 +23,7 @@ source Dockerfile.sh
 ```
 
 Ensuite, vérifiez et ajustez si besoin sur votre serveur les fichiers de configs suivants,
-créé par le script `Dockerfile.sh` :
+créés par le script `Dockerfile.sh` :
 - ${APACHE_CONF_DIR}/ports.conf
 - ${APACHE_CONF_DIR}/sites-available/sygal-import-ws.conf
 - ${APACHE_CONF_DIR}/sites-available/sygal-import-ws-ssl.conf  
@@ -36,7 +36,7 @@ NB: Vérifiez dans le script `Dockerfile.sh` que vous venez de lancer mais norma
 
 ### Installation d'une version précise du WS
 
-Normalement, vous ne devez installer que les versions officielles du WS, c'est à dire les versions taguées du genre `1.2.1`
+Normalement, vous ne devez installer que les versions officielles du WS, c'est à dire les versions taguées, du genre `1.2.1`
 par exemple.
 
 Placez-vous dans le répertoire des sources du web service puis lancez les commandes git suivantes pour obtenir la liste des
@@ -56,7 +56,7 @@ git checkout --force 1.2.1 && bash install.sh
 
 Ce fichier contient les utilisateurs/mot de passe autorisés à interroger le WS au regard de l'authentification HTTP Basic.
 
-S'il s'agit d'une mise à jour du WS, vous avez déjà fait la manip, inutile de lire ce paragraphe.
+S'il s'agit d'une simple mise à jour du WS, vous avez déjà fait la manip, inutile de lire ce paragraphe.
 
 S'il s'agit de la première installation du WS, placez-vous dans le répertoire [`config`](config) des sources et lancez la 
 commande suivante pour créer le fichier "users.htpasswd" contenant un utilisateur `sygal-app` dont le mot de passe 
@@ -73,7 +73,7 @@ pwgen 16 1 --symbols --secure
 ### Configuration du WS
 
 S'il s'agit d'une mise à jour du WS, vous avez déjà fait la manip, inutile de lire ce paragraphe.
-Reportez-vous simplement aux "release notes" de la version choisie situées dans `doc/release-notes`.
+Reportez-vous aux "release notes" de la version choisie situées dans `doc/release-notes`.
 
 S'il s'agit de la première installation du WS, 2 fichiers situés dans le répertoire [`config/autoload`](config/autoload) 
 doivent être complétés puis renommés :
@@ -133,13 +133,13 @@ composer development-enable
 ``` 
 
 
-## Vues dans votre base de données
+## Base de données
 
-Le WS interroge des vues que vous devez créer dans la base de données de votre logiciel de scolarité, ou autre part
+Le WS interroge des vues que vous devez créer dans la base de données de votre logiciel de scolarité (Apogée, Physalis), ou autre part
 si c'est possible, à vous de voir.
 
 En fonction du logiciel de scolarité que votre établissement utilise, intéressez-vous dans le répertoire [`data/sql`](data/sql) 
-à l'un des dossiers suivants :
+à l'un des répertoires suivants :
 - `apogee`
 - `physalis`
 
