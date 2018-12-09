@@ -6,15 +6,25 @@
 
 ### Première obtention des sources et installation du serveur 
 
-Sur un serveur Debian Stretch, lancez les commandes suivantes :
+Sur un serveur Debian Stretch, lancez les commandes suivantes pour obtenir les sources du WS :
 ```bash
 git clone https://git.unicaen.fr/open-source/sygal-import-WS.git /var/www/sygal-import-WS
+```
+
+Ensuite, placez-vous dans le répertoire des sources et jetez un oeil au script `Dockerfile.sh`.
+Ce script est en quelque sorte l'équivalent du `Dockerfile` du WS traduit en bash. 
+(Vous y verrez que le dépôt git d'une image Docker Unicaen est cloné pour lancer 
+son script `Dockerfile.sh` qui est lui aussi l'équivalent du `Dockerfile` de l'image 
+traduit en bash.)
+Lancez le script `Dockerfile.sh` :
+```bash
 cd /var/www/sygal-import-WS
 source Dockerfile.sh
 ```
 
-Ensuite, vérifiez et ajustez si besoin sur votre serveur les fichiers de configs suivants :
-- ${APACHE_CONF_DIR}/sites-available/ports.conf
+Ensuite, vérifiez et ajustez si besoin sur votre serveur les fichiers de configs suivants,
+créé par le script `Dockerfile.sh` :
+- ${APACHE_CONF_DIR}/ports.conf
 - ${APACHE_CONF_DIR}/sites-available/sygal-import-ws.conf
 - ${APACHE_CONF_DIR}/sites-available/sygal-import-ws-ssl.conf  
 - ${PHP_CONF_DIR}/fpm/pool.d/sygal-import-ws.conf
