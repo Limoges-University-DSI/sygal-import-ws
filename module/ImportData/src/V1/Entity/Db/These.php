@@ -18,6 +18,7 @@ class These
     protected $title;
     protected $codeLNG;
     protected $datePremiereInsc;
+    protected $anneeUnivPremiereInsc;
     protected $uniteRechId;
     protected $ecoleDoctId;
     protected $libPaysCotut;
@@ -41,27 +42,11 @@ class These
     }
 
     /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return mixed
      */
     public function getUniteRechId()
     {
         return $this->uniteRechId;
-    }
-
-    /**
-     * @param mixed $uniteRechId
-     */
-    public function setUniteRechId($uniteRechId)
-    {
-        $this->uniteRechId = $uniteRechId;
     }
 
     /**
@@ -73,27 +58,11 @@ class These
     }
 
     /**
-     * @param mixed $sourceId
-     */
-    public function setSourceId($sourceId)
-    {
-        $this->sourceId = $sourceId;
-    }
-
-    /**
      * @return mixed
      */
     public function getEtatThese()
     {
         return $this->etatThese;
-    }
-
-    /**
-     * @param mixed $etatThese
-     */
-    public function setEtatThese($etatThese)
-    {
-        $this->etatThese = $etatThese;
     }
 
     /**
@@ -105,27 +74,11 @@ class These
     }
 
     /**
-     * @param mixed $doctorantId
-     */
-    public function setDoctorantId($doctorantId)
-    {
-        $this->doctorantId = $doctorantId;
-    }
-
-    /**
      * @return mixed
      */
     public function getCodeDiscipline()
     {
         return $this->codeDiscipline;
-    }
-
-    /**
-     * @param mixed $codeDiscipline
-     */
-    public function setCodeDiscipline($codeDiscipline)
-    {
-        $this->codeDiscipline = $codeDiscipline;
     }
 
     /**
@@ -137,27 +90,11 @@ class These
     }
 
     /**
-     * @param mixed $libDiscipline
-     */
-    public function setLibDiscipline($libDiscipline)
-    {
-        $this->libDiscipline = $libDiscipline;
-    }
-
-    /**
      * @return mixed
      */
     public function getTitle()
     {
         return $this->title;
-    }
-
-    /**
-     * @param mixed $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
     }
 
     /**
@@ -169,14 +106,6 @@ class These
     }
 
     /**
-     * @param mixed $codeLNG
-     */
-    public function setCodeLNG($codeLNG)
-    {
-        $this->codeLNG = $codeLNG;
-    }
-
-    /**
      * @return mixed
      */
     public function getDatePremiereInsc()
@@ -185,11 +114,11 @@ class These
     }
 
     /**
-     * @param mixed $datePremiereInsc
+     * @return mixed
      */
-    public function setDatePremiereInsc($datePremiereInsc)
+    public function getAnneeUnivPremiereInsc()
     {
-        $this->datePremiereInsc = $datePremiereInsc;
+        return $this->anneeUnivPremiereInsc;
     }
 
     /**
@@ -201,27 +130,11 @@ class These
     }
 
     /**
-     * @param mixed $ecoleDoctId
-     */
-    public function setEcoleDoctId($ecoleDoctId)
-    {
-        $this->ecoleDoctId = $ecoleDoctId;
-    }
-
-    /**
      * @return mixed
      */
     public function getLibPaysCotut()
     {
         return $this->libPaysCotut;
-    }
-
-    /**
-     * @param mixed $libPaysCotut
-     */
-    public function setLibPaysCotut($libPaysCotut)
-    {
-        $this->libPaysCotut = $libPaysCotut;
     }
 
     /**
@@ -233,27 +146,11 @@ class These
     }
 
     /**
-     * @param mixed $libEtabCotut
-     */
-    public function setLibEtabCotut($libEtabCotut)
-    {
-        $this->libEtabCotut = $libEtabCotut;
-    }
-
-    /**
      * @return mixed
      */
     public function getTemAvenant()
     {
         return $this->temAvenant;
-    }
-
-    /**
-     * @param mixed $temAvenant
-     */
-    public function setTemAvenant($temAvenant)
-    {
-        $this->temAvenant = $temAvenant;
     }
 
     /**
@@ -265,27 +162,11 @@ class These
     }
 
     /**
-     * @param mixed $dateSoutenancePrev
-     */
-    public function setDateSoutenancePrev($dateSoutenancePrev)
-    {
-        $this->dateSoutenancePrev = $dateSoutenancePrev;
-    }
-
-    /**
      * @return mixed
      */
     public function getTemSoutenanceAutorisee()
     {
         return $this->temSoutenanceAutorisee;
-    }
-
-    /**
-     * @param mixed $temSoutenanceAutorisee
-     */
-    public function setTemSoutenanceAutorisee($temSoutenanceAutorisee)
-    {
-        $this->temSoutenanceAutorisee = $temSoutenanceAutorisee;
     }
 
     /**
@@ -297,27 +178,11 @@ class These
     }
 
     /**
-     * @param mixed $dateSoutenanceAutorisee
-     */
-    public function setDateSoutenanceAutorisee($dateSoutenanceAutorisee)
-    {
-        $this->dateSoutenanceAutorisee = $dateSoutenanceAutorisee;
-    }
-
-    /**
      * @return mixed
      */
     public function getDateSoutenance()
     {
         return $this->dateSoutenance;
-    }
-
-    /**
-     * @param mixed $dateSoutenance
-     */
-    public function setDateSoutenance($dateSoutenance)
-    {
-        $this->dateSoutenance = $dateSoutenance;
     }
 
     /**
@@ -329,27 +194,11 @@ class These
     }
 
     /**
-     * @param mixed $dateConfidFin
-     */
-    public function setDateConfidFin($dateConfidFin)
-    {
-        $this->dateConfidFin = $dateConfidFin;
-    }
-
-    /**
      * @return mixed
      */
     public function getResultat()
     {
         return $this->resultat;
-    }
-
-    /**
-     * @param mixed $resultat
-     */
-    public function setResultat($resultat)
-    {
-        $this->resultat = $resultat;
     }
 
     /**
@@ -361,26 +210,10 @@ class These
     }
 
     /**
-     * @param mixed $etatReporduction
-     */
-    public function setEtatReporduction($etatReporduction)
-    {
-        $this->etatReporduction = $etatReporduction;
-    }
-
-    /**
      * @return mixed
      */
     public function getCorrectionAutorisee()
     {
         return $this->correctionAutorisee;
-    }
-
-    /**
-     * @param mixed $correctionAutorisee
-     */
-    public function setCorrectionAutorisee($correctionAutorisee)
-    {
-        $this->correctionAutorisee = $correctionAutorisee;
     }
 }
