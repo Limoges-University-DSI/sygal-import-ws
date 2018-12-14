@@ -164,6 +164,15 @@ return [
                     ],
                 ],
             ],
+            'import-data.rest.doctrine.these-annee-univ' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/these-annee-univ[/:these_annee_univ_id]',
+                    'defaults' => [
+                        'controller' => 'ImportData\\V1\\Rest\\TheseAnneeUniv\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -183,6 +192,7 @@ return [
             12 => 'import-data.rest.doctrine.origine-financement',
             13 => 'import-data.rest.doctrine.financement',
             14 => 'import-data.rest.doctrine.titre-acces',
+            15 => 'import-data.rest.doctrine.these-annee-univ',
         ],
     ],
     'zf-rest' => [
@@ -470,6 +480,25 @@ return [
             'collection_class' => \ImportData\V1\Rest\TitreAcces\TitreAccesCollection::class,
             'service_name' => 'TitreAcces',
         ],
+        'ImportData\\V1\\Rest\\TheseAnneeUniv\\Controller' => [
+            'listener' => \ImportData\V1\Rest\TheseAnneeUniv\TheseAnneeUnivResource::class,
+            'route_name' => 'import-data.rest.doctrine.these-annee-univ',
+            'route_identifier_name' => 'these_annee_univ_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'these_annee_univ',
+            'entity_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => '500',
+            'page_size_param' => null,
+            'entity_class' => \ImportData\V1\Entity\Db\TheseAnneeUniv::class,
+            'collection_class' => \ImportData\V1\Rest\TheseAnneeUniv\TheseAnneeUnivCollection::class,
+            'service_name' => 'TheseAnneeUniv',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
@@ -488,6 +517,7 @@ return [
             'ImportData\\V1\\Rest\\OrigineFinancement\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\Financement\\Controller' => 'HalJson',
             'ImportData\\V1\\Rest\\TitreAcces\\Controller' => 'HalJson',
+            'ImportData\\V1\\Rest\\TheseAnneeUniv\\Controller' => 'HalJson',
         ],
         'accept-whitelist' => [
             'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -614,6 +644,11 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
+            'ImportData\\V1\\Rest\\TheseAnneeUniv\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'ImportData\\V1\\Rest\\Structure\\Controller' => [
@@ -662,6 +697,10 @@ return [
                 1 => 'application/json',
             ],
             'ImportData\\V1\\Rest\\TitreAcces\\Controller' => [
+                0 => 'application/vnd.import-data.v1+json',
+                1 => 'application/json',
+            ],
+            'ImportData\\V1\\Rest\\TheseAnneeUniv\\Controller' => [
                 0 => 'application/vnd.import-data.v1+json',
                 1 => 'application/json',
             ],
@@ -835,6 +874,17 @@ return [
                 'route_name' => 'import-data.rest.doctrine.titre-acces',
                 'is_collection' => true,
             ],
+            \ImportData\V1\Entity\Db\TheseAnneeUniv::class => [
+                'route_identifier_name' => 'these_annee_univ_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.these-annee-univ',
+                'hydrator' => 'ImportData\\V1\\Rest\\TheseAnneeUniv\\TheseAnneeUnivHydrator',
+            ],
+            \ImportData\V1\Rest\TheseAnneeUniv\TheseAnneeUnivCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'import-data.rest.doctrine.these-annee-univ',
+                'is_collection' => true,
+            ],
         ],
     ],
     'zf-apigility' => [
@@ -898,6 +948,10 @@ return [
             \ImportData\V1\Rest\TitreAcces\TitreAccesResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'ImportData\\V1\\Rest\\TitreAcces\\TitreAccesHydrator',
+            ],
+            \ImportData\V1\Rest\TheseAnneeUniv\TheseAnneeUnivResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'ImportData\\V1\\Rest\\TheseAnneeUniv\\TheseAnneeUnivHydrator',
             ],
         ],
     ],
@@ -1000,6 +1054,13 @@ return [
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
+        'ImportData\\V1\\Rest\\TheseAnneeUniv\\TheseAnneeUnivHydrator' => [
+            'entity_class' => \ImportData\V1\Entity\Db\TheseAnneeUniv::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
     ],
     'zf-content-validation' => [
         'ImportData\\V1\\Rest\\These\\Controller' => [
@@ -1046,6 +1107,9 @@ return [
         ],
         'ImportData\\V1\\Rest\\TitreAcces\\Controller' => [
             'input_filter' => 'ImportData\\V1\\Rest\\TitreAcces\\Validator',
+        ],
+        'ImportData\\V1\\Rest\\TheseAnneeUniv\\Controller' => [
+            'input_filter' => 'ImportData\\V1\\Rest\\TheseAnneeUniv\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -2345,6 +2409,47 @@ return [
                 'validators' => [],
             ],
         ],
+        'ImportData\\V1\\Rest\\TheseAnneeUniv\\Validator' => [
+            0 => [
+                'name' => 'sourceId',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'theseId',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'anneeUniv',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [],
+            ],
+        ],
     ],
     'zf-mvc-auth' => [
         'authorization' => [
@@ -2572,12 +2677,27 @@ return [
                     'DELETE' => false,
                 ],
             ],
+            'ImportData\\V1\\Rest\\TheseAnneeUniv\\Controller' => [
+                'collection' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => true,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+            ],
         ],
     ],
     'service_manager' => [
         'factories' => [
-            \ImportData\V1\Rest\Version\VersionResource::class =>
-                \ImportData\V1\Rest\Version\VersionResourceFactory::class,
+            \ImportData\V1\Rest\Version\VersionResource::class => \ImportData\V1\Rest\Version\VersionResourceFactory::class,
         ],
     ],
 ];
