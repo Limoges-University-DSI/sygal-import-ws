@@ -43,3 +43,9 @@ des acteurs.
 - [FEATURE] Une nouvelle vue SYGAL_TITRE_ACCES apparaît pour fournir les titres d'accès à l'inscription en thèse.  
 - [FEATURE] Pour les corrections attendues d'une thèse, on parle désormais de corrections facultatives ou obligatoires, 
             plutôt que mineures ou majeures. La vue `SYGAL_THESE` est retouchée en ce sens.
+
+## v1.2.2 (21/12/2018)
+
+- [FEATURE] Nouvelle colonne dans la vue SYGAL_THESE : année universitaire de première inscription en thèse.
+- [FEATURE] Nouvelle vue SYGAL_THESE_ANNEE_UNIV : liste pour chaque thèse de toutes les années universitaires 
+            où le doctorant était inscrit en thèse.
