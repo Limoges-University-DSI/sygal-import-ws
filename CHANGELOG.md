@@ -49,3 +49,16 @@ des acteurs.
 - [FEATURE] Nouvelle colonne dans la vue SYGAL_THESE : année universitaire de première inscription en thèse.
 - [FEATURE] Nouvelle vue SYGAL_THESE_ANNEE_UNIV : liste pour chaque thèse de toutes les années universitaires 
             où le doctorant était inscrit en thèse.
+
+## v1.2.3 (29/01/2019)
+
+- [FEATURE] La vue `SYGAL_FINANCEMENT` tente une "synthèse" des financements. 
+
+    L'idée est de ne retenir qu'une année (la plus ancienne) par thèse et par origine de financement :
+    - en concaténant les observations (COMPLEMENT_FINANCEMENT)
+    - en cumulant les quotités
+    - en retenant la plus petite date de début de financement
+    - en retenant la plus grande date de fin de financement.
+    
+    On n'exclue plus les financements pour lesquels l'année n'est pas renseignée. 
+    Quand le cas se présente on force par la 1ère année d'inscription administrative en thèse.
