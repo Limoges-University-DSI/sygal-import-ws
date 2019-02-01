@@ -1,7 +1,6 @@
 <?php
-return [
-    'version' => '1.2.2',
 
+return [
     'zf-mvc-auth' => [
         'authentication' => [
             'adapters' => [
