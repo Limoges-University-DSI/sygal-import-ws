@@ -13,7 +13,9 @@ class VersionResourceFactory
     public function __invoke(ContainerInterface $container)
     {
         $config = $container->get('config');
-        $version = isset($config['version']) ? $config['version'] : null;
+        $version = isset($config['unicaen-app']['app_infos']['version']) ?
+            $config['unicaen-app']['app_infos']['version'] :
+            null;
 
         return new VersionResource($version);
     }
